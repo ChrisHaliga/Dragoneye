@@ -1,0 +1,105 @@
+.page-view {
+  padding: 1rem;
+  max-width: 100%;
+}
+
+.content-area {
+  line-height: 1.6;
+}
+
+.content-area h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #212529;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 0.5rem;
+}
+
+.content-area h2 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #495057;
+}
+
+.content-area h3 {
+  font-size: 1.25rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #6c757d;
+}
+
+.content-area p {
+  margin-bottom: 1rem;
+}
+
+.content-area ul, .content-area ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.content-area li {
+  margin-bottom: 0.25rem;
+}
+
+.content-area pre {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+}
+
+.content-area code {
+  background-color: #f8f9fa;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+
+.content-area blockquote {
+  border-left: 4px solid #007bff;
+  margin: 1rem 0;
+  padding-left: 1rem;
+  color: #6c757d;
+}
+
+.wiki-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px dotted #007bff;
+}
+
+.wiki-link:hover {
+  color: #0056b3;
+  text-decoration: none;
+  border-bottom-style: solid;
+}
+
+.tag-list .badge {
+  font-size: 0.75rem;
+}
+
+.page-footer {
+  border-top: 1px solid #e9ecef;
+  padding-top: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 0.375rem;
+  padding: 1rem;
+}
+
+@media (max-width: 768px) {
+  .page-view {
+    padding: 0.5rem;
+  }
+  
+  .content-area h1 {
+    font-size: 1.5rem;
+  }
+  
+  .content-area h2 {
+    font-size: 1.25rem;
+  }
+}

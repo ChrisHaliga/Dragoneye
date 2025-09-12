@@ -1,0 +1,42 @@
+.page-header {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #212529;
+}
+
+.page-meta {
+  margin-bottom: 0;
+}
+
+.page-actions .btn {
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    padding: 1rem 0;
+  }
+  
+  .page-title {
+    font-size: 1.75rem;
+  }
+  
+  .page-actions {
+    width: 100%;
+  }
+  
+  .page-actions .btn-group {
+    width: 100%;
+  }
+  
+  .page-actions .btn {
+    flex: 1;
+  }
+}

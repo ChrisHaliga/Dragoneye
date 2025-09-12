@@ -1,0 +1,17 @@
+﻿.app-container {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-content {
+  overflow-y: auto;
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+  }
+}

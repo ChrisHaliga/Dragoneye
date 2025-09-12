@@ -1,0 +1,29 @@
+<div class="page-header">
+  <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+    <div class="page-title-section">
+      <h1 class="page-title">{{ title }}</h1>
+      <div class="page-meta d-flex align-items-center gap-2">
+        <span class="badge bg-{{ certaintyColors[certainty] }}">
+          {{ certaintyIcons[certainty] }} {{ certaintyLabels[certainty] }}
+        </span>
+        <small class="text-muted">
+          Last updated: {{ updated | date:'short' }}
+        </small>
+      </div>
+    </div>
+    
+    <div class="page-actions">
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-outline-primary btn-sm" (click)="onEdit()">
+          <i class="bi bi-pencil"></i> Edit
+        </button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" (click)="onHistory()">
+          <i class="bi bi-clock-history"></i> History
+        </button>
+        <button type="button" class="btn btn-outline-info btn-sm" (click)="onShare()">
+          <i class="bi bi-share"></i> Share
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

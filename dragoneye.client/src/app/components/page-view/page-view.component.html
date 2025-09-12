@@ -1,0 +1,64 @@
+<div class="page-view">
+  <!-- Breadcrumb -->
+  <app-breadcrumb></app-breadcrumb>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading page...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    <i class="bi bi-exclamation-triangle"></i>
+    {{ error }}
+  </div>
+
+  <!-- Page Content -->
+  <div *ngIf="page && !loading" class="page-content">
+    <!-- Page Header -->
+    <app-page-header 
+      [title]="page.title"
+      [certainty]="page.certainty"
+      [updated]="page.updated"
+      (edit)="onEdit()"
+      (history)="onHistory()"
+      (share)="onShare()">
+    </app-page-header>
+
+    <!-- Main Content -->
+    <div class="card">
+      <div class="card-body">
+        <div class="content-area" [innerHTML]="formatContent(page.content)"></div>
+      </div>
+    </div>
+
+    <!-- Page Footer -->
+    <div class="page-footer mt-4">
+      <div class="row">
+        <div class="col-md-6">
+          <h6>Tags</h6>
+          <div class="tag-list">
+            <span *ngFor="let tag of page.tags" class="badge bg-secondary me-1 mb-1">
+              {{ tag }}
+            </span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h6>Page Information</h6>
+          <small class="text-muted">
+            <div>Section: <strong>{{ page.section }}</strong></div>
+            <div>Last Updated: <strong>{{ page.updated | date:'medium' }}</strong></div>
+            <div>Status: 
+              <span class="badge bg-{{ certaintyColors[page.certainty] }}">
+                {{ certaintyIcons[page.certainty] }} {{ certaintyLabels[page.certainty] }}
+              </span>
+            </div>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
