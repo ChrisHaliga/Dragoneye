@@ -1,11 +1,37 @@
-﻿.app-container {
-  height: 100vh;
+﻿/* Ensure no scrollbars on html, body, or app-root */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent any scrolling at the root level */
+}
+
+/* Ensure app-root takes full height but doesn't scroll */
+app-root {
+  display: block;
+  height: 100%;
   overflow: hidden;
 }
 
-.main-content {
-  overflow-y: auto;
+.app-container {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden; /* Critical: prevent app container from scrolling */
+}
+
+.content-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden; /* This prevents the content from growing beyond viewport */
+  height: calc(100vh - 64px); /* Account for navbar height */
+}
+
+.main-content {
+  overflow-y: auto; /* Only this element should scroll */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  flex: 1;
   background-color: #ffffff;
 }
 

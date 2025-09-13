@@ -26,40 +26,84 @@ export class PageViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const id = params['id'];
-      if (id) {
-        this.loadPage(id);
+      // Handle new hierarchical routes
+      const section = params['section'];
+      const subsection = params['subsection'];
+      const title = params['title'];
+      const legacyId = params['id'];
+      
+      if (legacyId) {
+        // Legacy route: /pages/:id
+        this.loadPageByTitle(legacyId);
+      } else if (section) {
+        // New hierarchical routes
+        this.loadPageByPath(section, subsection, title);
       } else {
-        // Default to Card System page if no ID
-        this.loadPage('Card System');
+        // Default to Card System page if no parameters
+        this.loadPageByTitle('Card System');
       }
     });
   }
 
-  loadPage(id: string): void {
+  loadPageByPath(section: string, subsection?: string, title?: string): void {
     this.loading = true;
     this.error = '';
     
-    console.log('Loading page with id:', id);
+    console.log('Loading page with path:', { section, subsection, title });
     
-    this.pageService.getPageById(id).subscribe({
-      next: (page) => {
+    this.pageService.getPageByPath(section, subsection, title).subscribe({
+      next: (page: Page | null) => {
         console.log('Page loaded successfully:', page);
         if (page) {
           this.page = page;
           this.error = '';
         } else {
-          console.log('Page is null or undefined');
+          console.log('Page not found for path:', { section, subsection, title });
           this.error = 'Page not found';
         }
         this.loading = false;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error loading page:', error);
         this.error = 'Unable to load page';
         this.loading = false;
       }
     });
+  }
+
+  loadPageByTitle(title: string): void {
+    this.loading = true;
+    this.error = '';
+    
+    console.log('Loading page with title:', title);
+    
+    this.pageService.getPageByTitle(title).subscribe({
+      next: (page: Page | null) => {
+        console.log('Page loaded successfully:', page);
+        if (page) {
+          this.page = page;
+          this.error = '';
+        } else {
+          console.log('Page not found for title:', title);
+          this.error = 'Page not found';
+        }
+        this.loading = false;
+      },
+      error: (error: any) => {
+        console.error('Error loading page:', error);
+        this.error = 'Unable to load page';
+        this.loading = false;
+      }
+    });
+  }
+
+  private decodeUrlSegment(segment: string): string {
+    // Convert URL-encoded segment back to original title
+    // e.g., "card-system" -> "Card System"
+    return decodeURIComponent(segment)
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   }
 
   onEdit(): void {

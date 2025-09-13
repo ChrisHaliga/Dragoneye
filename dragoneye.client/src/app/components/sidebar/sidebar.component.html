@@ -1,85 +1,137 @@
 <div class="sidebar" [class.collapsed]="isCollapsed">
-  <!-- Header Section -->
-  <div class="sidebar-header p-3 border-bottom">
-    <div class="d-flex justify-content-between align-items-center">
-      <h5 class="m-0" *ngIf="!isCollapsed">Dragoneye Design Wiki</h5>
-      <button class="btn btn-outline-secondary btn-sm d-md-none" (click)="toggleSidebar()">
-        <i class="bi bi-list" *ngIf="isCollapsed"></i>
-        <i class="bi bi-x" *ngIf="!isCollapsed"></i>
-      </button>
-    </div>
-    
-    <!-- Search Section -->
-    <div class="mt-3" *ngIf="!isCollapsed">
-      <div class="input-group input-group-sm">
-        <input type="text" 
-               class="form-control" 
-               placeholder="Search pages..."
-               [(ngModel)]="searchTerm"
-               (keyup.enter)="onSearch()">
-        <button class="btn btn-outline-secondary" type="button" (click)="onSearch()">
-          <i class="bi bi-search"></i>
+  <!-- Navigation Section -->
+  <div class="sidebar-nav">
+
+    <!-- Collapsed Navigation -->
+    <div *ngIf="isCollapsed" class="collapsed-navigation">
+      <!-- Home button -->
+      <div class="collapsed-section-btn">
+        <button 
+          class="section-icon-btn home-btn"
+          title="Home"
+          routerLink="/"
+          (click)="onPageClick()">
+          <i class="bi bi-house-fill"></i>
+        </button>
+      </div>
+      
+      <!-- Section buttons -->
+      <div *ngFor="let section of sections; trackBy: trackByName" class="collapsed-section-btn">
+        <button 
+          class="section-icon-btn"
+          [class.active]="isSectionActive(section)"
+          [title]="section.name"
+          (click)="section.hasContent ? navigateToSection(section) : toggleSection(section)">
+          <i [class]="section.icon"></i>
         </button>
       </div>
     </div>
 
-    <!-- Quick Actions -->
-    <div class="mt-3 d-flex gap-2" *ngIf="!isCollapsed">
-      <button class="btn btn-primary btn-sm flex-fill" (click)="onNewPage()">
-        <i class="bi bi-plus"></i> New Page
-      </button>
-      <button class="btn btn-secondary btn-sm flex-fill" (click)="onRecentChanges()">
-        <i class="bi bi-clock-history"></i> Recent
-      </button>
-    </div>
-  </div>
-
-  <!-- Navigation Section -->
-  <div class="sidebar-nav" *ngIf="!isCollapsed">
-    <!-- Loading State -->
-    <div *ngIf="isLoading" class="text-center p-3">
-      <div class="spinner-border spinner-border-sm" role="status">
-        <span class="visually-hidden">Loading navigation...</span>
-      </div>
-      <p class="mt-2 small">Loading navigation...</p>
-    </div>
-
-    <!-- Navigation Content -->
-    <div class="nav-sections" *ngIf="!isLoading">
-      <div class="nav-section" *ngFor="let section of navigationItems; let i = index">
-        <div class="nav-section-header" 
-             [attr.data-bs-toggle]="'collapse'"
-             [attr.data-bs-target]="'#section' + i"
-             role="button"
-             aria-expanded="true">
-          <span class="me-2">{{ section.icon }}</span>
-          <strong>{{ section.title }}</strong>
-          <i class="bi bi-chevron-down ms-auto"></i>
+    <!-- Expanded Navigation -->
+    <div *ngIf="!isCollapsed">
+      <!-- Home Link -->
+      <div class="nav-section mb-2">
+        <div class="section-header home-section" 
+             routerLink="/" 
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact: true}"
+             (click)="onPageClick()">
+          <div class="section-content-wrapper">
+            <i class="bi bi-house-fill me-2"></i>
+            <strong>Home</strong>
+          </div>
         </div>
-        <div [id]="'section' + i" class="nav-section-content collapse show">
-          <ul class="list-unstyled mb-0">
-            <li *ngFor="let child of section.children">
-              <a [routerLink]="child.route" 
-                 class="nav-link sidebar-link px-3 py-2 d-block text-decoration-none"
-                 routerLinkActive="active">
-                {{ child.title }}
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="text-center p-3">
+        <div class="spinner-border spinner-border-sm" role="status">
+          <span class="visually-hidden">Loading navigation...</span>
+        </div>
+        <p class="mt-2 small">Loading navigation...</p>
+      </div>
+
+      <!-- Navigation Content -->
+      <div class="nav-sections" *ngIf="!isLoading">
+        
+        <!-- Expanded state: Full navigation -->
+        <div class="expanded-navigation">
+          <!-- Sections -->
+          <div class="nav-section" *ngFor="let section of sections; trackBy: trackByName">
+        
+        <!-- Section Header -->
+        <div class="section-header" (click)="toggleSection(section)">
+          <div class="section-content-wrapper" 
+               [class.has-content]="section.hasContent"
+               (click)="onSectionContentClick($event, section)">
+            <i [class]="section.icon + ' me-2'"></i>
+            <strong>{{ section.name }}</strong>
+          </div>
+          <i class="bi chevron-icon" 
+             [class.bi-chevron-down]="section.isExpanded"
+             [class.bi-chevron-right]="!section.isExpanded"></i>
+        </div>
+        
+        <!-- Section Content -->
+        <div class="section-content" *ngIf="section.isExpanded">
+          
+          <!-- Subsections ONLY - no direct pages -->
+          <div *ngFor="let subsection of section.subsections; trackBy: trackByName" class="subsection">
+            <div class="subsection-header" (click)="toggleSubsection(subsection)">
+              <div class="subsection-content-wrapper" 
+                   [class.has-content]="subsection.hasContent"
+                   (click)="onSubsectionContentClick($event, section, subsection)">
+                <i [class]="subsection.icon + ' me-2'"></i>
+                <span>{{ subsection.name }}</span>
+              </div>
+              <i class="bi chevron-icon" 
+                 [class.bi-chevron-down]="subsection.isExpanded"
+                 [class.bi-chevron-right]="!subsection.isExpanded"></i>
+            </div>
+            
+            <!-- Subsection Content (Pages) -->
+            <div class="subsection-content" *ngIf="subsection.isExpanded">
+              <a *ngFor="let page of subsection.pages; trackBy: trackByName"
+                 [routerLink]="page.route" 
+                 class="page-link"
+                 routerLinkActive="active"
+                 (click)="onPageClick()">
+                <i [class]="page.icon + ' me-2'"></i>
+                {{ page.title }}
               </a>
-            </li>
-          </ul>
+            </div>
+          </div>
+          
         </div>
       </div>
       
       <!-- Empty State -->
-      <div *ngIf="navigationItems.length === 0" class="text-center p-3">
+      <div *ngIf="sections.length === 0" class="text-center p-3">
         <p class="text-muted">No navigation available</p>
       </div>
-    </div>
+      
+    </div> <!-- End expanded-navigation -->
+    </div> <!-- End nav-sections -->
   </div>
 
-  <!-- Collapsed state toggle -->
-  <div class="text-center py-2" *ngIf="isCollapsed">
+  <!-- Collapsed state toggle - mobile only -->
+  <div class="text-center py-2 d-md-none" *ngIf="isCollapsed">
     <button class="btn btn-link" (click)="toggleSidebar()">
       <i class="bi bi-chevron-right"></i>
     </button>
+  </div>
+
+  <!-- Floating Desktop Toggle Button - Bottom Right -->
+  <button class="floating-toggle-btn d-none d-md-block" (click)="toggleSidebar()">
+    <i class="bi bi-chevron-left" *ngIf="!isCollapsed"></i>
+    <i class="bi bi-chevron-right" *ngIf="isCollapsed"></i>
+  </button>
+
+  <!-- Copyright Section -->
+  <div class="sidebar-footer" [class.collapsed]="isCollapsed">
+    <div class="copyright-text">
+      <span class="copyright-year">© 2025</span>
+      <span class="copyright-name">Christian Haliga</span>
+    </div>
   </div>
 </div>

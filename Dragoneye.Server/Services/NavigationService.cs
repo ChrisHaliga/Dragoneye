@@ -4,16 +4,16 @@ namespace Dragoneye.Server.Services
 {
     public class NavigationService
     {
-        private readonly List<NavigationItem> _navigation;
+        private readonly PageService _pageService;
 
-        public NavigationService()
+        public NavigationService(PageService pageService)
         {
-            _navigation = GenerateNavigation();
+            _pageService = pageService;
         }
 
         public List<NavigationItem> GetNavigation()
         {
-            return _navigation;
+            return GenerateNavigationFromPages();
         }
 
         public List<NavigationItem> GetNavigationStructure() // Keep old method for backwards compatibility
@@ -21,58 +21,131 @@ namespace Dragoneye.Server.Services
             return GetNavigation();
         }
 
-        private List<NavigationItem> GenerateNavigation()
+        private List<NavigationItem> GenerateNavigationFromPages()
         {
-            return new List<NavigationItem>
+            var pages = _pageService.GetAllPages();
+            var navigation = new List<NavigationItem>();
+
+            // Group pages by Section, then by Subsection
+            var sections = pages.GroupBy(p => p.Section).OrderBy(g => GetSectionOrder(g.Key));
+
+            foreach (var section in sections)
             {
-                new NavigationItem
+                var sectionItem = new NavigationItem
                 {
-                    Title = "Core Mechanics",
-                    Icon = "bi-gear",
-                    IsExpanded = true,
-                    Children = new List<NavigationItem>
+                    Title = section.Key,
+                    Icon = GetSectionIcon(section.Key),
+                    IsExpanded = true, // Expand all sections by default
+                    Children = new List<NavigationItem>()
+                };
+
+                // Group pages within this section by subsection
+                var subsections = section.GroupBy(p => p.Subsection).OrderBy(g => g.Key);
+
+                foreach (var subsection in subsections)
+                {
+                    if (string.IsNullOrEmpty(subsection.Key))
                     {
-                        new NavigationItem { Title = "Card System", PageId = "Card System", Route = "/pages/Card%20System", Icon = "bi-grid-3x3-gap" },
-                        new NavigationItem { Title = "Action Cards", PageId = "Action Cards", Route = "/pages/Action%20Cards", Icon = "bi-layers" },
-                        new NavigationItem { Title = "Resource Management", PageId = "Resource Management", Route = "/pages/Resource%20Management", Icon = "bi-battery-half" }
+                        // Pages without subsections go directly under the section
+                        foreach (var page in subsection.OrderBy(p => p.Title))
+                        {
+                            sectionItem.Children.Add(new NavigationItem
+                            {
+                                Title = page.Title,
+                                PageId = page.Id,
+                                Route = $"/pages/{Uri.EscapeDataString(page.Id)}",
+                                Icon = GetPageIcon(page.Id)
+                            });
+                        }
                     }
-                },
-                new NavigationItem
-                {
-                    Title = "Systems",
-                    Icon = "bi-diagram-3",
-                    IsExpanded = false,
-                    Children = new List<NavigationItem>
+                    else
                     {
-                        new NavigationItem { Title = "Combat System", PageId = "Combat System", Route = "/pages/Combat%20System", Icon = "bi-shield-check" },
-                        new NavigationItem { Title = "Social Encounters", PageId = "Social Encounters", Route = "/pages/Social%20Encounters", Icon = "bi-chat-dots" },
-                        new NavigationItem { Title = "Exploration System", PageId = "Exploration System", Route = "/pages/Exploration%20System", Icon = "bi-compass" }
-                    }
-                },
-                new NavigationItem
-                {
-                    Title = "Content",
-                    Icon = "bi-book",
-                    IsExpanded = false,
-                    Children = new List<NavigationItem>
-                    {
-                        new NavigationItem { Title = "Warrior Domain", PageId = "Warrior Domain", Route = "/pages/Warrior%20Domain", Icon = "bi-shield-fill-exclamation" },
-                        new NavigationItem { Title = "Scholar Domain", PageId = "Scholar Domain", Route = "/pages/Scholar%20Domain", Icon = "bi-mortarboard" },
-                        new NavigationItem { Title = "Human Race", PageId = "Human Race", Route = "/pages/Human%20Race", Icon = "bi-person" }
-                    }
-                },
-                new NavigationItem
-                {
-                    Title = "Setting & Lore",
-                    Icon = "bi-globe",
-                    IsExpanded = false,
-                    Children = new List<NavigationItem>
-                    {
-                        new NavigationItem { Title = "World Overview", PageId = "World Overview", Route = "/pages/World%20Overview", Icon = "bi-map" },
-                        new NavigationItem { Title = "Locations", Route = "#", Icon = "bi-pin-map" },
-                        new NavigationItem { Title = "NPCs", Route = "#", Icon = "bi-people" }
+                        // Create subsection with pages
+                        var subsectionItem = new NavigationItem
+                        {
+                            Title = subsection.Key,
+                            Icon = GetSubsectionIcon(subsection.Key),
+                            IsExpanded = true, // Expand all subsections by default
+                            Children = new List<NavigationItem>()
+                        };
+
+                        foreach (var page in subsection.OrderBy(p => p.Title))
+                        {
+                            subsectionItem.Children.Add(new NavigationItem
+                            {
+                                Title = page.Title,
+                                PageId = page.Id,
+                                Route = $"/pages/{Uri.EscapeDataString(page.Id)}",
+                                Icon = GetPageIcon(page.Id)
+                            });
+                        }
+
+                        sectionItem.Children.Add(subsectionItem);
                     }
                 }
+
+                navigation.Add(sectionItem);
+            }
+
+            return navigation;
+        }
+
+        private int GetSectionOrder(string section)
+        {
+            return section switch
+            {
+                "Core Mechanics" => 1,
+                "Systems" => 2,
+                "Content" => 3,
+                "Setting & Lore" => 4,
+                _ => 99
+            };
+        }
+
+        private string GetSectionIcon(string section)
+        {
+            return section switch
+            {
+                "Core Mechanics" => "bi-gear",
+                "Systems" => "bi-diagram-3",
+                "Content" => "bi-book",
+                "Setting & Lore" => "bi-globe",
+                _ => "bi-folder"
+            };
+        }
+
+        private string GetSubsectionIcon(string subsection)
+        {
+            return subsection switch
+            {
+                "Card Fundamentals" => "bi-grid-3x3-gap",
+                "Card Types" => "bi-layers",
+                "Resources" => "bi-battery-half",
+                "Tactical Combat" => "bi-shield-check",
+                "Social Mechanics" => "bi-chat-dots",
+                "Adventure Mechanics" => "bi-compass",
+                "Character Domains" => "bi-person-badge",
+                "Player Races" => "bi-people",
+                "World Building" => "bi-map",
+                _ => "bi-folder2"
+            };
+        }
+
+        private string GetPageIcon(string pageId)
+        {
+            return pageId switch
+            {
+                "Card System" => "bi-grid-3x3-gap",
+                "Action Cards" => "bi-layers",
+                "Resource Management" => "bi-battery-half",
+                "Combat System" => "bi-shield-check",
+                "Social Encounters" => "bi-chat-dots",
+                "Exploration System" => "bi-compass",
+                "Warrior Domain" => "bi-shield-fill-exclamation",
+                "Scholar Domain" => "bi-mortarboard",
+                "Human Race" => "bi-person",
+                "World Overview" => "bi-map",
+                _ => "bi-file-text"
             };
         }
     }

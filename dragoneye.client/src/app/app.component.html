@@ -1,10 +1,14 @@
 ﻿<div class="app-container">
-  <div class="d-flex">
+  <!-- Main Navbar -->
+  <app-navbar (mobileToggle)="toggleMobileSidebar()"></app-navbar>
+  
+  <!-- Content Layout -->
+  <div class="content-layout">
     <!-- Sidebar -->
-    <app-sidebar></app-sidebar>
+    <app-sidebar #sidebar (collapsedChange)="onSidebarCollapseChange($event)"></app-sidebar>
     
     <!-- Main Content Area -->
-    <div class="main-content flex-grow-1">
+    <div class="main-content">
       <router-outlet></router-outlet>
     </div>
   </div>

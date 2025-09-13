@@ -1,14 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
-
 /* Bootstrap Icons CDN */
 @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css');
 
-/* Global styles */
-body {
+/* Force override Bootstrap defaults that might cause scrollbars */
+html, body {
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
   background-color: #f8f9fa;
+}
+
+/* Force app-root to not create scrollbars */
+app-root {
+  display: block !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Override any potential Bootstrap container defaults */
+* {
+  box-sizing: border-box;
 }
 
 /* Ensure full height layout */

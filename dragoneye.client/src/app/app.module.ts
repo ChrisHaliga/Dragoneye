@@ -9,6 +9,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { PageViewComponent } from './components/page-view/page-view.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
+import { HomepageComponent } from './components/homepage/homepage.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
     SidebarComponent,
     PageViewComponent,
     BreadcrumbComponent,
-    PageHeaderComponent
+    PageHeaderComponent,
+    HomepageComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule, 

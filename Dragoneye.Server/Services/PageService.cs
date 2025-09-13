@@ -21,6 +21,189 @@ namespace Dragoneye.Server.Services
             return _pages.FirstOrDefault(p => p.Id == id);
         }
 
+        public Homepage GetHomepage()
+        {
+            // Generate dynamic homepage content based on existing pages
+            var homepage = new Homepage
+            {
+                Id = "homepage",
+                Title = "Dragoneye Design Wiki",
+                Subtitle = "Your comprehensive game design documentation hub",
+                HeroContent = "Welcome to the complete documentation for our tabletop RPG. Everything you need to understand and play the game is here.",
+                Updated = DateTime.Now
+            };
+
+            // Create quick access cards for key sections
+            homepage.QuickAccessCards = new List<QuickAccessCard>
+            {
+                new QuickAccessCard
+                {
+                    PageId = "Card System",
+                    Title = "Card System",
+                    Description = "Core mechanics that drive all gameplay interactions",
+                    Icon = "bi-collection",
+                    BadgeText = "Core System",
+                    BadgeColor = "bg-primary",
+                    DisplayOrder = 1
+                },
+                new QuickAccessCard
+                {
+                    PageId = "Combat System",
+                    Title = "Combat System",
+                    Description = "Tactical combat using the card-based mechanics",
+                    Icon = "bi-shield-fill",
+                    BadgeText = "Essential",
+                    BadgeColor = "bg-danger",
+                    DisplayOrder = 2
+                },
+                new QuickAccessCard
+                {
+                    PageId = "Warrior Domain",
+                    Title = "Character Domains",
+                    Description = "Different character archetypes and their unique abilities",
+                    Icon = "bi-person-circle",
+                    BadgeText = "Characters",
+                    BadgeColor = "bg-success",
+                    DisplayOrder = 3
+                },
+                new QuickAccessCard
+                {
+                    PageId = "World Overview",
+                    Title = "World & Lore",
+                    Description = "The setting of Aethermoor and its rich history",
+                    Icon = "bi-globe",
+                    BadgeText = "Lore",
+                    BadgeColor = "bg-warning",
+                    DisplayOrder = 4
+                },
+                new QuickAccessCard
+                {
+                    PageId = "Social Encounters",
+                    Title = "Game Systems",
+                    Description = "Exploration, social encounters, and other mechanics",
+                    Icon = "bi-gear-fill",
+                    BadgeText = "Systems",
+                    BadgeColor = "bg-info",
+                    DisplayOrder = 5
+                },
+                new QuickAccessCard
+                {
+                    PageId = "Human Race",
+                    Title = "Races & Cultures",
+                    Description = "Player character races and cultural backgrounds",
+                    Icon = "bi-people-fill",
+                    BadgeText = "Races",
+                    BadgeColor = "bg-secondary",
+                    DisplayOrder = 6
+                }
+            };
+
+            // Generate recent updates from actual page data
+            var recentPages = _pages
+                .OrderByDescending(p => p.Updated)
+                .Take(5)
+                .ToList();
+
+            homepage.RecentUpdates = recentPages.Select((page, index) => new RecentUpdate
+            {
+                PageId = page.Id,
+                Title = $"{page.Title} Updated",
+                Description = GetUpdateDescription(page),
+                Icon = GetUpdateIcon(page.Section),
+                IconColor = GetUpdateIconColor(page.Certainty),
+                UpdateDate = page.Updated,
+                DisplayOrder = index + 1
+            }).ToList();
+
+            // Generate stats
+            homepage.Stats = new List<StatCard>
+            {
+                new StatCard { Label = "Documentation Pages", Value = _pages.Count.ToString(), DisplayOrder = 1 },
+                new StatCard { Label = "Core Systems", Value = _pages.Count(p => p.Section == "Core Mechanics").ToString(), DisplayOrder = 2 },
+                new StatCard { Label = "Character Options", Value = _pages.Count(p => p.Section == "Content").ToString(), DisplayOrder = 3 },
+                new StatCard { Label = "Locked Content", Value = $"{_pages.Count(p => p.Certainty == CertaintyLevel.Locked) * 100 / _pages.Count}%", DisplayOrder = 4 }
+            };
+
+            // Getting started steps
+            homepage.GettingStarted = new GettingStartedSection
+            {
+                Title = "Getting Started",
+                Steps = new List<GettingStartedStep>
+                {
+                    new GettingStartedStep
+                    {
+                        Title = "Learn the Basics",
+                        Description = "Start with the core card system that drives all gameplay",
+                        Icon = "bi-1-circle-fill",
+                        PageId = "Card System",
+                        StepNumber = 1
+                    },
+                    new GettingStartedStep
+                    {
+                        Title = "Explore Systems",
+                        Description = "Understand combat, social encounters, and exploration",
+                        Icon = "bi-2-circle-fill",
+                        PageId = "Combat System",
+                        StepNumber = 2
+                    },
+                    new GettingStartedStep
+                    {
+                        Title = "Create Characters",
+                        Description = "Choose domains, races, and build your character",
+                        Icon = "bi-3-circle-fill",
+                        PageId = "Warrior Domain",
+                        StepNumber = 3
+                    }
+                }
+            };
+
+            return homepage;
+        }
+
+        public Homepage UpdateHomepage(Homepage homepage)
+        {
+            // In a real implementation, this would save to a database
+            // For now, just return the updated homepage with a new timestamp
+            homepage.Updated = DateTime.Now;
+            return homepage;
+        }
+
+        private string GetUpdateDescription(Page page)
+        {
+            return page.Section switch
+            {
+                "Core Mechanics" => "Enhanced gameplay mechanics and rule clarifications",
+                "Systems" => "Updated system interactions and new mechanics",
+                "Content" => "New character options and expanded content",
+                "Setting & Lore" => "World building updates and new lore details",
+                _ => "Documentation updates and improvements"
+            };
+        }
+
+        private string GetUpdateIcon(string section)
+        {
+            return section switch
+            {
+                "Core Mechanics" => "bi-gear-fill",
+                "Systems" => "bi-diagram-3-fill",
+                "Content" => "bi-person-plus-fill",
+                "Setting & Lore" => "bi-book-fill",
+                _ => "bi-file-earmark-text"
+            };
+        }
+
+        private string GetUpdateIconColor(CertaintyLevel certainty)
+        {
+            return certainty switch
+            {
+                CertaintyLevel.Locked => "text-success",
+                CertaintyLevel.Testing => "text-warning",
+                CertaintyLevel.Ideas => "text-primary",
+                CertaintyLevel.Questions => "text-danger",
+                _ => "text-secondary"
+            };
+        }
+
         private List<Page> GenerateGameDesignPages()
         {
             return new List<Page>
@@ -58,6 +241,7 @@ When a card is played, the player:
 
 Cards can be **combined** in certain situations to create more powerful effects. See Combat System for detailed combat applications.",
                     Section = "Core Mechanics",
+                    Subsection = "Card Fundamentals",
                     Tags = new List<string> { "cards", "mechanics", "core-rules" },
                     Certainty = CertaintyLevel.Locked,
                     Updated = DateTime.Now.AddDays(-5)
@@ -99,6 +283,7 @@ Each Action Card contains:
 
 Each character Domain has access to unique Action Cards that reflect their training and abilities. Warriors get combat-focused cards, while Scholars get knowledge-based actions.",
                     Section = "Core Mechanics",
+                    Subsection = "Card Types",
                     Tags = new List<string> { "cards", "actions", "gameplay" },
                     Certainty = CertaintyLevel.Testing,
                     Updated = DateTime.Now.AddDays(-2)
@@ -151,6 +336,7 @@ Elevated position provides +1 to ranged attack cards.
 
 See Warrior Domain for combat-focused character builds.",
                     Section = "Systems",
+                    Subsection = "Tactical Combat",
                     Tags = new List<string> { "combat", "rules", "turn-based" },
                     Certainty = CertaintyLevel.Testing,
                     Updated = DateTime.Now.AddDays(-1)
@@ -201,6 +387,7 @@ Warriors advance by:
 
 See Combat System for how Warrior abilities integrate with battle mechanics.",
                     Section = "Content",
+                    Subsection = "Character Domains",
                     Tags = new List<string> { "domain", "warrior", "combat", "character-class" },
                     Certainty = CertaintyLevel.Locked,
                     Updated = DateTime.Now.AddDays(-3)
@@ -259,6 +446,7 @@ Some domains and abilities modify resource rules:
 - **Mystic Domain**: SP pool larger but slower recovery
 - **Exhaustion**: Reduces maximum AP when severely tired",
                     Section = "Core Mechanics",
+                    Subsection = "Resources",
                     Tags = new List<string> { "resources", "AP", "SP", "management" },
                     Certainty = CertaintyLevel.Ideas,
                     Updated = DateTime.Now.AddHours(-6)
@@ -313,6 +501,7 @@ Humans serve as diplomatic bridges between other races due to their adaptability
 
 See World Overview for how humans fit into the broader setting.",
                     Section = "Content",
+                    Subsection = "Player Races",
                     Tags = new List<string> { "race", "human", "character-creation" },
                     Certainty = CertaintyLevel.Locked,
                     Updated = DateTime.Now.AddDays(-4)
@@ -366,6 +555,7 @@ The mysterious source of all Card System magic, with cards appearing to those de
 
 See Locations for detailed area descriptions and NPCs for key figures shaping the world.",
                     Section = "Setting & Lore",
+                    Subsection = "World Building",
                     Tags = new List<string> { "world", "setting", "lore", "history" },
                     Certainty = CertaintyLevel.Ideas,
                     Updated = DateTime.Now.AddHours(-12)
@@ -418,6 +608,7 @@ Multi-party negotiations use initiative order just like combat, with each partic
 
 Success often requires understanding what each party truly wants beyond their stated position.",
                     Section = "Systems",
+                    Subsection = "Social Mechanics",
                     Tags = new List<string> { "social", "diplomacy", "roleplay", "encounters" },
                     Certainty = CertaintyLevel.Questions,
                     Updated = DateTime.Now.AddHours(-3)
@@ -484,6 +675,7 @@ Different terrain types require specific approaches:
 
 See World Overview for specific regions to explore.",
                     Section = "Systems",
+                    Subsection = "Adventure Mechanics",
                     Tags = new List<string> { "exploration", "travel", "survival", "discovery" },
                     Certainty = CertaintyLevel.Testing,
                     Updated = DateTime.Now.AddDays(-1)
@@ -549,6 +741,7 @@ Scholars advance through:
 
 Character progression ties directly to in-game learning and discovery.",
                     Section = "Content",
+                    Subsection = "Character Domains",
                     Tags = new List<string> { "domain", "scholar", "magic", "knowledge" },
                     Certainty = CertaintyLevel.Ideas,
                     Updated = DateTime.Now.AddDays(-2)
