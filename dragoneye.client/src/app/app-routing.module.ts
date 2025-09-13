@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: 'wiki/:section/:subsection/:title', component: PageViewComponent },
   { path: 'wiki/:section/:subsection', component: PageViewComponent },
   { path: 'wiki/:section', component: PageViewComponent },
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+  // Explicit redirect for anything else
+  { path: '**', redirectTo: '/' }
 ];
 
 @NgModule({
