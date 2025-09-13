@@ -23,6 +23,18 @@ namespace Dragoneye.Server.Models
         public List<StatCard> Stats { get; set; } = new List<StatCard>();
         public GettingStartedSection GettingStarted { get; set; } = new GettingStartedSection();
         public DateTime Updated { get; set; }
+        
+        // UI Text for localization
+        public string GetStartedButtonText { get; set; } = "Get Started";
+        public string ExploreButtonText { get; set; } = "Explore";
+        public string ExploreGameTitle { get; set; } = "Explore the Game";
+        public string ExploreGameSubtitle { get; set; } = "Jump into any area of the design documentation";
+        public string QuickLinkActionText { get; set; } = "Explore";
+        public string GettingStartedSubtitle { get; set; } = "Follow this path to understand the game from the ground up";
+        public string StartLearningButtonText { get; set; } = "Start Learning";
+        public string LoadingText { get; set; } = "Loading homepage...";
+        public string ErrorHeading { get; set; } = "Error Loading Homepage";
+        public string RetryButtonText { get; set; } = "Retry";
     }
 
     public class QuickAccessCard

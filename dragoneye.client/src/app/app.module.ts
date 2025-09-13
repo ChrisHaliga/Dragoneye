@@ -11,6 +11,7 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { EditHomepageComponent } from './components/edit-homepage/edit-homepage.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     BreadcrumbComponent,
     PageHeaderComponent,
     HomepageComponent,
-    NavbarComponent
+    NavbarComponent,
+    EditHomepageComponent
   ],
   imports: [
     BrowserModule, 

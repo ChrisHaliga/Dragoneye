@@ -27,29 +27,65 @@
   padding: 0 2rem;
 }
 
+.hero-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.hero-header > div {
+  flex: 1;
+  min-width: 0; /* Allow text to wrap properly */
+}
+
+.edit-link {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0; /* Don't shrink the edit button */
+}
+
+.edit-link:hover {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  text-decoration: none;
+}
+
 .hero-title {
-  font-size: 4rem;
+  font-size: clamp(2rem, 8vw, 4rem); /* Responsive font size */
   font-weight: 700;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
   line-height: 1.1;
+  word-wrap: break-word; /* Handle long titles */
+  hyphens: auto;
 }
 
 .hero-subtitle {
-  font-size: 1.4rem;
-  margin-bottom: 2rem;
+  font-size: clamp(1rem, 3vw, 1.4rem); /* Responsive font size */
+  margin-bottom: 0;
   opacity: 0.9;
   font-weight: 300;
+  line-height: 1.4;
+  word-wrap: break-word;
 }
 
 .hero-description {
-  font-size: 1.1rem;
-  margin-bottom: 3rem;
-  opacity: 0.85;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  margin: 2rem auto 3rem auto;
+  opacity: 0.9;
   line-height: 1.6;
   max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
+  word-wrap: break-word;
+  text-align: center;
 }
 
 .hero-actions {
@@ -57,6 +93,7 @@
   gap: 1.5rem;
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: 2rem;
 }
 
 .hero-actions .btn {
@@ -97,18 +134,21 @@
 }
 
 .section-title {
-  font-size: 3rem;
+  font-size: clamp(2rem, 6vw, 3rem); /* Responsive sizing */
   font-weight: 700;
   margin-bottom: 1rem;
   color: #2c3e50;
+  word-wrap: break-word;
+  line-height: 1.2;
 }
 
 .section-subtitle {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
   color: #6c757d;
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.5;
+  word-wrap: break-word;
 }
 
 /* Container */
@@ -179,16 +219,22 @@
 }
 
 .quick-link-card h3 {
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
   font-weight: 700;
   margin-bottom: 1rem;
   color: #2c3e50;
+  line-height: 1.3;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .quick-link-card p {
   color: #6c757d;
   line-height: 1.6;
   margin-bottom: 0;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .card-action {
@@ -250,16 +296,20 @@
 }
 
 .step-content h4 {
-  font-size: 1.4rem;
+  font-size: clamp(1.2rem, 3vw, 1.4rem);
   font-weight: 700;
   margin-bottom: 1rem;
   color: #2c3e50;
+  line-height: 1.3;
+  word-wrap: break-word;
 }
 
 .step-content p {
   color: #6c757d;
   line-height: 1.6;
   margin-bottom: 1.5rem;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  word-wrap: break-word;
 }
 
 .step-content .btn {
@@ -293,16 +343,19 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .hero-title {
-    font-size: 2.5rem;
+  .hero-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
   }
   
-  .hero-subtitle {
-    font-size: 1.2rem;
+  .hero-header > div {
+    width: 100%;
   }
   
-  .hero-description {
-    font-size: 1rem;
+  .edit-link {
+    align-self: center;
   }
   
   .hero-actions {
@@ -313,10 +366,6 @@
   .hero-actions .btn {
     width: 100%;
     max-width: 300px;
-  }
-  
-  .section-title {
-    font-size: 2rem;
   }
   
   .quick-links-grid {
@@ -348,8 +397,8 @@
     padding: 3rem 0 4rem 0;
   }
   
-  .hero-title {
-    font-size: 2rem;
+  .hero-header {
+    margin-bottom: 1.5rem;
   }
   
   .card-header, .card-content, .card-action {
@@ -359,5 +408,9 @@
   
   .step-card {
     padding: 2rem 1.5rem;
+  }
+  
+  .section-header {
+    margin-bottom: 3rem;
   }
 }

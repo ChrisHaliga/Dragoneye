@@ -164,7 +164,19 @@ export class HomepageComponent implements OnInit {
           }
         ]
       },
-      updated: new Date()
+      updated: new Date(),
+      
+      // Default UI text
+      getStartedButtonText: 'Get Started',
+      exploreButtonText: 'Explore',
+      exploreGameTitle: 'Explore the Game',
+      exploreGameSubtitle: 'Jump into any area of the design documentation',
+      quickLinkActionText: 'Explore',
+      gettingStartedSubtitle: 'Follow this path to understand the game from the ground up',
+      startLearningButtonText: 'Start Learning',
+      loadingText: 'Loading homepage...',
+      errorHeading: 'Error Loading Homepage',
+      retryButtonText: 'Retry'
     };
   }
 

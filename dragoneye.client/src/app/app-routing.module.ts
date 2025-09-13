@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageViewComponent } from './components/page-view/page-view.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
+import { EditHomepageComponent } from './components/edit-homepage/edit-homepage.component';
 
 const routes: Routes = [
   { path: '', component: HomepageComponent, pathMatch: 'full' },
+  { path: 'edit/home', component: EditHomepageComponent },
   { path: 'home', component: HomepageComponent },
   { path: 'wiki/:section/:subsection/:title', component: PageViewComponent },
   { path: 'wiki/:section/:subsection', component: PageViewComponent },

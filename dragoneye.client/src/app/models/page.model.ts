@@ -19,6 +19,18 @@ export interface Homepage {
   stats: StatCard[];
   gettingStarted: GettingStartedSection;
   updated: Date;
+  
+  // UI Text for localization
+  getStartedButtonText: string;
+  exploreButtonText: string;
+  exploreGameTitle: string;
+  exploreGameSubtitle: string;
+  quickLinkActionText: string;
+  gettingStartedSubtitle: string;
+  startLearningButtonText: string;
+  loadingText: string;
+  errorHeading: string;
+  retryButtonText: string;
 }
 
 export interface QuickAccessCard {

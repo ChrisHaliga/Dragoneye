@@ -1,0 +1,174 @@
+<div class="edit-container" *ngIf="!isLoading && homepage">
+  <div class="edit-header">
+    <h1>Edit Homepage</h1>
+    <div class="actions">
+      <a href="/" class="btn btn-secondary">Cancel</a>
+      <button class="btn btn-primary" (click)="onSave()" [disabled]="isSaving">
+        {{ isSaving ? 'Saving...' : 'Save' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="alert alert-success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
+
+  <div class="edit-section">
+    <h3>Hero Section</h3>
+    <div class="form-group">
+      <label>Title:</label>
+      <input type="text" [(ngModel)]="homepage.title" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Subtitle:</label>
+      <input type="text" [(ngModel)]="homepage.subtitle" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Hero Content:</label>
+      <textarea [(ngModel)]="homepage.heroContent" class="form-control" rows="3"></textarea>
+    </div>
+  </div>
+
+  <div class="edit-section">
+    <h3>UI Text & Labels</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Get Started Button:</label>
+        <input type="text" [(ngModel)]="homepage.getStartedButtonText" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Explore Button:</label>
+        <input type="text" [(ngModel)]="homepage.exploreButtonText" class="form-control">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Explore Section Title:</label>
+        <input type="text" [(ngModel)]="homepage.exploreGameTitle" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Explore Section Subtitle:</label>
+        <input type="text" [(ngModel)]="homepage.exploreGameSubtitle" class="form-control">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Quick Link Action Text:</label>
+        <input type="text" [(ngModel)]="homepage.quickLinkActionText" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Getting Started Subtitle:</label>
+        <input type="text" [(ngModel)]="homepage.gettingStartedSubtitle" class="form-control">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Start Learning Button:</label>
+        <input type="text" [(ngModel)]="homepage.startLearningButtonText" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Loading Text:</label>
+        <input type="text" [(ngModel)]="homepage.loadingText" class="form-control">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Error Heading:</label>
+        <input type="text" [(ngModel)]="homepage.errorHeading" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Retry Button:</label>
+        <input type="text" [(ngModel)]="homepage.retryButtonText" class="form-control">
+      </div>
+    </div>
+  </div>
+
+  <div class="edit-section">
+    <div class="section-header">
+      <h3>Quick Access Cards</h3>
+      <button class="btn btn-sm btn-outline-primary" (click)="addQuickAccessCard()">Add Card</button>
+    </div>
+    <div class="cards-list">
+      <div class="card-edit" *ngFor="let card of homepage.quickAccessCards; let i = index">
+        <div class="card-header">
+          <span>Card {{ i + 1 }}</span>
+          <button class="btn btn-sm btn-danger" (click)="removeQuickAccessCard(i)">Remove</button>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Page ID:</label>
+            <input type="text" [(ngModel)]="card.pageId" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Title:</label>
+            <input type="text" [(ngModel)]="card.title" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description:</label>
+          <textarea [(ngModel)]="card.description" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Icon:</label>
+            <input type="text" [(ngModel)]="card.icon" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Badge Text:</label>
+            <input type="text" [(ngModel)]="card.badgeText" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Badge Color:</label>
+            <select [(ngModel)]="card.badgeColor" class="form-control">
+              <option value="bg-primary">Primary</option>
+              <option value="bg-success">Success</option>
+              <option value="bg-info">Info</option>
+              <option value="bg-warning">Warning</option>
+              <option value="bg-danger">Danger</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="edit-section">
+    <div class="section-header">
+      <h3>Getting Started</h3>
+      <button class="btn btn-sm btn-outline-primary" (click)="addGettingStartedStep()">Add Step</button>
+    </div>
+    <div class="form-group">
+      <label>Section Title:</label>
+      <input type="text" [(ngModel)]="homepage.gettingStarted.title" class="form-control">
+    </div>
+    <div class="steps-list">
+      <div class="step-edit" *ngFor="let step of homepage.gettingStarted.steps; let i = index">
+        <div class="card-header">
+          <span>Step {{ step.stepNumber }}</span>
+          <button class="btn btn-sm btn-danger" (click)="removeGettingStartedStep(i)">Remove</button>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Title:</label>
+            <input type="text" [(ngModel)]="step.title" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Page ID:</label>
+            <input type="text" [(ngModel)]="step.pageId" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description:</label>
+          <textarea [(ngModel)]="step.description" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Icon:</label>
+          <input type="text" [(ngModel)]="step.icon" class="form-control">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="loading" *ngIf="isLoading">
+  <p>Loading homepage editor...</p>
+</div>

@@ -5,6 +5,7 @@ namespace Dragoneye.Server.Services
     public class PageService
     {
         private readonly List<Page> _pages;
+        private Homepage? _cachedHomepage; // Store updated homepage
 
         public PageService()
         {
@@ -23,6 +24,12 @@ namespace Dragoneye.Server.Services
 
         public Homepage GetHomepage()
         {
+            // Return cached homepage if it exists (i.e., if it was updated)
+            if (_cachedHomepage != null)
+            {
+                return _cachedHomepage;
+            }
+
             // Generate dynamic homepage content based on existing pages
             var homepage = new Homepage
             {
@@ -30,7 +37,19 @@ namespace Dragoneye.Server.Services
                 Title = "Dragoneye Design Wiki",
                 Subtitle = "Your comprehensive game design documentation hub",
                 HeroContent = "Welcome to the complete documentation for our tabletop RPG. Everything you need to understand and play the game is here.",
-                Updated = DateTime.Now
+                Updated = DateTime.Now,
+                
+                // Default UI text values
+                GetStartedButtonText = "Get Started",
+                ExploreButtonText = "Explore",
+                ExploreGameTitle = "Explore the Game",
+                ExploreGameSubtitle = "Jump into any area of the design documentation",
+                QuickLinkActionText = "Explore",
+                GettingStartedSubtitle = "Follow this path to understand the game from the ground up",
+                StartLearningButtonText = "Start Learning",
+                LoadingText = "Loading homepage...",
+                ErrorHeading = "Error Loading Homepage",
+                RetryButtonText = "Retry"
             };
 
             // Create quick access cards for key sections
@@ -162,9 +181,9 @@ namespace Dragoneye.Server.Services
 
         public Homepage UpdateHomepage(Homepage homepage)
         {
-            // In a real implementation, this would save to a database
-            // For now, just return the updated homepage with a new timestamp
+            // Store the updated homepage in memory
             homepage.Updated = DateTime.Now;
+            _cachedHomepage = homepage;
             return homepage;
         }
 

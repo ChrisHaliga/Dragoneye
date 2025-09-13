@@ -10,7 +10,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularDev", policy =>
     {
-        policy.WithOrigins("https://localhost:62251", "http://localhost:62251")
+        policy.WithOrigins("https://localhost:62251", "http://localhost:62251", "http://localhost:4200", "https://localhost:4200")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -20,7 +20,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddOpenApi();
 
 // Register our custom services
-builder.Services.AddTransient<PageService>();
+builder.Services.AddSingleton<PageService>();
 builder.Services.AddTransient<NavigationService>();
 
 var app = builder.Build();
