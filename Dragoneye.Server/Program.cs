@@ -20,8 +20,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddOpenApi();
 
 // Register our custom services
-builder.Services.AddScoped<PageService>();
-builder.Services.AddScoped<NavigationService>();
+builder.Services.AddTransient<PageService>();
+builder.Services.AddTransient<NavigationService>();
 
 var app = builder.Build();
 
