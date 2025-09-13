@@ -69,14 +69,14 @@ export class HomepageComponent implements OnInit {
       const title = encodeURIComponent(page.title);
       
       if (subsection) {
-        return `/${section}/${subsection}/${title}`;
+        return `/wiki/${section}/${subsection}/${title}`;
       } else {
-        return `/${section}/${title}`;
+        return `/wiki/${section}/${title}`;
       }
     }
     
-    // Fallback to legacy route if page not found or no section
-    return `/pages/${encodeURIComponent(pageId)}`;
+    // Fallback to homepage if page not found or no section
+    return `/`;
   }
 
   getTimeAgo(date: Date): string {

@@ -125,7 +125,7 @@ export class SidebarComponent implements OnInit {
           .filter(page => page.title !== subsectionKey) // Exclude subsection content page from children
           .map(page => ({
             title: page.title,
-            route: `/${this.encodeUrlSegment(sectionName)}/${this.encodeUrlSegment(subsectionKey)}/${this.encodeUrlSegment(page.title)}`,
+            route: `/wiki/${this.encodeUrlSegment(sectionName)}/${this.encodeUrlSegment(subsectionKey)}/${this.encodeUrlSegment(page.title)}`,
             icon: this.getPageIcon(page.title)
           }));
 
@@ -160,7 +160,7 @@ export class SidebarComponent implements OnInit {
 
   navigateToSection(section: NavigationSection): void {
     if (section.hasContent) {
-      const route = `/${this.encodeUrlSegment(section.name)}`;
+      const route = `/wiki/${this.encodeUrlSegment(section.name)}`;
       this.router.navigate([route]);
       this.onPageClick();
     }
@@ -168,7 +168,7 @@ export class SidebarComponent implements OnInit {
 
   navigateToSubsection(section: NavigationSection, subsection: NavigationSubsection): void {
     if (subsection.hasContent) {
-      const route = `/${this.encodeUrlSegment(section.name)}/${this.encodeUrlSegment(subsection.name)}`;
+      const route = `/wiki/${this.encodeUrlSegment(section.name)}/${this.encodeUrlSegment(subsection.name)}`;
       this.router.navigate([route]);
       this.onPageClick();
     }

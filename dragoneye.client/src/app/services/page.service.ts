@@ -292,7 +292,7 @@ export class PageService {
           for (const page of subsectionPages.sort((a, b) => a.title.localeCompare(b.title))) {
             sectionItem.children!.push({
               title: page.title,
-              route: `/${this.encodeUrlSegment(sectionName)}/${this.encodeUrlSegment(page.title)}`,
+              route: `/wiki/${this.encodeUrlSegment(sectionName)}/${this.encodeUrlSegment(page.title)}`,
               icon: this.getPageIcon(page.title)
             });
           }
@@ -308,7 +308,7 @@ export class PageService {
           for (const page of subsectionPages.sort((a, b) => a.title.localeCompare(b.title))) {
             subsectionItem.children!.push({
               title: page.title,
-              route: `/${this.encodeUrlSegment(sectionName)}/${this.encodeUrlSegment(subsectionName)}/${this.encodeUrlSegment(page.title)}`,
+              route: `/wiki/${this.encodeUrlSegment(sectionName)}/${this.encodeUrlSegment(subsectionName)}/${this.encodeUrlSegment(page.title)}`,
               icon: this.getPageIcon(page.title)
             });
           }

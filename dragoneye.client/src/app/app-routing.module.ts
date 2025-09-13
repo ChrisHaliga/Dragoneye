@@ -6,12 +6,9 @@ import { HomepageComponent } from './components/homepage/homepage.component';
 const routes: Routes = [
   { path: '', component: HomepageComponent, pathMatch: 'full' },
   { path: 'home', component: HomepageComponent },
-  // Legacy route for backwards compatibility
-  { path: 'pages/:id', component: PageViewComponent },
-  // New hierarchical routes - most specific first
-  { path: ':section/:subsection/:title', component: PageViewComponent },
-  { path: ':section/:subsection', component: PageViewComponent },
-  { path: ':section', component: PageViewComponent },
+  { path: 'wiki/:section/:subsection/:title', component: PageViewComponent },
+  { path: 'wiki/:section/:subsection', component: PageViewComponent },
+  { path: 'wiki/:section', component: PageViewComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
