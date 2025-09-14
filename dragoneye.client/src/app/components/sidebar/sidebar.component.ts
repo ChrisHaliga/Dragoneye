@@ -1,30 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { PageService } from '../../services/page.service';
-import { Page } from '../../models/page.model';
-
-interface NavigationSection {
-  name: string;
-  icon: string;
-  isExpanded: boolean;
-  hasContent: boolean;  // Whether this section has its own content page
-  subsections: NavigationSubsection[];
-}
-
-interface NavigationSubsection {
-  name: string;
-  icon: string;
-  isExpanded: boolean;
-  hasContent: boolean;  // Whether this subsection has its own content page
-  pages: NavigationPage[];
-}
-
-interface NavigationPage {
-  title: string;
-  route: string;
-  icon: string;
-}
+import { NavigationItem } from '../../models/page.model';
 
 @Component({
   selector: 'app-sidebar',
@@ -33,14 +10,102 @@ interface NavigationPage {
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent implements OnInit {
-  sections: NavigationSection[] = [];
+  navigation: NavigationItem[] = [
+    {
+      title: 'Game Mechanics',
+      icon: 'bi-gear',
+      route: '/wiki/game-mechanics',
+      isExpanded: false,
+      children: [
+        {
+          title: 'Core Systems',
+          icon: 'bi-cpu',
+          route: '/wiki/game-mechanics/core-systems',
+          isExpanded: false,
+          children: [
+            { title: 'Card System', route: '/wiki/game-mechanics/core-systems/card-system', icon: 'bi-collection' }
+          ]
+        }
+      ]
+    },
+    {
+      title: 'Systems',
+      icon: 'bi-diagram-3',
+      route: '/wiki/systems',
+      isExpanded: false,
+      children: [
+        {
+          title: 'Tactical Combat',
+          icon: 'bi-shield-fill',
+          route: '/wiki/systems/tactical-combat',
+          isExpanded: false,
+          children: [
+            { title: 'Combat System', route: '/wiki/systems/tactical-combat/combat-system', icon: 'bi-crosshair' }
+          ]
+        },
+        {
+          title: 'Adventure Mechanics',
+          icon: 'bi-compass',
+          route: '/wiki/systems/adventure-mechanics',
+          isExpanded: false,
+          children: []
+        }
+      ]
+    },
+    {
+      title: 'Content',
+      icon: 'bi-person-circle',
+      route: '/wiki/content',
+      isExpanded: false,
+      children: [
+        {
+          title: 'Character Domains',
+          icon: 'bi-person-gear',
+          route: '/wiki/content/character-domains',
+          isExpanded: false,
+          children: [
+            { title: 'Warrior Domain', route: '/wiki/content/character-domains/warrior-domain', icon: 'bi-shield-shaded' },
+            { title: 'Scholar Domain', route: '/wiki/content/character-domains/scholar-domain', icon: 'bi-book' }
+          ]
+        },
+        {
+          title: 'Player Races',
+          icon: 'bi-people',
+          route: '/wiki/content/player-races',
+          isExpanded: false,
+          children: [
+            { title: 'Human Race', route: '/wiki/content/player-races/human-race', icon: 'bi-person' },
+            { title: 'Elf Race', route: '/wiki/content/player-races/elf-race', icon: 'bi-tree' },
+            { title: 'Dwarf Race', route: '/wiki/content/player-races/dwarf-race', icon: 'bi-hammer' }
+          ]
+        }
+      ]
+    },
+    {
+      title: 'Setting & Lore',
+      icon: 'bi-globe',
+      route: '/wiki/setting-lore',
+      isExpanded: false,
+      children: [
+        {
+          title: 'World Building',
+          icon: 'bi-map',
+          route: '/wiki/setting-lore/world-building',
+          isExpanded: false,
+          children: [
+            { title: 'World Overview', route: '/wiki/setting-lore/world-building/world-overview', icon: 'bi-globe-americas' }
+          ]
+        }
+      ]
+    }
+  ];
   searchTerm: string = '';
   isCollapsed: boolean = false;
-  isLoading: boolean = true;
+  isLoading: boolean = false;
   
   @Output() collapsedChange = new EventEmitter<boolean>();
 
-  constructor(private pageService: PageService, private router: Router) { 
+  constructor(private router: Router) { 
     // Start collapsed on mobile
     this.isCollapsed = window.innerWidth <= 768;
     // Emit initial state after component initialization
@@ -48,148 +113,37 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadNavigation();
-    
     // Listen for route changes to update expanded state
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       this.updateExpandedState(event.url);
-      // Trigger change detection for active state updates
-      // The active state will automatically update via the template binding
     });
+    
+    // Set initial expanded state
+    this.updateExpandedState(this.router.url);
   }
 
-  loadNavigation(): void {
-    this.isLoading = true;
-    this.pageService.getPages().subscribe({
-      next: (pages) => {
-        console.log('Loaded pages for navigation:', pages);
-        this.sections = this.buildNavigationFromPages(pages);
-        console.log('Built navigation sections:', this.sections);
-        this.updateExpandedState(this.router.url);
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error loading pages:', error);
-        this.sections = [];
-        this.isLoading = false;
-      }
-    });
-  }
-
-  private buildNavigationFromPages(pages: Page[]): NavigationSection[] {
-    const sectionMap: { [sectionName: string]: { [subsectionName: string]: Page[] } } = {};
-
-    // Group pages by section and subsection
-    for (let page of pages) {
-      if (!page.section) continue;
-
-      if (!sectionMap[page.section]) {
-        sectionMap[page.section] = {};
-      }
-
-      const subsectionKey = page.subsection || '_direct';
-      if (!sectionMap[page.section][subsectionKey]) {
-        sectionMap[page.section][subsectionKey] = [];
-      }
-
-      sectionMap[page.section][subsectionKey].push(page);
-    }
-
-    // Convert to NavigationSection array
-    const sections: NavigationSection[] = [];
-
-    for (const sectionName of Object.keys(sectionMap)) {
-      const subsections: NavigationSubsection[] = [];
-
-      // Check if this section has its own content page
-      const hasSectionContent = pages.some(p => 
-        p.section === sectionName && !p.subsection && p.title === sectionName
-      );
-
-      for (const subsectionKey of Object.keys(sectionMap[sectionName])) {
-        if (subsectionKey === '_direct') {
-          // Pages without subsections - skip for now, handle differently if needed
-          continue;
-        }
-
-        const pagesInSubsection = sectionMap[sectionName][subsectionKey];
-        
-        // Check if this subsection has its own content page
-        const hasSubsectionContent = pagesInSubsection.some(p => 
-          p.subsection === subsectionKey && p.title === subsectionKey
-        );
-
-        const navigationPages: NavigationPage[] = pagesInSubsection
-          .filter(page => page.title !== subsectionKey) // Exclude subsection content page from children
-          .map(page => ({
-            title: page.title,
-            route: `/wiki/${this.encodeUrlSegment(sectionName)}/${this.encodeUrlSegment(subsectionKey)}/${this.encodeUrlSegment(page.title)}`,
-            icon: this.getPageIcon(page.title)
-          }));
-
-        subsections.push({
-          name: subsectionKey,
-          icon: this.getSubsectionIcon(subsectionKey),
-          isExpanded: false, // Start collapsed
-          hasContent: hasSubsectionContent,
-          pages: navigationPages.sort((a, b) => a.title.localeCompare(b.title))
-        });
-      }
-
-      sections.push({
-        name: sectionName,
-        icon: this.getSectionIcon(sectionName),
-        isExpanded: false, // Start collapsed
-        hasContent: hasSectionContent,
-        subsections: subsections.sort((a, b) => a.name.localeCompare(b.name))
-      });
-    }
-
-    return sections.sort((a, b) => this.getSectionOrder(a.name) - this.getSectionOrder(b.name));
-  }
-
-  toggleSection(section: NavigationSection): void {
+  toggleSection(section: NavigationItem): void {
     section.isExpanded = !section.isExpanded;
   }
 
-  toggleSubsection(subsection: NavigationSubsection): void {
-    subsection.isExpanded = !subsection.isExpanded;
-  }
-
-  navigateToSection(section: NavigationSection): void {
-    if (section.hasContent) {
-      const route = `/wiki/${this.encodeUrlSegment(section.name)}`;
-      this.router.navigate([route]);
+  navigateToItem(item: NavigationItem): void {
+    if (item.route) {
+      this.router.navigate([item.route]);
       this.onPageClick();
     }
   }
 
-  navigateToSubsection(section: NavigationSection, subsection: NavigationSubsection): void {
-    if (subsection.hasContent) {
-      const route = `/wiki/${this.encodeUrlSegment(section.name)}/${this.encodeUrlSegment(subsection.name)}`;
-      this.router.navigate([route]);
-      this.onPageClick();
-    }
-  }
-
-  onSectionContentClick(event: Event, section: NavigationSection): void {
-    if (section.hasContent) {
-      event.stopPropagation(); // Prevent the container toggle
-      this.navigateToSection(section);
-    }
-  }
-
-  onSubsectionContentClick(event: Event, section: NavigationSection, subsection: NavigationSubsection): void {
-    if (subsection.hasContent) {
-      event.stopPropagation(); // Prevent the container toggle
-      this.navigateToSubsection(section, subsection);
+  onItemClick(event: Event, item: NavigationItem): void {
+    if (item.route) {
+      event.stopPropagation();
+      this.navigateToItem(item);
     }
   }
 
   private updateExpandedState(url: string): void {
-    // Parse the URL to get section, subsection, and page
+    // Parse the URL to extract the current path
     const urlParts = url.split('/').filter(part => part.length > 0);
     
     if (urlParts.length === 0) {
@@ -198,34 +152,66 @@ export class SidebarComponent implements OnInit {
       return;
     }
 
-    const currentSection = this.decodeUrlSegment(urlParts[0]);
-    const currentSubsection = urlParts.length > 1 ? this.decodeUrlSegment(urlParts[1]) : null;
-
-    // Collapse all sections and subsections first
+    // Collapse all first
     this.collapseAll();
 
-    // Expand only the current path
-    this.sections.forEach(section => {
-      if (section.name === currentSection) {
-        section.isExpanded = true;
-        
-        if (currentSubsection) {
-          section.subsections.forEach(subsection => {
-            if (subsection.name === currentSubsection) {
-              subsection.isExpanded = true;
-            }
-          });
+    // Expand path to current page
+    this.expandPathForUrl(this.navigation, urlParts);
+  }
+
+  private expandPathForUrl(items: NavigationItem[], urlParts: string[]): void {
+    for (const item of items) {
+      if (item.route && this.routeMatchesUrlParts(item.route, urlParts)) {
+        // This item is in the current path, expand it and its parents
+        item.isExpanded = true;
+        if (item.children) {
+          this.expandPathForUrl(item.children, urlParts);
+        }
+        return;
+      }
+      
+      if (item.children) {
+        // Check children and expand if any match
+        const hasMatchingChild = this.hasMatchingChildRoute(item.children, urlParts);
+        if (hasMatchingChild) {
+          item.isExpanded = true;
+          this.expandPathForUrl(item.children, urlParts);
         }
       }
-    });
+    }
+  }
+
+  private routeMatchesUrlParts(route: string, urlParts: string[]): boolean {
+    const routeParts = route.split('/').filter(part => part.length > 0);
+    if (routeParts.length !== urlParts.length) return false;
+    
+    return routeParts.every((part, index) => 
+      part.toLowerCase() === urlParts[index]?.toLowerCase()
+    );
+  }
+
+  private hasMatchingChildRoute(items: NavigationItem[], urlParts: string[]): boolean {
+    for (const item of items) {
+      if (item.route && this.routeMatchesUrlParts(item.route, urlParts)) {
+        return true;
+      }
+      if (item.children && this.hasMatchingChildRoute(item.children, urlParts)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private collapseAll(): void {
-    this.sections.forEach(section => {
-      section.isExpanded = false;
-      section.subsections.forEach(subsection => {
-        subsection.isExpanded = false;
-      });
+    this.collapseItems(this.navigation);
+  }
+
+  private collapseItems(items: NavigationItem[]): void {
+    items.forEach(item => {
+      item.isExpanded = false;
+      if (item.children) {
+        this.collapseItems(item.children);
+      }
     });
   }
 
@@ -236,63 +222,8 @@ export class SidebarComponent implements OnInit {
       .join(' ');
   }
 
-  trackByName(index: number, item: any): string {
-    return item.name || item.title;
-  }
-
-  private encodeUrlSegment(str: string): string {
-    return encodeURIComponent(str.toLowerCase().replace(/\s+/g, '-'));
-  }
-
-  private getSectionOrder(section: string): number {
-    switch (section) {
-      case 'Core Mechanics': return 1;
-      case 'Systems': return 2;
-      case 'Content': return 3;
-      case 'Setting & Lore': return 4;
-      default: return 99;
-    }
-  }
-
-  private getSectionIcon(section: string): string {
-    switch (section) {
-      case 'Core Mechanics': return 'bi-gear';
-      case 'Systems': return 'bi-diagram-3';
-      case 'Content': return 'bi-book';
-      case 'Setting & Lore': return 'bi-globe';
-      default: return 'bi-folder';
-    }
-  }
-
-  private getSubsectionIcon(subsection: string): string {
-    switch (subsection) {
-      case 'Card Fundamentals': return 'bi-grid-3x3-gap';
-      case 'Card Types': return 'bi-layers';
-      case 'Resources': return 'bi-battery-half';
-      case 'Tactical Combat': return 'bi-shield-check';
-      case 'Social Mechanics': return 'bi-chat-dots';
-      case 'Adventure Mechanics': return 'bi-compass';
-      case 'Character Domains': return 'bi-person-badge';
-      case 'Player Races': return 'bi-people';
-      case 'World Building': return 'bi-map';
-      default: return 'bi-folder2';
-    }
-  }
-
-  private getPageIcon(pageTitle: string): string {
-    switch (pageTitle) {
-      case 'Card System': return 'bi-grid-3x3-gap';
-      case 'Action Cards': return 'bi-layers';
-      case 'Resource Management': return 'bi-battery-half';
-      case 'Combat System': return 'bi-shield-check';
-      case 'Social Encounters': return 'bi-chat-dots';
-      case 'Exploration System': return 'bi-compass';
-      case 'Warrior Domain': return 'bi-shield-fill-exclamation';
-      case 'Scholar Domain': return 'bi-mortarboard';
-      case 'Human Race': return 'bi-person';
-      case 'World Overview': return 'bi-map';
-      default: return 'bi-file-text';
-    }
+  trackByTitle(index: number, item: NavigationItem): string {
+    return item.title;
   }
 
   onSearch(): void {
@@ -324,13 +255,8 @@ export class SidebarComponent implements OnInit {
     return window.innerWidth <= 768;
   }
 
-  isSectionActive(section: NavigationSection): boolean {
+  isItemActive(item: NavigationItem): boolean {
     const currentUrl = this.router.url;
-    const urlParts = currentUrl.split('/').filter(part => part.length > 0);
-    
-    if (urlParts.length === 0) return false; // Home page
-    
-    const currentSection = this.decodeUrlSegment(urlParts[0]);
-    return currentSection === section.name;
+    return item.route === currentUrl;
   }
 }

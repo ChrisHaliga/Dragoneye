@@ -16,12 +16,12 @@
       </div>
       
       <!-- Section buttons -->
-      <div *ngFor="let section of sections; trackBy: trackByName" class="collapsed-section-btn">
+      <div *ngFor="let section of navigation; trackBy: trackByTitle" class="collapsed-section-btn">
         <button 
           class="section-icon-btn"
-          [class.active]="isSectionActive(section)"
-          [title]="section.name"
-          (click)="section.hasContent ? navigateToSection(section) : toggleSection(section)">
+          [class.active]="isItemActive(section)"
+          [title]="section.title"
+          (click)="section.route ? navigateToItem(section) : toggleSection(section)">
           <i [class]="section.icon"></i>
         </button>
       </div>
@@ -56,61 +56,76 @@
         
         <!-- Expanded state: Full navigation -->
         <div class="expanded-navigation">
-          <!-- Sections -->
-          <div class="nav-section" *ngFor="let section of sections; trackBy: trackByName">
-        
-        <!-- Section Header -->
-        <div class="section-header" (click)="toggleSection(section)">
-          <div class="section-content-wrapper" 
-               [class.has-content]="section.hasContent"
-               (click)="onSectionContentClick($event, section)">
-            <i [class]="section.icon + ' me-2'"></i>
-            <strong>{{ section.name }}</strong>
-          </div>
-          <i class="bi chevron-icon" 
-             [class.bi-chevron-down]="section.isExpanded"
-             [class.bi-chevron-right]="!section.isExpanded"></i>
-        </div>
-        
-        <!-- Section Content -->
-        <div class="section-content" *ngIf="section.isExpanded">
-          
-          <!-- Subsections ONLY - no direct pages -->
-          <div *ngFor="let subsection of section.subsections; trackBy: trackByName" class="subsection">
-            <div class="subsection-header" (click)="toggleSubsection(subsection)">
-              <div class="subsection-content-wrapper" 
-                   [class.has-content]="subsection.hasContent"
-                   (click)="onSubsectionContentClick($event, section, subsection)">
-                <i [class]="subsection.icon + ' me-2'"></i>
-                <span>{{ subsection.name }}</span>
+          <!-- Navigation Items -->
+          <div class="nav-section" *ngFor="let item of navigation; trackBy: trackByTitle">
+            
+            <!-- Item Header -->
+            <div class="section-header" (click)="toggleSection(item)">
+              <div class="section-content-wrapper" 
+                   [class.has-content]="!!item.route"
+                   (click)="onItemClick($event, item)">
+                <i [class]="item.icon + ' me-2'"></i>
+                <strong>{{ item.title }}</strong>
               </div>
               <i class="bi chevron-icon" 
-                 [class.bi-chevron-down]="subsection.isExpanded"
-                 [class.bi-chevron-right]="!subsection.isExpanded"></i>
+                 [class.bi-chevron-down]="item.isExpanded"
+                 [class.bi-chevron-right]="!item.isExpanded"
+                 *ngIf="item.children && item.children.length > 0"></i>
             </div>
             
-            <!-- Subsection Content (Pages) -->
-            <div class="subsection-content" *ngIf="subsection.isExpanded">
-              <a *ngFor="let page of subsection.pages; trackBy: trackByName"
-                 [routerLink]="page.route" 
+            <!-- Item Children (Recursive) -->
+            <div class="section-content" *ngIf="item.isExpanded && item.children && item.children.length > 0">
+              <ng-container *ngTemplateOutlet="navigationLevel; context: { $implicit: item.children, level: 1 }"></ng-container>
+            </div>
+            
+          </div>
+          
+          <!-- Empty State -->
+          <div *ngIf="navigation.length === 0" class="text-center p-3">
+            <p class="text-muted">No navigation available</p>
+          </div>
+          
+        </div> <!-- End expanded-navigation -->
+
+        <!-- Recursive template for navigation levels -->
+        <ng-template #navigationLevel let-items let-level="level">
+          <div *ngFor="let item of items; trackBy: trackByTitle" 
+               class="nav-item" 
+               [class]="'level-' + level">
+            
+            <!-- If item has children, show as expandable -->
+            <div *ngIf="item.children && item.children.length > 0; else leafItem">
+              <div class="subsection-header" (click)="toggleSection(item)">
+                <div class="subsection-content-wrapper" 
+                     [class.has-content]="!!item.route"
+                     (click)="onItemClick($event, item)">
+                  <i [class]="item.icon + ' me-2'"></i>
+                  <span>{{ item.title }}</span>
+                </div>
+                <i class="bi chevron-icon" 
+                   [class.bi-chevron-down]="item.isExpanded"
+                   [class.bi-chevron-right]="!item.isExpanded"></i>
+              </div>
+              
+              <!-- Nested children -->
+              <div class="subsection-content" *ngIf="item.isExpanded">
+                <ng-container *ngTemplateOutlet="navigationLevel; context: { $implicit: item.children, level: level + 1 }"></ng-container>
+              </div>
+            </div>
+            
+            <!-- Leaf item template -->
+            <ng-template #leafItem>
+              <a [routerLink]="item.route" 
                  class="page-link"
                  routerLinkActive="active"
                  (click)="onPageClick()">
-                <i [class]="page.icon + ' me-2'"></i>
-                {{ page.title }}
+                <i [class]="item.icon + ' me-2'"></i>
+                {{ item.title }}
               </a>
-            </div>
+            </ng-template>
+            
           </div>
-          
-        </div>
-      </div>
-      
-      <!-- Empty State -->
-      <div *ngIf="sections.length === 0" class="text-center p-3">
-        <p class="text-muted">No navigation available</p>
-      </div>
-      
-    </div> <!-- End expanded-navigation -->
+        </ng-template>
     </div> <!-- End nav-sections -->
   </div>
 

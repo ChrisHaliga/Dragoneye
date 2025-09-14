@@ -1,6 +1,6 @@
 /* Hero Section */
 .hero-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
   color: white;
   padding: 5rem 0 7rem 0;
   text-align: center;
@@ -24,53 +24,58 @@
   z-index: 2;
   max-width: 900px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--spacing-xl);
 }
 
 .hero-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 2rem;
-  gap: 1rem;
+  margin-bottom: var(--spacing-xl);
+  gap: var(--spacing-md);
 }
 
 .hero-header > div {
   flex: 1;
-  min-width: 0; /* Allow text to wrap properly */
+  min-width: 0;
 }
 
 .edit-link {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
   text-decoration: none;
   font-size: 0.9rem;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  transition: all 0.3s ease;
+  transition: all var(--transition-normal);
   white-space: nowrap;
-  flex-shrink: 0; /* Don't shrink the edit button */
+  flex-shrink: 0;
+  font-weight: 500;
+  backdrop-filter: blur(8px);
 }
 
 .edit-link:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.25);
   color: white;
   text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .hero-title {
-  font-size: clamp(2rem, 8vw, 4rem); /* Responsive font size */
+  font-size: clamp(2rem, 8vw, 4rem);
   font-weight: 700;
-  margin-bottom: 1rem;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  margin-bottom: var(--spacing-md);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
   line-height: 1.1;
-  word-wrap: break-word; /* Handle long titles */
+  word-wrap: break-word;
   hyphens: auto;
+  font-family: var(--font-family-base);
 }
 
 .hero-subtitle {
-  font-size: clamp(1rem, 3vw, 1.4rem); /* Responsive font size */
+  font-size: clamp(1rem, 3vw, 1.4rem);
   margin-bottom: 0;
   opacity: 0.9;
   font-weight: 300;
@@ -80,7 +85,7 @@
 
 .hero-description {
   font-size: clamp(1rem, 2.5vw, 1.2rem);
-  margin: 2rem auto 3rem auto;
+  margin: var(--spacing-xl) auto var(--spacing-2xl) auto;
   opacity: 0.9;
   line-height: 1.6;
   max-width: 700px;
@@ -90,36 +95,38 @@
 
 .hero-actions {
   display: flex;
-  gap: 1.5rem;
+  gap: var(--spacing-lg);
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 2rem;
+  margin-top: var(--spacing-xl);
 }
 
 .hero-actions .btn {
-  padding: 1rem 2.5rem;
+  padding: var(--spacing-md) 2.5rem;
   font-weight: 600;
   border-radius: 50px;
-  transition: all 0.3s ease;
+  transition: all var(--transition-normal);
   font-size: 1.1rem;
   border-width: 2px;
+  box-shadow: var(--shadow-md);
 }
 
 .hero-actions .btn-primary {
-  background: #28a745;
-  border-color: #28a745;
-  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+  background: var(--success-color);
+  border-color: var(--success-color);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
 .hero-actions .btn-primary:hover {
-  background: #218838;
+  background: #059669;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
 }
 
 .hero-actions .btn-outline-light:hover {
   transform: translateY(-2px);
   background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
 }
 
 /* Main Content */

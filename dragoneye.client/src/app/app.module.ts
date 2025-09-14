@@ -1,4 +1,3 @@
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
@@ -26,7 +25,6 @@ import { EditHomepageComponent } from './components/edit-homepage/edit-homepage.
   ],
   imports: [
     BrowserModule, 
-    HttpClientModule,
     FormsModule,
     AppRoutingModule
   ],

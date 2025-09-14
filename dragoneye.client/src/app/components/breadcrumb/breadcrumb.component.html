@@ -1,13 +1,24 @@
-<nav aria-label="breadcrumb">
+<nav class="breadcrumb-container" *ngIf="breadcrumbs.length > 0" aria-label="Breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item" *ngFor="let crumb of breadcrumbs; let last = last" 
-        [class.active]="last">
-      <a *ngIf="!last && crumb.route" 
-         (click)="navigateTo(crumb.route)"
-         class="breadcrumb-link">
+    <li 
+      *ngFor="let crumb of breadcrumbs; let last = last; let first = first" 
+      class="breadcrumb-item"
+      [class.active]="crumb.isActive"
+    >
+      <a 
+        *ngIf="crumb.route" 
+        (click)="navigateTo(crumb.route)"
+        class="breadcrumb-link"
+      >
         {{ crumb.label }}
       </a>
-      <span *ngIf="last || !crumb.route">{{ crumb.label }}</span>
+      <span 
+        *ngIf="!crumb.route" 
+        class="breadcrumb-current"
+        aria-current="page"
+      >
+        {{ crumb.label }}
+      </span>
     </li>
   </ol>
 </nav>
