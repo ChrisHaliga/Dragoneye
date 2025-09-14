@@ -26,59 +26,34 @@
       <label>Hero Content:</label>
       <textarea [(ngModel)]="homepage.heroContent" class="form-control" rows="3"></textarea>
     </div>
-  </div>
-
-  <div class="edit-section">
-    <h3>UI Text & Labels</h3>
     <div class="form-row">
       <div class="form-group">
-        <label>Get Started Button:</label>
+        <label>Get Started Button Text:</label>
         <input type="text" [(ngModel)]="homepage.getStartedButtonText" class="form-control">
       </div>
       <div class="form-group">
-        <label>Explore Button:</label>
+        <label>Explore Button Text:</label>
         <input type="text" [(ngModel)]="homepage.exploreButtonText" class="form-control">
       </div>
     </div>
+  </div>
+
+  <div class="edit-section">
+    <h3>Explore Section</h3>
     <div class="form-row">
       <div class="form-group">
-        <label>Explore Section Title:</label>
+        <label>Section Title:</label>
         <input type="text" [(ngModel)]="homepage.exploreGameTitle" class="form-control">
       </div>
       <div class="form-group">
-        <label>Explore Section Subtitle:</label>
+        <label>Section Subtitle:</label>
         <input type="text" [(ngModel)]="homepage.exploreGameSubtitle" class="form-control">
       </div>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Quick Link Action Text:</label>
-        <input type="text" [(ngModel)]="homepage.quickLinkActionText" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Getting Started Subtitle:</label>
-        <input type="text" [(ngModel)]="homepage.gettingStartedSubtitle" class="form-control">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Start Learning Button:</label>
-        <input type="text" [(ngModel)]="homepage.startLearningButtonText" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Loading Text:</label>
-        <input type="text" [(ngModel)]="homepage.loadingText" class="form-control">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Error Heading:</label>
-        <input type="text" [(ngModel)]="homepage.errorHeading" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Retry Button:</label>
-        <input type="text" [(ngModel)]="homepage.retryButtonText" class="form-control">
-      </div>
+    <div class="form-group">
+      <label>Card Action Text:</label>
+      <input type="text" [(ngModel)]="homepage.quickLinkActionText" class="form-control">
+      <small class="form-text text-muted">Text displayed on each quick access card button</small>
     </div>
   </div>
 
@@ -133,12 +108,23 @@
 
   <div class="edit-section">
     <div class="section-header">
-      <h3>Getting Started</h3>
+      <h3>Getting Started Section</h3>
       <button class="btn btn-sm btn-outline-primary" (click)="addGettingStartedStep()">Add Step</button>
     </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Section Title:</label>
+        <input type="text" [(ngModel)]="homepage.gettingStarted.title" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Section Subtitle:</label>
+        <input type="text" [(ngModel)]="homepage.gettingStartedSubtitle" class="form-control">
+      </div>
+    </div>
     <div class="form-group">
-      <label>Section Title:</label>
-      <input type="text" [(ngModel)]="homepage.gettingStarted.title" class="form-control">
+      <label>Step Button Text:</label>
+      <input type="text" [(ngModel)]="homepage.startLearningButtonText" class="form-control">
+      <small class="form-text text-muted">Text displayed on each step's action button</small>
     </div>
     <div class="steps-list">
       <div class="step-edit" *ngFor="let step of homepage.gettingStarted.steps; let i = index">
@@ -165,6 +151,27 @@
           <input type="text" [(ngModel)]="step.icon" class="form-control">
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="edit-section">
+    <h3>System Messages</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Loading Message:</label>
+        <input type="text" [(ngModel)]="homepage.loadingText" class="form-control">
+        <small class="form-text text-muted">Displayed while the homepage is loading</small>
+      </div>
+      <div class="form-group">
+        <label>Error Heading:</label>
+        <input type="text" [(ngModel)]="homepage.errorHeading" class="form-control">
+        <small class="form-text text-muted">Heading shown when homepage fails to load</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Retry Button Text:</label>
+      <input type="text" [(ngModel)]="homepage.retryButtonText" class="form-control">
+      <small class="form-text text-muted">Text on the retry button when there's an error</small>
     </div>
   </div>
 </div>

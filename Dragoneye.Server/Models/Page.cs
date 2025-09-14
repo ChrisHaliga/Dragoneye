@@ -39,6 +39,7 @@ namespace Dragoneye.Server.Models
 
     public class QuickAccessCard
     {
+        public string Id { get; set; } = string.Empty;
         public string PageId { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
