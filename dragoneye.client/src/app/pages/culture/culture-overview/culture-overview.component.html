@@ -1,0 +1,237 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <!-- Loading State -->
+      <div *ngIf="loading" class="text-center py-5">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading culture...</span>
+        </div>
+        <p class="mt-3">Loading culture information...</p>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="error" class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        {{ error }}
+      </div>
+
+      <!-- Culture Data -->
+      <div *ngIf="culture && !loading && !error">
+        <!-- Hero Section -->
+        <div class="text-center mb-5">
+          <h1 class="display-4 mb-3">{{ culture.name }}</h1>
+          <p class="lead text-muted">{{ culture.age | titlecase }} Era Culture</p>
+          <hr class="my-4">
+        </div>
+
+        <!-- All Culture Sections -->
+        <div id="section-politics" class="border rounded p-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-building text-primary me-3 fs-3"></i>
+            <h2 class="mb-0">Politics</h2>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <h5>Governance Systems</h5>
+              <p>{{ culture.politics.governanceSystems || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Power Distribution</h5>
+              <p>{{ culture.politics.powerDistribution || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Diplomacy</h5>
+              <p>{{ culture.politics.diplomacy || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Political Movements</h5>
+              <p>{{ culture.politics.politicalMovements || 'No information available.' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="border rounded p-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-geo-alt text-success me-3 fs-3"></i>
+            <h2 class="mb-0">Geography</h2>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <h5>Physical Landscape</h5>
+              <p>{{ culture.geography.physicalLandscape || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Settlements</h5>
+              <p>{{ culture.geography.settlements || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Territories</h5>
+              <p>{{ culture.geography.territories || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Travel Routes</h5>
+              <p>{{ culture.geography.travelRoutes || 'No information available.' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="border rounded p-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-currency-exchange text-warning me-3 fs-3"></i>
+            <h2 class="mb-0">Economics</h2>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <h5>Trade & Commerce</h5>
+              <p>{{ culture.economics.tradeAndCommerce || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Currency</h5>
+              <p>{{ culture.economics.currency || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Resources</h5>
+              <p>{{ culture.economics.resources || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Economic Systems</h5>
+              <p>{{ culture.economics.economicSystems || 'No information available.' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="border rounded p-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-clock-history text-info me-3 fs-3"></i>
+            <h2 class="mb-0">History</h2>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <h5>Origins</h5>
+              <p>{{ culture.history.origins || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Major Events</h5>
+              <p>{{ culture.history.majorEvents || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Conflicts</h5>
+              <p>{{ culture.history.conflicts || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Transitions</h5>
+              <p>{{ culture.history.transitions || 'No information available.' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="border rounded p-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-people text-primary me-3 fs-3"></i>
+            <h2 class="mb-0">Culture</h2>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <h5>Social Structure</h5>
+              <p>{{ culture.cultureDetails.socialStructure || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Daily Life & Entertainment</h5>
+              <p>{{ culture.cultureDetails.dailyLifeAndEntertainment || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Traditions & Festivals</h5>
+              <p>{{ culture.cultureDetails.traditionsAndFestivals || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Relations with Other Cultures</h5>
+              <p>{{ culture.cultureDetails.otherCultures || 'No information available.' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="border rounded p-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-star text-warning me-3 fs-3"></i>
+            <h2 class="mb-0">Religion</h2>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <h5>Beliefs & Pantheon</h5>
+              <p>{{ culture.religion.beliefsAndPantheon || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Practices</h5>
+              <p>{{ culture.religion.practices || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Organizations</h5>
+              <p>{{ culture.religion.organizations || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Influence</h5>
+              <p>{{ culture.religion.influence || 'No information available.' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="border rounded p-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-shield-check text-danger me-3 fs-3"></i>
+            <h2 class="mb-0">Law</h2>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <h5>Legal Systems</h5>
+              <p>{{ culture.law.legalSystems || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Enforcement</h5>
+              <p>{{ culture.law.enforcement || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Justice</h5>
+              <p>{{ culture.law.justice || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Crimes & Punishments</h5>
+              <p>{{ culture.law.crimesAndPunishments || 'No information available.' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="border rounded p-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-lightbulb text-info me-3 fs-3"></i>
+            <h2 class="mb-0">Science & Technology</h2>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <h5>Knowledge & Education</h5>
+              <p>{{ culture.science.knowledgeAndEducation || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Technology</h5>
+              <p>{{ culture.science.technology || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Research</h5>
+              <p>{{ culture.science.research || 'No information available.' }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Innovation</h5>
+              <p>{{ culture.science.innovation || 'No information available.' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Not Found State -->
+      <div *ngIf="!culture && !loading && !error" class="text-center py-5">
+        <i class="bi bi-search display-1 text-muted"></i>
+        <h3 class="mt-3">Culture Not Found</h3>
+        <p class="text-muted">The requested culture could not be found.</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <!-- Loading State -->
+      <div *ngIf="loading" class="text-center py-5">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading religion data...</span>
+        </div>
+        <p class="mt-3">Loading religious information...</p>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="error" class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        {{ error }}
+      </div>
+
+      <!-- Religion Data -->
+      <div *ngIf="culture && !loading && !error">
+        <!-- Hero Section -->
+        <div class="text-center mb-5">
+          <h1 class="display-4 mb-3">{{ culture.name }} - Religion</h1>
+          <p class="lead text-muted">{{ culture.age | titlecase }} Era Religious Beliefs</p>
+          <hr class="my-4">
+        </div>
+
+        <!-- Religion Sections -->
+        <div class="border rounded p-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-star text-warning me-3 fs-3"></i>
+            <h3 class="mb-0">Beliefs & Pantheon</h3>
+          </div>
+          <p class="fs-5 lh-lg">{{ culture.religion.beliefsAndPantheon || 'No information available.' }}</p>
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-outline-primary btn-sm">Learn More</button>
+          </div>
+        </div>
+
+        <div class="border rounded p-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-candle text-info me-3 fs-3"></i>
+            <h3 class="mb-0">Practices & Rituals</h3>
+          </div>
+          <p class="fs-5 lh-lg">{{ culture.religion.practices || 'No information available.' }}</p>
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-outline-primary btn-sm">Learn More</button>
+          </div>
+        </div>
+
+        <div class="border rounded p-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-building-fill-gear text-primary me-3 fs-3"></i>
+            <h3 class="mb-0">Religious Organizations</h3>
+          </div>
+          <p class="fs-5 lh-lg">{{ culture.religion.organizations || 'No information available.' }}</p>
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-outline-primary btn-sm">Learn More</button>
+          </div>
+        </div>
+
+        <div class="border rounded p-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-lightning text-danger me-3 fs-3"></i>
+            <h3 class="mb-0">Religious Influence & Power</h3>
+          </div>
+          <p class="fs-5 lh-lg">{{ culture.religion.influence || 'No information available.' }}</p>
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-outline-primary btn-sm">Learn More</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Not Found State -->
+      <div *ngIf="!culture && !loading && !error" class="text-center py-5">
+        <i class="bi bi-search display-1 text-muted"></i>
+        <h3 class="mt-3">Culture Not Found</h3>
+        <p class="text-muted">The requested culture could not be found.</p>
+      </div>
+    </div>
+  </div>
+</div>

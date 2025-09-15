@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { NavigationItem } from '../../models/page.model';
+import { CultureService, CultureSummary } from '../../services/culture.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,91 +13,92 @@ import { NavigationItem } from '../../models/page.model';
 export class SidebarComponent implements OnInit {
   navigation: NavigationItem[] = [
     {
-      title: 'Game Mechanics',
-      icon: 'bi-gear',
-      route: '/wiki/game-mechanics',
+      title: 'How to Play',
+      icon: 'bi-book',
+      route: '/wiki/how-to-play',
       isExpanded: false,
       children: [
         {
-          title: 'Core Systems',
-          icon: 'bi-cpu',
-          route: '/wiki/game-mechanics/core-systems',
+          title: 'Getting Started',
+          icon: 'bi-play-circle',
+          route: '/wiki/how-to-play/getting-started',
           isExpanded: false,
           children: [
-            { title: 'Card System', route: '/wiki/game-mechanics/core-systems/card-system', icon: 'bi-collection' }
-          ]
-        }
-      ]
-    },
-    {
-      title: 'Systems',
-      icon: 'bi-diagram-3',
-      route: '/wiki/systems',
-      isExpanded: false,
-      children: [
-        {
-          title: 'Tactical Combat',
-          icon: 'bi-shield-fill',
-          route: '/wiki/systems/tactical-combat',
-          isExpanded: false,
-          children: [
-            { title: 'Combat System', route: '/wiki/systems/tactical-combat/combat-system', icon: 'bi-crosshair' }
+            { title: 'Player Guide', route: '/wiki/how-to-play/getting-started/player-guide', icon: 'bi-person' },
+            { title: 'GM Guide', route: '/wiki/how-to-play/getting-started/gm-guide', icon: 'bi-person-gear' }
           ]
         },
         {
-          title: 'Adventure Mechanics',
-          icon: 'bi-compass',
-          route: '/wiki/systems/adventure-mechanics',
-          isExpanded: false,
-          children: []
-        }
-      ]
-    },
-    {
-      title: 'Content',
-      icon: 'bi-person-circle',
-      route: '/wiki/content',
-      isExpanded: false,
-      children: [
-        {
-          title: 'Character Domains',
-          icon: 'bi-person-gear',
-          route: '/wiki/content/character-domains',
+          title: 'Character Creation',
+          icon: 'bi-person-plus',
+          route: '/wiki/how-to-play/character-creation',
           isExpanded: false,
           children: [
-            { title: 'Warrior Domain', route: '/wiki/content/character-domains/warrior-domain', icon: 'bi-shield-shaded' },
-            { title: 'Scholar Domain', route: '/wiki/content/character-domains/scholar-domain', icon: 'bi-book' }
+            { title: 'Race', route: '/wiki/how-to-play/character-creation/race', icon: 'bi-people' },
+            { title: 'Domains', route: '/wiki/how-to-play/character-creation/domains', icon: 'bi-collection' },
+            { title: 'Stats', route: '/wiki/how-to-play/character-creation/stats', icon: 'bi-bar-chart' },
+            { title: 'Background', route: '/wiki/how-to-play/character-creation/background', icon: 'bi-journal-text' },
+            { title: 'Personality', route: '/wiki/how-to-play/character-creation/personality', icon: 'bi-emoji-smile' }
           ]
         },
         {
-          title: 'Player Races',
-          icon: 'bi-people',
-          route: '/wiki/content/player-races',
+          title: 'Core Mechanics',
+          icon: 'bi-gear',
+          route: '/wiki/how-to-play/core-mechanics',
           isExpanded: false,
           children: [
-            { title: 'Human Race', route: '/wiki/content/player-races/human-race', icon: 'bi-person' },
-            { title: 'Elf Race', route: '/wiki/content/player-races/elf-race', icon: 'bi-tree' },
-            { title: 'Dwarf Race', route: '/wiki/content/player-races/dwarf-race', icon: 'bi-hammer' }
+            { title: 'Resolution Cards', route: '/wiki/how-to-play/core-mechanics/resolution-cards', icon: 'bi-card-heading' },
+            { title: 'Stats & Progression', route: '/wiki/how-to-play/core-mechanics/stats-and-progression', icon: 'bi-graph-up' },
+            { title: 'Skill Checks', route: '/wiki/how-to-play/core-mechanics/skill-challenges', icon: 'bi-check-circle' }
+          ]
+        },
+        {
+          title: 'Combat',
+          icon: 'bi-shield-shaded',
+          route: '/wiki/how-to-play/combat',
+          isExpanded: false,
+          children: [
+            { title: 'The Battlefield', route: '/wiki/how-to-play/combat/the-battlefield', icon: 'bi-hexagon' },
+            { title: 'Status Effects', route: '/wiki/how-to-play/combat/status-effects', icon: 'bi-shield-exclamation' },
+            { title: 'Turns & Initiative', route: '/wiki/how-to-play/combat/turns-and-initiative', icon: 'bi-stopwatch' },
+            { title: 'Actions & Passives', route: '/wiki/how-to-play/combat/actions-and-passives', icon: 'bi-lightning' }
+          ]
+        },
+        {
+          title: 'Roleplaying',
+          icon: 'bi-chat-quote',
+          route: '/wiki/how-to-play/roleplaying',
+          isExpanded: false,
+          children: [
+            { title: 'Collaborative Storytelling', route: '/wiki/how-to-play/roleplaying/collaborative-storytelling', icon: 'bi-people-fill' },
+            { title: 'Plotting & Motivations', route: '/wiki/how-to-play/roleplaying/plotting-and-motivations', icon: 'bi-diagram-2' },
+            { title: 'In Character', route: '/wiki/how-to-play/roleplaying/in-character', icon: 'bi-person-badge' },
+            { title: 'Out of Character', route: '/wiki/how-to-play/roleplaying/out-of-character', icon: 'bi-chat-square-text' },
+            { title: 'Character Evolution', route: '/wiki/how-to-play/roleplaying/character-evolution', icon: 'bi-arrow-up-circle' }
           ]
         }
       ]
     },
     {
-      title: 'Setting & Lore',
-      icon: 'bi-globe',
-      route: '/wiki/setting-lore',
+      title: 'Age of Chaos',
+      icon: 'bi-1-circle',
+      route: '/wiki/age-of-chaos',
       isExpanded: false,
-      children: [
-        {
-          title: 'World Building',
-          icon: 'bi-map',
-          route: '/wiki/setting-lore/world-building',
-          isExpanded: false,
-          children: [
-            { title: 'World Overview', route: '/wiki/setting-lore/world-building/world-overview', icon: 'bi-globe-americas' }
-          ]
-        }
-      ]
+      children: [] // Will be populated with cultures
+    },
+    {
+      title: 'Age of Order',
+      icon: 'bi-2-circle',
+      route: '/wiki/age-of-order',
+      isExpanded: false,
+      children: [] // Will be populated with cultures
+    },
+    {
+      title: 'Age of Ascension',
+      icon: 'bi-3-circle',
+      route: '/wiki/age-of-ascension',
+      isExpanded: false,
+      children: [] // Will be populated with cultures
     }
   ];
   searchTerm: string = '';
@@ -105,7 +107,7 @@ export class SidebarComponent implements OnInit {
   
   @Output() collapsedChange = new EventEmitter<boolean>();
 
-  constructor(private router: Router) { 
+  constructor(private router: Router, private cultureService: CultureService) { 
     // Start collapsed on mobile
     this.isCollapsed = window.innerWidth <= 768;
     // Emit initial state after component initialization
@@ -113,6 +115,9 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Load cultures and populate age sections
+    this.loadCultures();
+    
     // Listen for route changes to update expanded state
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
@@ -126,6 +131,85 @@ export class SidebarComponent implements OnInit {
 
   toggleSection(section: NavigationItem): void {
     section.isExpanded = !section.isExpanded;
+  }
+
+  private loadCultures(): void {
+    console.log('Loading cultures for sidebar...');
+    this.cultureService.getAllCultures().subscribe({
+      next: (cultures) => {
+        this.populateAgesWithCultures(cultures);
+      },
+      error: (error) => {
+        // Continue with empty culture lists if loading fails
+      }
+    });
+  }
+
+  private populateAgesWithCultures(cultures: CultureSummary[]): void {
+    // Find age sections and add cultures as children
+    const ageOfChaos = this.navigation.find(item => item.title === 'Age of Chaos');
+    const ageOfOrder = this.navigation.find(item => item.title === 'Age of Order');
+    const ageOfAscension = this.navigation.find(item => item.title === 'Age of Ascension');
+
+    // Define culture subcategories (3rd order navigation)
+    const cultureSubcategories = [
+      { title: 'Politics', route: 'politics', icon: 'bi-building' },
+      { title: 'Geography', route: 'geography', icon: 'bi-geo-alt' },
+      { title: 'Economics', route: 'economics', icon: 'bi-currency-exchange' },
+      { title: 'History', route: 'history', icon: 'bi-clock-history' },
+      { title: 'Culture', route: 'culture', icon: 'bi-people' },
+      { title: 'Religion', route: 'religion', icon: 'bi-star' },
+      { title: 'Law', route: 'law', icon: 'bi-shield-check' },
+      { title: 'Science', route: 'science', icon: 'bi-lightbulb' }
+    ];
+
+    if (ageOfChaos) {
+      ageOfChaos.children = cultures
+        .filter(culture => culture.age === 'chaos')
+        .map(culture => ({
+          title: culture.name,
+          route: `/wiki/culture-overview/${culture.id}`,
+          icon: 'bi-people',
+          isExpanded: false,
+          children: cultureSubcategories.map(subcategory => ({
+            title: subcategory.title,
+            route: `/wiki/culture-overview/${culture.id}/${subcategory.route}`,
+            icon: subcategory.icon
+          }))
+        }));
+    }
+
+    if (ageOfOrder) {
+      ageOfOrder.children = cultures
+        .filter(culture => culture.age === 'order')
+        .map(culture => ({
+          title: culture.name,
+          route: `/wiki/culture-overview/${culture.id}`,
+          icon: 'bi-people',
+          isExpanded: false,
+          children: cultureSubcategories.map(subcategory => ({
+            title: subcategory.title,
+            route: `/wiki/culture-overview/${culture.id}/${subcategory.route}`,
+            icon: subcategory.icon
+          }))
+        }));
+    }
+
+    if (ageOfAscension) {
+      ageOfAscension.children = cultures
+        .filter(culture => culture.age === 'ascension')
+        .map(culture => ({
+          title: culture.name,
+          route: `/wiki/culture-overview/${culture.id}`,
+          icon: 'bi-people',
+          isExpanded: false,
+          children: cultureSubcategories.map(subcategory => ({
+            title: subcategory.title,
+            route: `/wiki/culture-overview/${culture.id}/${subcategory.route}`,
+            icon: subcategory.icon
+          }))
+        }));
+    }
   }
 
   navigateToItem(item: NavigationItem): void {

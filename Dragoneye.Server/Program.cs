@@ -22,6 +22,7 @@ builder.Services.AddOpenApi();
 // Register our custom services
 builder.Services.AddSingleton<PageService>();
 builder.Services.AddTransient<NavigationService>();
+builder.Services.AddTransient<ICultureService, CultureService>();
 
 var app = builder.Build();
 

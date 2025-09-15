@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <!-- Loading State -->
+      <div *ngIf="loading" class="text-center py-5">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading culture data...</span>
+        </div>
+        <p class="mt-3">Loading culture information...</p>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="error" class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        {{ error }}
+      </div>
+
+      <!-- Culture Data -->
+      <div *ngIf="culture && !loading && !error">
+        <!-- Hero Section -->
+        <div class="text-center mb-5">
+          <h1 class="display-4 mb-3">{{ culture.name }} - Culture</h1>
+          <p class="lead text-muted">{{ culture.age | titlecase }} Era Cultural Practices</p>
+          <hr class="my-4">
+        </div>
+
+        <!-- Culture Sections -->
+        <div class="border rounded p-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-people text-primary me-3 fs-3"></i>
+            <h3 class="mb-0">Social Structure</h3>
+          </div>
+          <p class="fs-5 lh-lg">{{ culture.cultureDetails.socialStructure || 'No information available.' }}</p>
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-outline-primary btn-sm">Learn More</button>
+          </div>
+        </div>
+
+        <div class="border rounded p-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-calendar-event text-success me-3 fs-3"></i>
+            <h3 class="mb-0">Daily Life & Entertainment</h3>
+          </div>
+          <p class="fs-5 lh-lg">{{ culture.cultureDetails.dailyLifeAndEntertainment || 'No information available.' }}</p>
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-outline-primary btn-sm">Learn More</button>
+          </div>
+        </div>
+
+        <div class="border rounded p-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-star text-warning me-3 fs-3"></i>
+            <h3 class="mb-0">Traditions & Festivals</h3>
+          </div>
+          <p class="fs-5 lh-lg">{{ culture.cultureDetails.traditionsAndFestivals || 'No information available.' }}</p>
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-outline-primary btn-sm">Learn More</button>
+          </div>
+        </div>
+
+        <div class="border rounded p-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-globe text-info me-3 fs-3"></i>
+            <h3 class="mb-0">Relations with Other Cultures</h3>
+          </div>
+          <p class="fs-5 lh-lg">{{ culture.cultureDetails.otherCultures || 'No information available.' }}</p>
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-outline-primary btn-sm">Learn More</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Not Found State -->
+      <div *ngIf="!culture && !loading && !error" class="text-center py-5">
+        <i class="bi bi-search display-1 text-muted"></i>
+        <h3 class="mt-3">Culture Not Found</h3>
+        <p class="text-muted">The requested culture could not be found.</p>
+      </div>
+    </div>
+  </div>
+</div>
