@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { Culture } from './models/page.model';
 
@@ -16,6 +17,8 @@ export class AppComponent {
   cultureEditorActiveTab = 'basic';
   
   @ViewChild('sidebar') sidebar!: SidebarComponent;
+  
+  constructor(private router: Router) {}
   
   toggleMobileSidebar(): void {
     if (this.sidebar) {
@@ -55,13 +58,15 @@ export class AppComponent {
 
   onCultureCreated(culture: Culture): void {
     console.log('Culture created:', culture);
-    // TODO: Refresh any culture lists or navigate to the new culture
     this.closeCultureEditor();
+    // Navigate to the new culture page
+    this.router.navigate(['/wiki/culture-overview', culture.id]);
   }
 
   onCultureUpdated(culture: Culture): void {
     console.log('Culture updated:', culture);
-    // TODO: Refresh the current culture page or handle navigation
     this.closeCultureEditor();
+    // Reload the current page to show updated content
+    window.location.reload();
   }
 }
