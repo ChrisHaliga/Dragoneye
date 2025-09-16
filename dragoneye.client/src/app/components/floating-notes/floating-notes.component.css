@@ -1,0 +1,509 @@
+.floating-notes-container {
+  position: fixed;
+  bottom: 20px; /* Changed from top to bottom */
+  right: 20px;
+  z-index: 1000;
+}
+
+.floating-notes-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  border: 2px solid white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.floating-notes-btn:hover:not(:disabled) {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.floating-notes-btn:active {
+  transform: translateY(0);
+}
+
+.floating-notes-btn:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+/* Notes indicator for when page has notes */
+.notes-indicator {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 12px;
+  height: 12px;
+  background-color: #ffc107;
+  border: 2px solid white;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+/* Modal Styles */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  min-width: 500px;
+  max-width: 700px;
+  width: 90vw;
+  max-height: 80vh;
+  overflow: hidden;
+  animation: slideIn 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f9fa;
+  flex-shrink: 0;
+}
+
+.modal-title-section h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #495057;
+}
+
+.page-id-subtitle {
+  color: #6c757d;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  font-family: 'Courier New', monospace;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6c757d;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+.modal-body {
+  padding: 1.5rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Loading State */
+.loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: #6c757d;
+  gap: 0.5rem;
+}
+
+/* Notes Editor */
+.notes-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 450px;
+}
+
+/* Editor Controls */
+.editor-controls {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.editor-options {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Custom Checkbox Styling */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #495057;
+  gap: 0.5rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin: 0;
+  margin-right: 0.5rem;
+}
+
+.checkmark {
+  font-weight: 500;
+}
+
+/* Rich Text Editor Container */
+.rich-editor-container {
+  flex: 1;
+  min-height: 300px;
+}
+
+.notes-quill-editor {
+  height: 300px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Fix Quill Editor Styling Issues */
+.notes-quill-editor ::ng-deep .ql-toolbar {
+  border: none;
+  border-bottom: 1px solid #e1e5e9;
+  background-color: #f8f9fa;
+  padding: 8px;
+  font-family: inherit;
+}
+
+.notes-quill-editor ::ng-deep .ql-toolbar .ql-formats {
+  margin-right: 15px;
+}
+
+.notes-quill-editor ::ng-deep .ql-toolbar button {
+  height: 24px;
+  width: 24px;
+  margin: 0 2px;
+  border: none;
+  background: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+}
+
+.notes-quill-editor ::ng-deep .ql-toolbar button:hover {
+  background-color: #e9ecef;
+}
+
+.notes-quill-editor ::ng-deep .ql-toolbar button.ql-active {
+  background-color: #007bff;
+  color: white;
+}
+
+.notes-quill-editor ::ng-deep .ql-toolbar .ql-picker {
+  font-size: 14px;
+  height: 24px;
+  line-height: 24px;
+}
+
+.notes-quill-editor ::ng-deep .ql-toolbar .ql-picker-label {
+  height: 24px;
+  line-height: 24px;
+  padding: 0 8px;
+  border: none;
+  background: none;
+}
+
+.notes-quill-editor ::ng-deep .ql-toolbar .ql-picker-options {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.notes-quill-editor ::ng-deep .ql-container {
+  border: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  height: calc(300px - 42px); /* Subtract toolbar height */
+}
+
+.notes-quill-editor ::ng-deep .ql-editor {
+  padding: 12px 15px;
+  line-height: 1.6;
+  height: 100%;
+  overflow-y: auto;
+  border: none;
+  outline: none;
+}
+
+.notes-quill-editor ::ng-deep .ql-editor.ql-blank::before {
+  color: #adb5bd;
+  font-style: italic;
+  left: 15px;
+  right: 15px;
+}
+
+/* Fix icon sizing issues */
+.notes-quill-editor ::ng-deep .ql-toolbar button svg {
+  width: 14px !important;
+  height: 14px !important;
+  display: block;
+}
+
+.notes-quill-editor ::ng-deep .ql-toolbar .ql-stroke {
+  stroke: #444;
+  stroke-width: 1;
+}
+
+.notes-quill-editor ::ng-deep .ql-toolbar .ql-fill {
+  fill: #444;
+}
+
+.notes-quill-editor ::ng-deep .ql-toolbar button:hover .ql-stroke {
+  stroke: #06c;
+}
+
+.notes-quill-editor ::ng-deep .ql-toolbar button:hover .ql-fill {
+  fill: #06c;
+}
+
+.notes-quill-editor ::ng-deep .ql-toolbar button.ql-active .ql-stroke {
+  stroke: white;
+}
+
+.notes-quill-editor ::ng-deep .ql-toolbar button.ql-active .ql-fill {
+  fill: white;
+}
+
+/* Ensure the editor doesn't break layout */
+.notes-quill-editor ::ng-deep * {
+  box-sizing: border-box;
+}
+
+.notes-quill-editor ::ng-deep .ql-tooltip {
+  z-index: 1060;
+}
+
+/* Plain Text Editor Container */
+.plain-editor-container {
+  flex: 1;
+}
+
+.notes-textarea {
+  width: 100%;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 0.75rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 300px;
+  flex: 1;
+}
+
+.notes-textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.notes-textarea::placeholder {
+  color: #adb5bd;
+  line-height: 1.8;
+}
+
+/* Notes Footer */
+.notes-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.notes-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.autosave-toggle {
+  margin-bottom: 0.25rem;
+}
+
+.autosave-toggle .checkbox-label {
+  font-size: 0.85rem;
+  color: #495057;
+}
+
+.last-modified {
+  color: #6c757d;
+  font-size: 0.8rem;
+}
+
+/* Save Status */
+.save-status {
+  font-size: 0.85rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.save-status.saving {
+  color: #856404;
+  background-color: #fff3cd;
+}
+
+.save-status.saved {
+  color: #155724;
+  background-color: #d4edda;
+}
+
+.save-status.error {
+  color: #721c24;
+  background-color: #f8d7da;
+}
+
+/* Action Buttons */
+.notes-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { 
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .floating-notes-container {
+    right: 10px;
+    bottom: 10px; /* Changed from top to bottom */
+  }
+  
+  .floating-notes-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 1.1rem;
+  }
+  
+  .modal-content {
+    min-width: 320px;
+    margin: 0 1rem;
+    max-height: 90vh;
+    width: calc(100vw - 2rem);
+  }
+  
+  .notes-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .notes-actions {
+    justify-content: flex-end;
+  }
+}

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { QuillModule } from 'ngx-quill';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +13,7 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { EditHomepageComponent } from './components/edit-homepage/edit-homepage.component';
+import { StaticHomepageComponent } from './pages/static-homepage.component';
 import { HowToPlayComponent } from './pages/how-to-play/how-to-play.component';
 import { CharacterCreationComponent } from './pages/how-to-play/character-creation/character-creation.component';
 import { ConflictResolutionComponent } from './pages/how-to-play/conflict-resolution/conflict-resolution.component';
@@ -38,6 +40,9 @@ import { StatusEffectsComponent } from './pages/how-to-play/combat/status-effect
 import { TurnsAndInitiativeComponent } from './pages/how-to-play/combat/turns-and-initiative/turns-and-initiative.component';
 import { ActionsAndPassivesComponent } from './pages/how-to-play/combat/actions-and-passives/actions-and-passives.component';
 import { TheBattlefieldComponent } from './pages/how-to-play/combat/the-battlefield/the-battlefield.component';
+import { SettingLoreOverviewComponent } from './pages/setting-lore/setting-lore-overview.component';
+import { WorldBuildingOverviewComponent } from './pages/setting-lore/world-building/world-building-overview.component';
+import { WorldOverviewPageComponent } from './pages/setting-lore/world-building/world-overview-page.component';
 import { AgeOfChaosComponent } from './pages/age-of-chaos/age-of-chaos.component';
 import { AgeOfOrderComponent } from './pages/age-of-order/age-of-order.component';
 import { AgeOfAscensionComponent } from './pages/age-of-ascension/age-of-ascension.component';
@@ -51,6 +56,7 @@ import { LawComponent } from './pages/culture/law/law.component';
 import { ScienceComponent } from './pages/culture/science/science.component';
 import { CultureOverviewComponent } from './pages/culture/culture-overview/culture-overview.component';
 import { CultureDetailComponent } from './pages/culture/pages/culture/culture-detail/culture-detail.component';
+import { FloatingNotesComponent } from './components/floating-notes/floating-notes.component';
 
 @NgModule({
   declarations: [
@@ -100,13 +106,19 @@ import { CultureDetailComponent } from './pages/culture/pages/culture/culture-de
     LawComponent,
     ScienceComponent,
     CultureOverviewComponent,
-    CultureDetailComponent
+    CultureDetailComponent,
+    FloatingNotesComponent
   ],
   imports: [
     BrowserModule, 
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    QuillModule.forRoot(),
+    AppRoutingModule,
+    StaticHomepageComponent,
+    SettingLoreOverviewComponent,
+    WorldBuildingOverviewComponent,
+    WorldOverviewPageComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

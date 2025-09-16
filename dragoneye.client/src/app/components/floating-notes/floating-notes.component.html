@@ -1,0 +1,120 @@
+<!-- Floating Notes Icon -->
+<div class="floating-notes-container">
+  <button class="floating-notes-btn" 
+          [class.has-notes]="hasNotes" 
+          (click)="openModal()" 
+          title="Page Notes"
+          [disabled]="isLoading">
+    <i class="bi bi-journal-text" *ngIf="!isLoading"></i>
+    <i class="bi bi-arrow-clockwise spin" *ngIf="isLoading"></i>
+    <div class="notes-indicator" *ngIf="hasNotes && !isLoading"></div>
+  </button>
+</div>
+
+<!-- Modal -->
+<div class="modal-backdrop" *ngIf="isModalOpen" (click)="onModalBackdropClick($event)">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title-section">
+        <h3>Notes for {{ getPageDisplayName() }}</h3>
+        <small class="page-id-subtitle">{{ currentPageId }}</small>
+      </div>
+      <button class="close-btn" (click)="closeModal()">
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="loading-state">
+        <i class="bi bi-arrow-clockwise spin"></i>
+        <span>Loading notes...</span>
+      </div>
+      
+      <!-- Notes Editor -->
+      <div *ngIf="!isLoading" class="notes-editor">
+        <!-- Editor Controls -->
+        <div class="editor-controls">
+          <div class="editor-options">
+            <label class="checkbox-label">
+              <input type="checkbox" 
+                     [(ngModel)]="isRichTextMode">
+              <span class="checkmark"></span>
+              Rich text formatting
+            </label>
+          </div>
+        </div>
+
+        <!-- Rich Text Editor (Quill) -->
+        <div *ngIf="isRichTextMode" class="rich-editor-container">
+          <quill-editor 
+            [(ngModel)]="noteContent"
+            (onContentChanged)="onQuillContentChange($event)"
+            placeholder="Start typing your notes here... Use the toolbar above for formatting options like bold, lists, and links."
+            theme="snow"
+            class="notes-quill-editor">
+          </quill-editor>
+        </div>
+
+        <!-- Plain Text Editor (fallback) -->
+        <div *ngIf="!isRichTextMode" class="plain-editor-container">
+          <textarea 
+            [(ngModel)]="noteContent" 
+            (input)="onNoteContentChange()"
+            placeholder="Start typing your notes here...&#10;&#10;• Use bullet points for organization&#10;• Track issues, ideas, or reminders&#10;• Notes are saved per page automatically (if auto-save enabled)"
+            class="notes-textarea"
+            rows="12">
+          </textarea>
+        </div>
+        
+        <!-- Note Info and Actions -->
+        <div class="notes-footer">
+          <div class="notes-info">
+            <!-- Auto-save Toggle -->
+            <div class="autosave-toggle">
+              <label class="checkbox-label">
+                <input type="checkbox" 
+                       [(ngModel)]="autoSaveEnabled" 
+                       (change)="onAutoSaveToggle()">
+                <span class="checkmark"></span>
+                Auto-save
+              </label>
+            </div>
+            
+            <!-- Save Status -->
+            <div class="save-status" [ngClass]="{'saving': isSaving, 'saved': saveMessage === 'Saved!', 'error': saveMessage.includes('Error')}">
+              <span *ngIf="saveMessage">{{ saveMessage }}</span>
+            </div>
+            
+            <div *ngIf="currentNote && currentNote.lastModifiedBy" class="last-modified">
+              <small>
+                Last modified by <strong>{{ currentNote.lastModifiedBy }}</strong>
+                <span *ngIf="getFormattedLastModified()"> on {{ getFormattedLastModified() }}</span>
+              </small>
+            </div>
+          </div>
+          
+          <!-- Action Buttons -->
+          <div class="notes-actions">
+            <button class="btn btn-danger btn-sm" 
+                    *ngIf="hasNotes" 
+                    (click)="deleteNote()"
+                    title="Delete this note">
+              <i class="bi bi-trash"></i>
+              Delete
+            </button>
+            
+            <button class="btn btn-primary btn-sm" 
+                    (click)="saveNote()"
+                    [disabled]="isSaving"
+                    title="Save note">
+              <i class="bi bi-floppy" *ngIf="!isSaving"></i>
+              <i class="bi bi-arrow-clockwise spin" *ngIf="isSaving"></i>
+              {{ isSaving ? 'Saving...' : 'Save' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
