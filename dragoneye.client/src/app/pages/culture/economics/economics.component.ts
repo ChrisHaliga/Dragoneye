@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CultureService, CultureData } from '../../../services/culture.service';
+import { CultureService } from '../../../services/culture.service';
+import { Culture } from '../../../models/page.model';
 
 @Component({
   selector: 'app-economics',
@@ -9,7 +10,7 @@ import { CultureService, CultureData } from '../../../services/culture.service';
   styleUrl: './economics.component.css'
 })
 export class EconomicsComponent implements OnInit {
-  culture: CultureData | null = null;
+  culture: Culture | null = null;
   loading = true;
   error: string | null = null;
   cultureId: string = '';

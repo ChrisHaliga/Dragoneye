@@ -57,6 +57,8 @@ import { ScienceComponent } from './pages/culture/science/science.component';
 import { CultureOverviewComponent } from './pages/culture/culture-overview/culture-overview.component';
 import { CultureDetailComponent } from './pages/culture/pages/culture/culture-detail/culture-detail.component';
 import { FloatingNotesComponent } from './components/floating-notes/floating-notes.component';
+import { CultureEditorModalComponent } from './components/culture-editor-modal/culture-editor-modal.component';
+import { FloatingCultureEditComponent } from './components/floating-culture-edit/floating-culture-edit.component';
 
 @NgModule({
   declarations: [
@@ -107,7 +109,9 @@ import { FloatingNotesComponent } from './components/floating-notes/floating-not
     ScienceComponent,
     CultureOverviewComponent,
     CultureDetailComponent,
-    FloatingNotesComponent
+    FloatingNotesComponent,
+    CultureEditorModalComponent,
+    FloatingCultureEditComponent
   ],
   imports: [
     BrowserModule, 

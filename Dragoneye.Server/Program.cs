@@ -34,7 +34,7 @@ builder.Services.AddSingleton<CosmosClient>(serviceProvider =>
         });
 });
 
-// Register Cosmos DB services
+// Register Cosmos DB services for Notes
 builder.Services.AddSingleton<ICosmosDbService<PageNote>>(serviceProvider =>
 {
     var cosmosClient = serviceProvider.GetRequiredService<CosmosClient>();
@@ -45,10 +45,25 @@ builder.Services.AddSingleton<ICosmosDbService<PageNote>>(serviceProvider =>
         throw new InvalidOperationException("CosmosDb configuration section is missing from appsettings.json");
     }
     
-    return new CosmosDbService<PageNote>(cosmosClient, cosmosDbSettings.DatabaseName, cosmosDbSettings.ContainerName);
+    return new CosmosDbService<PageNote>(cosmosClient, cosmosDbSettings.DatabaseName, cosmosDbSettings.Notes.ContainerName);
+});
+
+// Register Cosmos DB services for Cultures
+builder.Services.AddSingleton<ICosmosDbService<Culture>>(serviceProvider =>
+{
+    var cosmosClient = serviceProvider.GetRequiredService<CosmosClient>();
+    var cosmosDbSettings = builder.Configuration.GetSection("CosmosDb").Get<CosmosDbSettings>();
+    
+    if (cosmosDbSettings == null)
+    {
+        throw new InvalidOperationException("CosmosDb configuration section is missing from appsettings.json");
+    }
+    
+    return new CosmosDbService<Culture>(cosmosClient, cosmosDbSettings.DatabaseName, cosmosDbSettings.Cultures.ContainerName);
 });
 
 builder.Services.AddScoped<IPageNotesCosmosService, PageNotesCosmosService>();
+builder.Services.AddScoped<ICulturesCosmosService, CulturesCosmosService>();
 
 // Register initialization service
 builder.Services.AddScoped<CosmosDbInitializationService>();
@@ -92,7 +107,7 @@ app.MapControllers();
 
 app.MapFallbackToFile("/index.html");
 
-// Initialize Cosmos DB database and container on startup
+// Initialize Cosmos DB database and containers on startup
 using (var scope = app.Services.CreateScope())
 {
     try

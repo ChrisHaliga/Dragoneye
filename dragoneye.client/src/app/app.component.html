@@ -1,6 +1,6 @@
 ﻿<div class="app-container">
   <!-- Main Navbar -->
-  <app-navbar (mobileToggle)="toggleMobileSidebar()"></app-navbar>
+  <app-navbar (mobileToggle)="toggleMobileSidebar()" (addCulture)="openCultureEditor()"></app-navbar>
   
   <!-- Content Layout -->
   <div class="content-layout">
@@ -18,4 +18,17 @@
   
   <!-- Floating Notes Component -->
   <app-floating-notes></app-floating-notes>
+  
+  <!-- Floating Culture Edit Component -->
+  <app-floating-culture-edit (editCulture)="openCultureEditorForEdit($event)"></app-floating-culture-edit>
+  
+  <!-- Culture Editor Modal -->
+  <app-culture-editor-modal 
+    [isOpen]="isCultureEditorOpen"
+    [editingCulture]="editingCulture"
+    [initialActiveTab]="cultureEditorActiveTab"
+    (closeModal)="closeCultureEditor()"
+    (cultureCreated)="onCultureCreated($event)"
+    (cultureUpdated)="onCultureUpdated($event)">
+  </app-culture-editor-modal>
 </div>

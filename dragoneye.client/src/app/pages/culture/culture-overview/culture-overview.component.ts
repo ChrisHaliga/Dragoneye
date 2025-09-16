@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CultureService, CultureData } from '../../../services/culture.service';
+import { CultureService } from '../../../services/culture.service';
+import { Culture } from '../../../models/page.model';
 
 @Component({
   selector: 'app-culture-overview',
@@ -9,7 +10,7 @@ import { CultureService, CultureData } from '../../../services/culture.service';
   styleUrl: './culture-overview.component.css'
 })
 export class CultureOverviewComponent implements OnInit, AfterViewInit {
-  culture: CultureData | null = null;
+  culture: Culture | null = null;
   loading = true;
   error: string | null = null;
   cultureId: string = '';

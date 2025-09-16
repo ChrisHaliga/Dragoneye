@@ -1,18 +1,48 @@
+using System.Text.Json.Serialization;
+
 namespace Dragoneye.Server.Models
 {
     public class Culture
     {
+        [JsonPropertyName("id")]
         public string Id { get; set; } = string.Empty;
+        
+        [JsonPropertyName("name")]
         public string Name { get; set; } = string.Empty;
+        
+        [JsonPropertyName("age")]
         public string Age { get; set; } = string.Empty; // "chaos", "order", "ascension"
+        
+        [JsonPropertyName("politics")]
         public PoliticsData Politics { get; set; } = new();
+        
+        [JsonPropertyName("geography")]
         public GeographyData Geography { get; set; } = new();
+        
+        [JsonPropertyName("economics")]
         public EconomicsData Economics { get; set; } = new();
+        
+        [JsonPropertyName("history")]
         public HistoryData History { get; set; } = new();
+        
+        [JsonPropertyName("cultureDetails")]
         public CultureDetails CultureDetails { get; set; } = new();
+        
+        [JsonPropertyName("religion")]
         public ReligionData Religion { get; set; } = new();
+        
+        [JsonPropertyName("law")]
         public LawData Law { get; set; } = new();
+        
+        [JsonPropertyName("science")]
         public ScienceData Science { get; set; } = new();
+        
+        [JsonPropertyName("_etag")]
+        public string? ETag { get; set; }
+        
+        // Partition key for Cosmos DB - using id
+        [JsonPropertyName("partitionKey")]
+        public string PartitionKey => Id;
     }
 
     public class CultureSummary

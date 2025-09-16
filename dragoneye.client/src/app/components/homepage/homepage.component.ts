@@ -65,7 +65,7 @@ export class HomepageComponent implements OnInit {
     
     if (page && page.section) {
       const section = encodeURIComponent(page.section);
-      const subsection = page.subsection ? encodeURIComponent(page.subsection) : null;
+      const subsection = page.section ? encodeURIComponent(page.section) : null;
       const title = encodeURIComponent(page.title);
       
       if (subsection) {

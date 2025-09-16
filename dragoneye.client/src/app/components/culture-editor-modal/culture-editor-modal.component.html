@@ -1,0 +1,421 @@
+<!-- Modal Backdrop -->
+<div class="modal-backdrop" *ngIf="isOpen" (click)="onBackdropClick($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <div class="modal-title-section">
+        <h3>{{ isEditMode ? 'Edit Culture' : 'Add New Culture' }}</h3>
+        <p class="text-muted mb-0">{{ isEditMode ? 'Modify this culture for your world' : 'Create a comprehensive culture for your world' }}</p>
+      </div>
+      <button class="close-btn" (click)="onClose()" [disabled]="isLoading">
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+
+    <!-- Error Message -->
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+      
+      <!-- Tab Navigation -->
+      <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+          <button class="nav-link" [class.active]="activeTab === 'basic'" (click)="setActiveTab('basic')">
+            <i class="bi bi-info-circle"></i><span>Basic Info</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" [class.active]="activeTab === 'politics'" (click)="setActiveTab('politics')">
+            <i class="bi bi-bank"></i><span>Politics</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" [class.active]="activeTab === 'geography'" (click)="setActiveTab('geography')">
+            <i class="bi bi-geo"></i><span>Geography</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" [class.active]="activeTab === 'economics'" (click)="setActiveTab('economics')">
+            <i class="bi bi-currency-dollar"></i><span>Economics</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" [class.active]="activeTab === 'history'" (click)="setActiveTab('history')">
+            <i class="bi bi-clock-history"></i><span>History</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" [class.active]="activeTab === 'culture'" (click)="setActiveTab('culture')">
+            <i class="bi bi-people"></i><span>Culture</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" [class.active]="activeTab === 'religion'" (click)="setActiveTab('religion')">
+            <i class="bi bi-brightness-high"></i><span>Religion</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" [class.active]="activeTab === 'law'" (click)="setActiveTab('law')">
+            <i class="bi bi-shield-check"></i><span>Law</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" [class.active]="activeTab === 'science'" (click)="setActiveTab('science')">
+            <i class="bi bi-lightbulb"></i><span>Science</span>
+          </button>
+        </li>
+      </ul>
+
+      <!-- Tab Content -->
+      <div class="tab-content">
+        
+        <!-- Basic Info Tab -->
+        <div class="tab-pane" [class.active]="activeTab === 'basic'">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="cultureName" class="form-label">Culture Name <span class="text-danger">*</span></label>
+                <input type="text" 
+                       class="form-control" 
+                       id="cultureName" 
+                       [(ngModel)]="culture.name" 
+                       (blur)="generateId()"
+                       placeholder="e.g., Human Kingdoms"
+                       required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="cultureAge" class="form-label">Age <span class="text-danger">*</span></label>
+                <select class="form-select" id="cultureAge" [(ngModel)]="culture.age" (change)="generateId()" required>
+                  <option *ngFor="let age of ages" [value]="age.value">{{ age.label }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="cultureId" class="form-label">Culture ID</label>
+                <input type="text" 
+                       class="form-control" 
+                       id="cultureId" 
+                       [(ngModel)]="culture.id" 
+                       [readonly]="isEditMode"
+                       placeholder="Auto-generated from name and age">
+                <small class="form-text text-muted">
+                  {{ isEditMode ? 'Culture ID cannot be changed when editing' : 'This will be auto-generated, but you can customize it' }}
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Politics Tab -->
+        <div class="tab-pane" [class.active]="activeTab === 'politics'">
+          <div class="mb-3">
+            <label for="governanceSystems" class="form-label">Governance Systems</label>
+            <textarea class="form-control" 
+                      id="governanceSystems" 
+                      rows="3" 
+                      [(ngModel)]="culture.politics.governanceSystems"
+                      placeholder="Describe the political systems and government structures..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="powerDistribution" class="form-label">Power Distribution</label>
+            <textarea class="form-control" 
+                      id="powerDistribution" 
+                      rows="3" 
+                      [(ngModel)]="culture.politics.powerDistribution"
+                      placeholder="How is power distributed among different groups..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="diplomacy" class="form-label">Diplomacy</label>
+            <textarea class="form-control" 
+                      id="diplomacy" 
+                      rows="3" 
+                      [(ngModel)]="culture.politics.diplomacy"
+                      placeholder="How do they conduct diplomatic relations..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="politicalMovements" class="form-label">Political Movements</label>
+            <textarea class="form-control" 
+                      id="politicalMovements" 
+                      rows="3" 
+                      [(ngModel)]="culture.politics.politicalMovements"
+                      placeholder="Current political movements and factions..."></textarea>
+          </div>
+        </div>
+
+        <!-- Geography Tab -->
+        <div class="tab-pane" [class.active]="activeTab === 'geography'">
+          <div class="mb-3">
+            <label for="physicalLandscape" class="form-label">Physical Landscape</label>
+            <textarea class="form-control" 
+                      id="physicalLandscape" 
+                      rows="3" 
+                      [(ngModel)]="culture.geography.physicalLandscape"
+                      placeholder="Describe the terrain, climate, and natural features..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="settlements" class="form-label">Settlements</label>
+            <textarea class="form-control" 
+                      id="settlements" 
+                      rows="3" 
+                      [(ngModel)]="culture.geography.settlements"
+                      placeholder="Major cities, towns, and settlement patterns..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="territories" class="form-label">Territories</label>
+            <textarea class="form-control" 
+                      id="territories" 
+                      rows="3" 
+                      [(ngModel)]="culture.geography.territories"
+                      placeholder="Territorial boundaries and controlled regions..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="travelRoutes" class="form-label">Travel Routes</label>
+            <textarea class="form-control" 
+                      id="travelRoutes" 
+                      rows="3" 
+                      [(ngModel)]="culture.geography.travelRoutes"
+                      placeholder="Trade routes, roads, and transportation networks..."></textarea>
+          </div>
+        </div>
+
+        <!-- Economics Tab -->
+        <div class="tab-pane" [class.active]="activeTab === 'economics'">
+          <div class="mb-3">
+            <label for="tradeAndCommerce" class="form-label">Trade and Commerce</label>
+            <textarea class="form-control" 
+                      id="tradeAndCommerce" 
+                      rows="3" 
+                      [(ngModel)]="culture.economics.tradeAndCommerce"
+                      placeholder="Trading practices, merchants, and commercial activities..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="currency" class="form-label">Currency</label>
+            <textarea class="form-control" 
+                      id="currency" 
+                      rows="3" 
+                      [(ngModel)]="culture.economics.currency"
+                      placeholder="Monetary systems and forms of exchange..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="resources" class="form-label">Resources</label>
+            <textarea class="form-control" 
+                      id="resources" 
+                      rows="3" 
+                      [(ngModel)]="culture.economics.resources"
+                      placeholder="Natural resources, agriculture, and raw materials..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="economicSystems" class="form-label">Economic Systems</label>
+            <textarea class="form-control" 
+                      id="economicSystems" 
+                      rows="3" 
+                      [(ngModel)]="culture.economics.economicSystems"
+                      placeholder="Overall economic structure and principles..."></textarea>
+          </div>
+        </div>
+
+        <!-- History Tab -->
+        <div class="tab-pane" [class.active]="activeTab === 'history'">
+          <div class="mb-3">
+            <label for="origins" class="form-label">Origins</label>
+            <textarea class="form-control" 
+                      id="origins" 
+                      rows="3" 
+                      [(ngModel)]="culture.history.origins"
+                      placeholder="How this culture began and early development..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="majorEvents" class="form-label">Major Events</label>
+            <textarea class="form-control" 
+                      id="majorEvents" 
+                      rows="3" 
+                      [(ngModel)]="culture.history.majorEvents"
+                      placeholder="Significant historical events and milestones..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="conflicts" class="form-label">Conflicts</label>
+            <textarea class="form-control" 
+                      id="conflicts" 
+                      rows="3" 
+                      [(ngModel)]="culture.history.conflicts"
+                      placeholder="Wars, disputes, and major conflicts..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="transitions" class="form-label">Transitions</label>
+            <textarea class="form-control" 
+                      id="transitions" 
+                      rows="3" 
+                      [(ngModel)]="culture.history.transitions"
+                      placeholder="Major transitions and transformations..."></textarea>
+          </div>
+        </div>
+
+        <!-- Culture Tab -->
+        <div class="tab-pane" [class.active]="activeTab === 'culture'">
+          <div class="mb-3">
+            <label for="socialStructure" class="form-label">Social Structure</label>
+            <textarea class="form-control" 
+                      id="socialStructure" 
+                      rows="3" 
+                      [(ngModel)]="culture.cultureDetails.socialStructure"
+                      placeholder="Class systems, social hierarchy, and organization..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="dailyLifeAndEntertainment" class="form-label">Daily Life and Entertainment</label>
+            <textarea class="form-control" 
+                      id="dailyLifeAndEntertainment" 
+                      rows="3" 
+                      [(ngModel)]="culture.cultureDetails.dailyLifeAndEntertainment"
+                      placeholder="How people live day-to-day and what they do for fun..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="traditionsAndFestivals" class="form-label">Traditions and Festivals</label>
+            <textarea class="form-control" 
+                      id="traditionsAndFestivals" 
+                      rows="3" 
+                      [(ngModel)]="culture.cultureDetails.traditionsAndFestivals"
+                      placeholder="Cultural traditions, ceremonies, and celebrations..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="otherCultures" class="form-label">Relations with Other Cultures</label>
+            <textarea class="form-control" 
+                      id="otherCultures" 
+                      rows="3" 
+                      [(ngModel)]="culture.cultureDetails.otherCultures"
+                      placeholder="How they interact with and view other cultures..."></textarea>
+          </div>
+        </div>
+
+        <!-- Religion Tab -->
+        <div class="tab-pane" [class.active]="activeTab === 'religion'">
+          <div class="mb-3">
+            <label for="beliefsAndPantheon" class="form-label">Beliefs and Pantheon</label>
+            <textarea class="form-control" 
+                      id="beliefsAndPantheon" 
+                      rows="3" 
+                      [(ngModel)]="culture.religion.beliefsAndPantheon"
+                      placeholder="Religious beliefs, gods, and spiritual concepts..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="practices" class="form-label">Practices</label>
+            <textarea class="form-control" 
+                      id="practices" 
+                      rows="3" 
+                      [(ngModel)]="culture.religion.practices"
+                      placeholder="Religious rituals, ceremonies, and practices..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="organizations" class="form-label">Organizations</label>
+            <textarea class="form-control" 
+                      id="organizations" 
+                      rows="3" 
+                      [(ngModel)]="culture.religion.organizations"
+                      placeholder="Religious institutions, clergy, and organizations..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="influence" class="form-label">Influence</label>
+            <textarea class="form-control" 
+                      id="influence" 
+                      rows="3" 
+                      [(ngModel)]="culture.religion.influence"
+                      placeholder="How religion influences society and daily life..."></textarea>
+          </div>
+        </div>
+
+        <!-- Law Tab -->
+        <div class="tab-pane" [class.active]="activeTab === 'law'">
+          <div class="mb-3">
+            <label for="legalSystems" class="form-label">Legal Systems</label>
+            <textarea class="form-control" 
+                      id="legalSystems" 
+                      rows="3" 
+                      [(ngModel)]="culture.law.legalSystems"
+                      placeholder="How laws are made and the legal framework..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="enforcement" class="form-label">Enforcement</label>
+            <textarea class="form-control" 
+                      id="enforcement" 
+                      rows="3" 
+                      [(ngModel)]="culture.law.enforcement"
+                      placeholder="How laws are enforced and by whom..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="justice" class="form-label">Justice</label>
+            <textarea class="form-control" 
+                      id="justice" 
+                      rows="3" 
+                      [(ngModel)]="culture.law.justice"
+                      placeholder="Court systems and how justice is administered..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="crimesAndPunishments" class="form-label">Crimes and Punishments</label>
+            <textarea class="form-control" 
+                      id="crimesAndPunishments" 
+                      rows="3" 
+                      [(ngModel)]="culture.law.crimesAndPunishments"
+                      placeholder="What constitutes crime and how it's punished..."></textarea>
+          </div>
+        </div>
+
+        <!-- Science Tab -->
+        <div class="tab-pane" [class.active]="activeTab === 'science'">
+          <div class="mb-3">
+            <label for="knowledgeAndEducation" class="form-label">Knowledge and Education</label>
+            <textarea class="form-control" 
+                      id="knowledgeAndEducation" 
+                      rows="3" 
+                      [(ngModel)]="culture.science.knowledgeAndEducation"
+                      placeholder="How knowledge is preserved and education is conducted..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="technology" class="form-label">Technology</label>
+            <textarea class="form-control" 
+                      id="technology" 
+                      rows="3" 
+                      [(ngModel)]="culture.science.technology"
+                      placeholder="Technological capabilities and innovations..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="research" class="form-label">Research</label>
+            <textarea class="form-control" 
+                      id="research" 
+                      rows="3" 
+                      [(ngModel)]="culture.science.research"
+                      placeholder="How research is conducted and supported..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="innovation" class="form-label">Innovation</label>
+            <textarea class="form-control" 
+                      id="innovation" 
+                      rows="3" 
+                      [(ngModel)]="culture.science.innovation"
+                      placeholder="Attitudes toward and methods of innovation..."></textarea>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="onClose()" [disabled]="isLoading">
+        Cancel
+      </button>
+      <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="isLoading">
+        <i class="bi bi-arrow-clockwise spin me-2" *ngIf="isLoading"></i>
+        <i class="bi bi-check-lg me-2" *ngIf="!isLoading && isEditMode"></i>
+        <i class="bi bi-plus-lg me-2" *ngIf="!isLoading && !isEditMode"></i>
+        {{ isLoading ? (isEditMode ? 'Updating...' : 'Creating...') : (isEditMode ? 'Update Culture' : 'Create Culture') }}
+      </button>
+    </div>
+
+  </div>
+</div>

@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent {
   @Output() mobileToggle = new EventEmitter<void>();
+  @Output() addCulture = new EventEmitter<void>();
   
   searchTerm: string = '';
 
@@ -48,5 +49,9 @@ export class NavbarComponent {
     console.log('Recent changes requested');
     // TODO: Implement recent changes functionality
     // this.router.navigate(['/recent']);
+  }
+
+  onAddCulture(): void {
+    this.addCulture.emit();
   }
 }

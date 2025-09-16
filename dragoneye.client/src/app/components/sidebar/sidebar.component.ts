@@ -2,7 +2,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { NavigationItem } from '../../models/page.model';
-import { CultureService, CultureSummary } from '../../services/culture.service';
+import { CultureService } from '../../services/culture.service';
+import { CultureSummary } from '../../models/page.model';
 
 @Component({
   selector: 'app-sidebar',
@@ -135,11 +136,11 @@ export class SidebarComponent implements OnInit {
 
   private loadCultures(): void {
     console.log('Loading cultures for sidebar...');
-    this.cultureService.getAllCultures().subscribe({
-      next: (cultures) => {
+    this.cultureService.getAllCultureSummaries().subscribe({
+      next: (cultures: CultureSummary[]) => {
         this.populateAgesWithCultures(cultures);
       },
-      error: (error) => {
+      error: (error: any) => {
         // Continue with empty culture lists if loading fails
       }
     });
@@ -153,12 +154,12 @@ export class SidebarComponent implements OnInit {
 
     // Define culture subcategories (3rd order navigation)
     const cultureSubcategories = [
-      { title: 'Politics', route: 'politics', icon: 'bi-building' },
-      { title: 'Geography', route: 'geography', icon: 'bi-geo-alt' },
-      { title: 'Economics', route: 'economics', icon: 'bi-currency-exchange' },
+      { title: 'Politics', route: 'politics', icon: 'bi-bank' },
+      { title: 'Geography', route: 'geography', icon: 'bi-geo' },
+      { title: 'Economics', route: 'economics', icon: 'bi-currency-dollar' },
       { title: 'History', route: 'history', icon: 'bi-clock-history' },
       { title: 'Culture', route: 'culture', icon: 'bi-people' },
-      { title: 'Religion', route: 'religion', icon: 'bi-star' },
+      { title: 'Religion', route: 'religion', icon: 'bi-brightness-high' },
       { title: 'Law', route: 'law', icon: 'bi-shield-check' },
       { title: 'Science', route: 'science', icon: 'bi-lightbulb' }
     ];

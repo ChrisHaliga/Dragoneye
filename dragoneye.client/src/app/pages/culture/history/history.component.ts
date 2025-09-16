@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CultureService, CultureData } from '../../../services/culture.service';
+import { CultureService } from '../../../services/culture.service';
+import { Culture } from '../../../models/page.model';
 
 @Component({
   selector: 'app-history',
@@ -9,7 +10,7 @@ import { CultureService, CultureData } from '../../../services/culture.service';
   styleUrl: './history.component.css'
 })
 export class HistoryComponent implements OnInit {
-  culture: CultureData | null = null;
+  culture: Culture | null = null;
   loading = true;
   error: string | null = null;
   cultureId: string = '';
