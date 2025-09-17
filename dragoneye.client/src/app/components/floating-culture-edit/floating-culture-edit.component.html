@@ -1,5 +1,5 @@
-<!-- Floating Culture Edit Button -->
-<div class="floating-edit-container" *ngIf="isVisible">
+<!-- Floating Culture Edit Button (only show when authenticated and on culture page) -->
+<div class="floating-edit-container" *ngIf="isVisible && (isAuthenticated$ | async)">
   <button class="floating-edit-btn" 
           (click)="onEditClick()" 
           title="Edit Culture"

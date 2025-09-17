@@ -1,5 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -12,8 +14,16 @@ export class NavbarComponent {
   @Output() addCulture = new EventEmitter<void>();
   
   searchTerm: string = '';
+  isAuthenticated$: Observable<boolean>;
+  user$: Observable<any>;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) { 
+    this.isAuthenticated$ = this.authService.isAuthenticated$;
+    this.user$ = this.authService.user$;
+  }
 
   onMobileToggle(): void {
     this.mobileToggle.emit();
@@ -53,5 +63,13 @@ export class NavbarComponent {
 
   onAddCulture(): void {
     this.addCulture.emit();
+  }
+
+  onLogin(): void {
+    this.authService.login();
+  }
+
+  onLogout(): void {
+    this.authService.logout();
   }
 }

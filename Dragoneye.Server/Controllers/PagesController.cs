@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Dragoneye.Server.Models;
 using Dragoneye.Server.Services;
 
@@ -65,6 +66,7 @@ namespace Dragoneye.Server.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public ActionResult<Homepage> UpdateHomepage([FromBody] Homepage homepage)
         {
             var updatedHomepage = _pageService.UpdateHomepage(homepage);

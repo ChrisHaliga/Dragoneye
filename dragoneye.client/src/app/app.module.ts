@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { QuillModule } from 'ngx-quill';
+import { AuthModule, AuthHttpInterceptor } from '@auth0/auth0-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { environment } from '../environments/environment';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { PageViewComponent } from './components/page-view/page-view.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
@@ -122,9 +124,27 @@ import { FloatingCultureEditComponent } from './components/floating-culture-edit
     StaticHomepageComponent,
     SettingLoreOverviewComponent,
     WorldBuildingOverviewComponent,
-    WorldOverviewPageComponent
+    WorldOverviewPageComponent,
+    AuthModule.forRoot({
+      domain: environment.auth.domain,
+      clientId: environment.auth.clientId,
+      authorizationParams: {
+        redirect_uri: environment.auth.redirectUri,
+        audience: environment.auth.audience,
+        scope: 'openid profile email'
+      },
+      httpInterceptor: {
+        allowedList: [
+          '/api/*',
+          'https://localhost:62251/api/*',
+          'https://localhost:7147/*'
+        ]
+      }
+    })
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

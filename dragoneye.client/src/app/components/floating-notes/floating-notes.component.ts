@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { filter, takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Subject, fromEvent } from 'rxjs';
+import { filter, takeUntil, debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
+import { Subject, fromEvent, Observable } from 'rxjs';
 import { NotesService, PageNote, PageNoteRequest } from '../../services/notes.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-floating-notes',
@@ -21,6 +22,7 @@ export class FloatingNotesComponent implements OnInit, OnDestroy {
   hasNotes = false;
   autoSaveEnabled = false; // Default to false
   isRichTextMode = true; // Toggle between rich text and plain text
+  isAuthenticated$: Observable<boolean>;
   
   private destroy$ = new Subject<void>();
   private saveSubject = new Subject<string>();
@@ -28,8 +30,11 @@ export class FloatingNotesComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router, 
     private route: ActivatedRoute,
-    private notesService: NotesService
-  ) {}
+    private notesService: NotesService,
+    private authService: AuthService
+  ) {
+    this.isAuthenticated$ = this.authService.isAuthenticated$;
+  }
 
   ngOnInit(): void {
     // Listen for route changes to update page ID
@@ -157,37 +162,40 @@ export class FloatingNotesComponent implements OnInit, OnDestroy {
     this.isSaving = true;
     this.saveMessage = 'Saving...';
 
-    const request: PageNoteRequest = {
-      pageId: this.currentPageId,
-      content: this.noteContent,
-      modifiedBy: 'User' // In a real app, this would come from authentication
-    };
+    // Get current user info from auth service
+    this.authService.user$.pipe(take(1)).subscribe(user => {
+      const request: PageNoteRequest = {
+        pageId: this.currentPageId,
+        content: this.noteContent,
+        modifiedBy: (user as any)?.name || (user as any)?.email || 'Anonymous User'
+      };
 
-    this.notesService.savePageNote(request)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (savedNote) => {
-          this.currentNote = savedNote;
-          this.hasNotes = savedNote.content.trim().length > 0;
-          this.isSaving = false;
-          this.saveMessage = 'Saved!';
-          
-          // Clear success message after 2 seconds
-          setTimeout(() => {
-            this.saveMessage = '';
-          }, 2000);
-        },
-        error: (error) => {
-          console.error('Error saving note:', error);
-          this.isSaving = false;
-          this.saveMessage = 'Error saving note';
-          
-          // Clear error message after 3 seconds
-          setTimeout(() => {
-            this.saveMessage = '';
-          }, 3000);
-        }
-      });
+      this.notesService.savePageNote(request)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (savedNote) => {
+            this.currentNote = savedNote;
+            this.hasNotes = savedNote.content.trim().length > 0;
+            this.isSaving = false;
+            this.saveMessage = 'Saved!';
+            
+            // Clear success message after 2 seconds
+            setTimeout(() => {
+              this.saveMessage = '';
+            }, 2000);
+          },
+          error: (error) => {
+            console.error('Error saving note:', error);
+            this.isSaving = false;
+            this.saveMessage = 'Error saving note';
+            
+            // Clear error message after 3 seconds
+            setTimeout(() => {
+              this.saveMessage = '';
+            }, 3000);
+          }
+        });
+    });
   }
 
   private autoSaveNote(content: string): void {

@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { Culture } from '../../models/page.model';
 import { CultureService } from '../../services/culture.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-floating-culture-edit',
@@ -18,14 +19,18 @@ export class FloatingCultureEditComponent implements OnInit, OnDestroy {
   isLoading = false;
   currentCultureId = '';
   currentTab = 'basic';
+  isAuthenticated$: Observable<boolean>;
   
   private destroy$ = new Subject<void>();
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private cultureService: CultureService
-  ) {}
+    private cultureService: CultureService,
+    private authService: AuthService
+  ) {
+    this.isAuthenticated$ = this.authService.isAuthenticated$;
+  }
 
   ngOnInit(): void {
     // Listen to route changes

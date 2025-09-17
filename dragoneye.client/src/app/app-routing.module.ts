@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { StaticHomepageComponent } from './pages/static-homepage.component';
 import { EditHomepageComponent } from './components/edit-homepage/edit-homepage.component';
+import { AuthGuard } from './services/auth.guard';
 
 // How to Play Components
 import { HowToPlayComponent } from './pages/how-to-play/how-to-play.component';
@@ -55,7 +56,7 @@ import { CultureOverviewComponent } from './pages/culture/culture-overview/cultu
 const routes: Routes = [
   { path: '', component: StaticHomepageComponent, pathMatch: 'full' },
   { path: 'home', component: StaticHomepageComponent },
-  { path: 'edit/home', component: EditHomepageComponent },
+  { path: 'edit/home', component: EditHomepageComponent, canActivate: [AuthGuard] },
   
   // How to Play Section
   { path: 'wiki/how-to-play', component: HowToPlayComponent },

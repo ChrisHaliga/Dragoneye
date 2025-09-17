@@ -1,5 +1,5 @@
 <!-- Floating Notes Icon -->
-<div class="floating-notes-container">
+<div class="floating-notes-container" *ngIf="isAuthenticated$ | async">
   <button class="floating-notes-btn" 
           [class.has-notes]="hasNotes" 
           (click)="openModal()" 
