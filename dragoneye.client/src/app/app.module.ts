@@ -14,8 +14,6 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { EditHomepageComponent } from './components/edit-homepage/edit-homepage.component';
-import { StaticHomepageComponent } from './pages/static-homepage.component';
 import { HowToPlayComponent } from './pages/how-to-play/how-to-play.component';
 import { CharacterCreationComponent } from './pages/how-to-play/character-creation/character-creation.component';
 import { ConflictResolutionComponent } from './pages/how-to-play/conflict-resolution/conflict-resolution.component';
@@ -71,7 +69,6 @@ import { FloatingCultureEditComponent } from './components/floating-culture-edit
     PageHeaderComponent,
     HomepageComponent,
     NavbarComponent,
-    EditHomepageComponent,
     HowToPlayComponent,
     CharacterCreationComponent,
     ConflictResolutionComponent,
@@ -121,7 +118,6 @@ import { FloatingCultureEditComponent } from './components/floating-culture-edit
     HttpClientModule,
     QuillModule.forRoot(),
     AppRoutingModule,
-    StaticHomepageComponent,
     SettingLoreOverviewComponent,
     WorldBuildingOverviewComponent,
     WorldOverviewPageComponent,
