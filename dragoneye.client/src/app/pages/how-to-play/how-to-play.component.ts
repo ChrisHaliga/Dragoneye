@@ -8,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class HowToPlayComponent {
 
+  navigateToGettingStarted() {
+    window.location.href = '/wiki/how-to-play/getting-started';
+  }
+
+  navigateToCharacterCreator() {
+    window.location.href = '/wiki/how-to-play/character-creation';
+  }
 }

@@ -1,44 +1,84 @@
-<nav class="main-navbar">
+<nav class="navbar navbar-expand-md navbar-light main-navbar">
   <div class="container-fluid">
-    <div class="navbar-content">
-      <!-- Left: Branding + Mobile Close -->
-      <div class="navbar-brand">
-        <!-- Mobile close button - styled like hamburger -->
-        <button class="mobile-close-btn d-md-none" 
-                (click)="onMobileToggle()">
-          <i class="bi bi-list"></i>
-        </button>
-        <img src="/logo.png" alt="Dragoneye Logo" class="navbar-logo d-none d-sm-inline">
-        <span class="brand-text">Dragoneye Wiki</span>
-      </div>
+    <!-- Brand + optional mobile sidebar toggle -->
+    <a class="navbar-brand d-flex align-items-center" href="#" (click)="$event.preventDefault()">
+      <button class="mobile-close-btn d-md-none me-2" (click)="onMobileToggle()" title="Menu">
+        <i class="bi bi-list"></i>
+      </button>
+      <img src="/logo.png" alt="Dragoneye Logo" class="navbar-logo d-none d-sm-inline">
+      <span class="brand-text ms-2">Dragoneye Wiki</span>
+    </a>
 
-      <!-- Center: Search Bar -->
-      <div class="navbar-search">
-        <div class="search-container">
-          <input type="text" 
-                 class="form-control search-input" 
-                 placeholder="Search pages..."
-                 [(ngModel)]="searchTerm"
-                 (keyup.enter)="onSearch()">
-          <button class="search-btn" type="button" (click)="onSearch()">
+    <!-- Navbar collapse toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <!-- Left: primary nav -->
+      <ul class="navbar-nav me-3 mt-2 mt-md-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tools</a>
+          <ul class="dropdown-menu">
+            <ng-container *ngIf="isAuthenticated$ | async">
+              <li><a class="dropdown-item" href="#" (click)="onCardEditor()">Card Editor</a></li>
+              <li><a class="dropdown-item" href="#" (click)="onDomainEditor()">Domain Editor</a></li>
+              <li><hr class="dropdown-divider"></li>
+            </ng-container>
+            <li><a class="dropdown-item" href="#">Character Generator</a></li>
+            <li><a class="dropdown-item" href="#">Virtual Tabletop</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Resources</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Printouts</a></li>
+            <li><a class="dropdown-item" href="#">Beastiary</a></li>
+            <li><a class="dropdown-item" href="#">Sample Adventures</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Feedback</a></li>
+            <li><a class="dropdown-item" href="#">For Developers</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- Center: search -->
+      <form class="d-flex flex-grow-1 justify-content-center px-2 my-2 my-md-0" role="search" (submit)="$event.preventDefault(); onSearch()">
+        <div class="input-group" style="max-width: 650px; width: 100%;">
+          <input type="text" class="form-control rounded-pill" placeholder="Search pages..." [(ngModel)]="searchTerm" name="q">
+          <button class="btn btn-outline-secondary ms-2 rounded-pill" type="button" (click)="onSearch()">
             <i class="bi bi-search"></i>
           </button>
         </div>
-      </div>
+      </form>
 
-      <!-- Right: Auth & Actions -->
-      <div class="navbar-actions">
-        <!-- Auth section -->
-        <div *ngIf="isAuthenticated$ | async; else loginButton" class="auth-section">
-          <div class="dropdown">
-            <button class="action-btn user-btn" 
-                    type="button" 
-                    title="User Menu"
-                    data-bs-toggle="dropdown" 
-                    aria-expanded="false">
-              <i class="bi bi-person-circle"></i>
+      <!-- Right: actions/auth -->
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item" *ngIf="!(isAuthenticated$ | async)">
+          <button class="btn btn-outline-primary ms-2" (click)="onLogin()">
+            <i class="bi bi-box-arrow-in-right me-1"></i>Login
+          </button>
+        </li>
+        <ng-container *ngIf="isAuthenticated$ | async">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Add New">Add</a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#" (click)="onNewPage()"><i class="bi bi-file-text me-2"></i>New Page</a></li>
+              <li><a class="dropdown-item" href="#" (click)="onAddCulture()"><i class="bi bi-people me-2"></i>Add Culture</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Settings">Settings</a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Preferences</a></li>
+              <li><a class="dropdown-item" href="#"><i class="bi bi-shield me-2"></i>Privacy</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="User Menu">
+              <i class="bi bi-person-circle me-1"></i>
               <span class="user-name d-none d-md-inline">{{ (user$ | async)?.name || (user$ | async)?.email }}</span>
-            </button>
+            </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
               <li><a class="dropdown-item" href="#"><i class="bi bi-palette me-2"></i>Theme</a></li>
@@ -46,46 +86,9 @@
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#" (click)="onLogout()"><i class="bi bi-box-arrow-right me-2"></i>Sign Out</a></li>
             </ul>
-          </div>
-        </div>
-        
-        <ng-template #loginButton>
-          <button class="btn btn-outline-primary me-2" (click)="onLogin()">
-            <i class="bi bi-box-arrow-in-right me-1"></i>Login
-          </button>
-        </ng-template>
-
-        <!-- New/Add dropdown (only show when authenticated) -->
-        <div class="dropdown" *ngIf="isAuthenticated$ | async">
-          <button class="action-btn" 
-                  type="button" 
-                  title="Add New"
-                  data-bs-toggle="dropdown" 
-                  aria-expanded="false">
-            <i class="bi bi-plus-lg"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#" (click)="onNewPage()"><i class="bi bi-file-text me-2"></i>New Page</a></li>
-            <li><a class="dropdown-item" href="#" (click)="onAddCulture()"><i class="bi bi-people me-2"></i>Add Culture</a></li>
-          </ul>
-        </div>
-        
-        <!-- Settings dropdown -->
-        <div class="dropdown" *ngIf="isAuthenticated$ | async">
-          <button class="action-btn settings-btn" 
-                  type="button" 
-                  title="Settings"
-                  data-bs-toggle="dropdown" 
-                  aria-expanded="false">
-            <i class="bi bi-gear"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <!-- Tools Section -->
-            <li><a class="dropdown-item" href="#" (click)="onCardEditor()"><i class="bi bi-card-text me-2"></i>Card Editor</a></li>
-            <li><a class="dropdown-item" href="#" (click)="onDomainEditor()"><i class="bi bi-globe me-2"></i>Domain Editor</a></li>
-          </ul>
-        </div>
-      </div>
+          </li>
+        </ng-container>
+      </ul>
     </div>
   </div>
 </nav>

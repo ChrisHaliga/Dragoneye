@@ -5,28 +5,11 @@
   position: sticky;
   top: 0;
   z-index: 1100;
-  height: 64px;
-  display: flex;
-  align-items: center;
   backdrop-filter: blur(8px);
 }
 
-.navbar-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 100%;
-  padding: 0 1rem;
-  width: 100%;
-}
-
-/* Branding Section */
-.navbar-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  min-width: 200px;
-}
+/* Branding */
+.navbar-brand { gap: 0.25rem; }
 
 /* Mobile close button */
 .mobile-close-btn {
@@ -54,16 +37,7 @@
   object-fit: contain;
 }
 
-.brand-text {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--gray-800);
-  white-space: nowrap;
-  background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+.brand-text { font-size: 1.25rem; font-weight: 700; white-space: nowrap; }
 
 /* Search Section */
 .navbar-search {
@@ -74,51 +48,15 @@
   margin: 0 2rem;
 }
 
-.search-container {
-  position: relative;
-  width: 100%;
-  max-width: 650px;
-}
+/* Make left group take up only its content width, push search to center via flex on container */
+.navbar-content { gap: 0.75rem; }
 
-.search-input {
-  width: 100%;
-  padding: 0.5rem 3rem 0.5rem 1rem;
-  border: 1px solid var(--gray-300);
-  border-radius: 24px;
-  background: linear-gradient(135deg, var(--gray-50) 0%, #ffffff 100%);
-  transition: all var(--transition-fast);
-  font-size: 0.9rem;
-  font-family: var(--font-family-base);
-}
+/* Nav links next to brand - standard look */
+.navbar-left .navbar-nav { gap: 0.25rem; }
 
-.search-input:focus {
-  background: #ffffff;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px var(--primary-light);
-  outline: none;
-}
-
-.search-input::placeholder {
-  color: var(--gray-500);
-}
-
-.search-btn {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: var(--gray-500);
-  padding: 0.25rem;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all var(--transition-fast);
-}
+.navbar-nav .nav-link {
+  padding: 0.5rem 0.75rem;
+  /* Keep inputs/buttons looking nice with default Bootstrap */
 
 .search-btn:hover {
   background: var(--gray-100);
@@ -126,119 +64,19 @@
 }
 
 /* Actions Section */
-.navbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-width: 200px;
-  justify-content: flex-end;
-}
-
-.action-btn {
-  background: none;
-  border: 1px solid transparent;
-  border-radius: var(--radius-md);
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gray-600);
-  font-size: 1.2rem;
-  transition: all var(--transition-fast);
-  cursor: pointer;
-}
-
-.action-btn:hover {
-  background: var(--gray-100);
-  color: var(--primary-color);
-  border-color: var(--gray-300);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
-}
-
-.action-btn:focus {
-  box-shadow: 0 0 0 3px var(--primary-light);
-  outline: none;
-}
+/* No custom actions; using Bootstrap nav + btn utilities */
 
 /* Dropdown customization */
-.dropdown-menu {
-  border: 1px solid #dee2e6;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
-  padding: 0.5rem 0;
-  margin-top: 0.5rem;
-}
-
-.dropdown-item {
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-  color: #495057;
-  transition: background-color 0.2s ease;
-}
-
-.dropdown-item:hover {
-  background-color: #f8f9fa;
-  color: #212529;
-}
-
-.dropdown-divider {
-  margin: 0.5rem 0;
-}
+/* Use Bootstrap dropdown defaults */
 
 /* Settings button - remove dropdown arrow for cleaner mobile look */
-.settings-btn::after {
-  display: none !important;
-}
+/* No custom settings button */
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .navbar-content {
-    padding: 0 0.5rem;
-  }
-  
-  .navbar-brand {
-    min-width: auto;
-  }
-  
-  .navbar-search {
-    margin: 0 1rem;
-  }
-  
-  .navbar-actions {
-    min-width: auto;
-    gap: 0.25rem;
-  }
-  
-  .action-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 1.1rem;
-  }
+  /* Rely on Bootstrap responsive navbar */
 }
 
 @media (max-width: 576px) {
-  .brand-text {
-    display: none;
-  }
-  
-  .search-container {
-    max-width: 280px;
-  }
-  
-  .search-input {
-    font-size: 0.8rem;
-    padding: 0.4rem 2.5rem 0.4rem 0.75rem;
-  }
-  
-  .navbar-actions {
-    gap: 0.125rem;
-  }
-  
-  .action-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 1rem;
-  }
+  .brand-text { display: none; }
 }

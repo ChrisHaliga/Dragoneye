@@ -16,11 +16,11 @@ export class HomepageComponent implements OnInit {
   }
 
   navigateToCharacterCreator(): void {
-    this.router.navigate(['/wiki/Characters/Character-Creation']);
+    window.location.href = '/wiki/how-to-play/character-creation';
   }
 
   navigateToQuickPlay(): void {
-    this.router.navigate(['/wiki/Game-Mechanics/Quick-Start-Guide']);
+    window.location.href = '/wiki/Game-Mechanics/Quick-Start-Guide';
   }
 
   navigateToWiki(): void {
