@@ -332,6 +332,123 @@ pre {
   margin: -0.125rem -0.25rem;
 }
 
+/* Wiki Page Layout Styles */
+.wiki {
+  font-family: var(--font-family-base);
+  line-height: 1.6;
+  color: var(--gray-800);
+}
+
+/* Wiki Typography Hierarchy */
+.wiki h1 {
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: var(--spacing-md);
+}
+
+.wiki h2 {
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: var(--spacing-md);
+}
+
+.wiki h3 {
+  font-size: clamp(1.125rem, 3vw, 1.25rem);
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Wiki Content Spacing */
+.wiki section {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.wiki p {
+  margin-bottom: var(--spacing-md);
+  color: var(--gray-700);
+  max-width: 65ch; /* Optimal reading width */
+}
+
+/* Wiki Lists */
+.wiki ul, .wiki ol {
+  margin-bottom: var(--spacing-lg);
+}
+
+.wiki li {
+  margin-bottom: var(--spacing-xs);
+}
+
+/* Wiki Navigation Links */
+.wiki .nav-link {
+  display: flex;
+  align-items: flex-start;
+  padding: var(--spacing-sm) 0;
+  text-decoration: none;
+  color: var(--gray-700);
+  transition: all var(--transition-fast);
+}
+
+.wiki .nav-link:hover {
+  color: var(--primary-color);
+  background: var(--primary-light);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-md);
+  margin: 0 calc(-1 * var(--spacing-sm));
+}
+
+.wiki .nav-link i {
+  margin-top: 0.125rem;
+  margin-right: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+/* Wiki Cards */
+.wiki .card {
+  border: 1px solid var(--gray-200);
+  transition: all var(--transition-normal);
+  cursor: pointer;
+}
+
+.wiki .card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-color);
+}
+
+.wiki .card-body {
+  padding: var(--spacing-lg);
+}
+
+.wiki .card-title {
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: var(--spacing-sm);
+}
+
+.wiki .card-text {
+  color: var(--gray-600);
+  line-height: 1.5;
+}
+
+/* Wiki Responsive Behavior */
+@media (max-width: 576px) {
+  .wiki .container {
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+  }
+  
+  .wiki h1 {
+    text-align: center;
+  }
+  
+  .wiki .card-body {
+    padding: var(--spacing-md);
+  }
+}
+
 /* Utility Classes */
 .text-primary { color: var(--primary-color) !important; }
 .text-secondary { color: var(--gray-600) !important; }

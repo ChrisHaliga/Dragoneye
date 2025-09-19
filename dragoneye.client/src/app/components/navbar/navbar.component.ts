@@ -29,6 +29,11 @@ export class NavbarComponent {
     this.mobileToggle.emit();
   }
 
+  onBrandClick(): void {
+    // Navigate to home page when brand is clicked
+    this.router.navigate(['/']);
+  }
+
   onSearch(): void {
     if (this.searchTerm.trim()) {
       console.log('Searching for:', this.searchTerm);

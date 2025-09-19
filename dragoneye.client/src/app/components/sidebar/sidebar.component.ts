@@ -12,6 +12,12 @@ import { CultureSummary } from '../../models/page.model';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent implements OnInit {
+  // Mobile section collapsed states (default collapsed)
+  mobileSearchExpanded = false;
+  mobileToolsExpanded = false;
+  mobileResourcesExpanded = false;
+  mobileAccountExpanded = false;
+
   navigation: NavigationItem[] = [
     {
       title: 'How to Play',
@@ -136,21 +142,31 @@ export class SidebarComponent implements OnInit {
 
   private loadCultures(): void {
     console.log('Loading cultures for sidebar...');
+    this.isLoading = true;
+    
     this.cultureService.getAllCultureSummaries().subscribe({
       next: (cultures: CultureSummary[]) => {
+        console.log('Cultures loaded:', cultures);
         this.populateAgesWithCultures(cultures);
+        this.isLoading = false;
       },
       error: (error: any) => {
+        console.error('Error loading cultures:', error);
         // Continue with empty culture lists if loading fails
+        this.isLoading = false;
       }
     });
   }
 
   private populateAgesWithCultures(cultures: CultureSummary[]): void {
+    console.log('Populating ages with cultures:', cultures);
+    
     // Find age sections and add cultures as children
     const ageOfChaos = this.navigation.find(item => item.title === 'Age of Chaos');
     const ageOfOrder = this.navigation.find(item => item.title === 'Age of Order');
     const ageOfAscension = this.navigation.find(item => item.title === 'Age of Ascension');
+
+    console.log('Found age sections:', { ageOfChaos: !!ageOfChaos, ageOfOrder: !!ageOfOrder, ageOfAscension: !!ageOfAscension });
 
     // Define culture subcategories (3rd order navigation)
     const cultureSubcategories = [
@@ -165,8 +181,9 @@ export class SidebarComponent implements OnInit {
     ];
 
     if (ageOfChaos) {
-      ageOfChaos.children = cultures
-        .filter(culture => culture.age === 'chaos')
+      const chaosCultures = cultures.filter(culture => culture.age === 'chaos');
+      console.log('Chaos cultures:', chaosCultures);
+      ageOfChaos.children = chaosCultures
         .map(culture => ({
           title: culture.name,
           route: `/wiki/culture-overview/${culture.id}`,
@@ -181,8 +198,9 @@ export class SidebarComponent implements OnInit {
     }
 
     if (ageOfOrder) {
-      ageOfOrder.children = cultures
-        .filter(culture => culture.age === 'order')
+      const orderCultures = cultures.filter(culture => culture.age === 'order');
+      console.log('Order cultures:', orderCultures);
+      ageOfOrder.children = orderCultures
         .map(culture => ({
           title: culture.name,
           route: `/wiki/culture-overview/${culture.id}`,
@@ -211,6 +229,25 @@ export class SidebarComponent implements OnInit {
           }))
         }));
     }
+
+    if (ageOfAscension) {
+      const ascensionCultures = cultures.filter(culture => culture.age === 'ascension');
+      console.log('Ascension cultures:', ascensionCultures);
+      ageOfAscension.children = ascensionCultures
+        .map(culture => ({
+          title: culture.name,
+          route: `/wiki/culture-overview/${culture.id}`,
+          icon: 'bi-people',
+          isExpanded: false,
+          children: cultureSubcategories.map(subcategory => ({
+            title: subcategory.title,
+            route: `/wiki/culture-overview/${culture.id}/${subcategory.route}`,
+            icon: subcategory.icon
+          }))
+        }));
+    }
+    
+    console.log('Final navigation structure:', this.navigation);
   }
 
   navigateToItem(item: NavigationItem): void {
@@ -343,5 +380,22 @@ export class SidebarComponent implements OnInit {
   isItemActive(item: NavigationItem): boolean {
     const currentUrl = this.router.url;
     return item.route === currentUrl;
+  }
+
+  // Mobile section toggle methods
+  toggleMobileSearch(): void {
+    this.mobileSearchExpanded = !this.mobileSearchExpanded;
+  }
+
+  toggleMobileTools(): void {
+    this.mobileToolsExpanded = !this.mobileToolsExpanded;
+  }
+
+  toggleMobileResources(): void {
+    this.mobileResourcesExpanded = !this.mobileResourcesExpanded;
+  }
+
+  toggleMobileAccount(): void {
+    this.mobileAccountExpanded = !this.mobileAccountExpanded;
   }
 }

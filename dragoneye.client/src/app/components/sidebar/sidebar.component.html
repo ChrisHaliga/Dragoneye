@@ -2,7 +2,7 @@
   <!-- Navigation Section -->
   <div class="sidebar-nav">
 
-    <!-- Collapsed Navigation -->
+    <!-- Collapsed navigation -->
     <div *ngIf="isCollapsed" class="collapsed-navigation">
       <!-- Home button -->
       <div class="collapsed-section-btn">
@@ -29,16 +29,16 @@
 
     <!-- Expanded Navigation -->
     <div *ngIf="!isCollapsed">
-      <!-- Home Link -->
-      <div class="nav-section mb-2">
-        <div class="section-header home-section" 
-             routerLink="/" 
-             routerLinkActive="active"
-             [routerLinkActiveOptions]="{exact: true}"
-             (click)="onPageClick()">
-          <div class="section-content-wrapper">
-            <i class="bi bi-house-fill me-2"></i>
-            <strong>Home</strong>
+      <!-- Mobile Search Section -->
+      <div class="nav-section d-md-none">
+        <div class="section-content">
+          <div class="search-section px-3 py-2">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search pages..." #searchInput name="q">
+              <button class="btn btn-outline-secondary" type="button" (click)="onSearch()">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -57,25 +57,30 @@
         <!-- Expanded state: Full navigation -->
         <div class="expanded-navigation">
           <!-- Navigation Items -->
-          <div class="nav-section" *ngFor="let item of navigation; trackBy: trackByTitle">
+          <div class="nav-section" 
+               *ngFor="let item of navigation; trackBy: trackByTitle; let last = last; let i = index"
+               [class.mb-3]="last && !isLoading">
             
             <!-- Item Header -->
-            <div class="section-header" (click)="toggleSection(item)">
+            <div class="section-header" 
+                 [attr.data-bs-toggle]="item.children && item.children.length > 0 ? 'collapse' : null"
+                 [attr.data-bs-target]="item.children && item.children.length > 0 ? '#section-' + i : null"
+                 [attr.aria-expanded]="false">
               <div class="section-content-wrapper" 
                    [class.has-content]="!!item.route"
                    (click)="onItemClick($event, item)">
                 <i [class]="item.icon + ' me-2'"></i>
                 <strong>{{ item.title }}</strong>
               </div>
-              <i class="bi chevron-icon" 
-                 [class.bi-chevron-down]="item.isExpanded"
-                 [class.bi-chevron-right]="!item.isExpanded"
+              <i class="bi bi-chevron-right chevron-icon" 
                  *ngIf="item.children && item.children.length > 0"></i>
             </div>
             
             <!-- Item Children (Recursive) -->
-            <div class="section-content" *ngIf="item.isExpanded && item.children && item.children.length > 0">
-              <ng-container *ngTemplateOutlet="navigationLevel; context: { $implicit: item.children, level: 1 }"></ng-container>
+            <div class="collapse section-content" 
+                 [id]="'section-' + i"
+                 *ngIf="item.children && item.children.length > 0">
+              <ng-container *ngTemplateOutlet="navigationLevel; context: { $implicit: item.children, level: 1, parentIndex: i }"></ng-container>
             </div>
             
           </div>
@@ -88,28 +93,30 @@
         </div> <!-- End expanded-navigation -->
 
         <!-- Recursive template for navigation levels -->
-        <ng-template #navigationLevel let-items let-level="level">
-          <div *ngFor="let item of items; trackBy: trackByTitle" 
+        <ng-template #navigationLevel let-items let-level="level" let-parentIndex="parentIndex">
+          <div *ngFor="let item of items; trackBy: trackByTitle; let i = index" 
                class="nav-item" 
                [class]="'level-' + level">
             
             <!-- If item has children, show as expandable -->
             <div *ngIf="item.children && item.children.length > 0; else leafItem">
-              <div class="subsection-header" (click)="toggleSection(item)">
+              <div class="subsection-header" 
+                   [attr.data-bs-toggle]="'collapse'"
+                   [attr.data-bs-target]="'#subsection-' + parentIndex + '-' + i"
+                   [attr.aria-expanded]="false">
                 <div class="subsection-content-wrapper" 
                      [class.has-content]="!!item.route"
                      (click)="onItemClick($event, item)">
                   <i [class]="item.icon + ' me-2'"></i>
                   <span>{{ item.title }}</span>
                 </div>
-                <i class="bi chevron-icon" 
-                   [class.bi-chevron-down]="item.isExpanded"
-                   [class.bi-chevron-right]="!item.isExpanded"></i>
+                <i class="bi bi-chevron-right chevron-icon"></i>
               </div>
               
               <!-- Nested children -->
-              <div class="subsection-content" *ngIf="item.isExpanded">
-                <ng-container *ngTemplateOutlet="navigationLevel; context: { $implicit: item.children, level: level + 1 }"></ng-container>
+              <div class="collapse subsection-content" 
+                   [id]="'subsection-' + parentIndex + '-' + i">
+                <ng-container *ngTemplateOutlet="navigationLevel; context: { $implicit: item.children, level: level + 1, parentIndex: parentIndex + '-' + i }"></ng-container>
               </div>
             </div>
             
@@ -127,6 +134,117 @@
           </div>
         </ng-template>
     </div> <!-- End nav-sections -->
+
+    <!-- Mobile Tools Section -->
+    <div class="nav-section d-md-none" *ngIf="!isLoading">
+      <div class="section-header" data-bs-toggle="collapse" data-bs-target="#mobileTools" aria-expanded="false">
+        <div class="section-content-wrapper">
+          <i class="bi bi-tools me-2"></i>
+          <strong>Tools</strong>
+        </div>
+        <i class="bi bi-chevron-right chevron-icon"></i>
+      </div>
+      <div class="collapse section-content" id="mobileTools">
+        <div class="nav-item level-1">
+          <a href="#" class="page-link">
+            <i class="bi bi-file-text me-2"></i>
+            Card Editor
+          </a>
+        </div>
+        <div class="nav-item level-1">
+          <a href="#" class="page-link">
+            <i class="bi bi-gear me-2"></i>
+            Domain Editor
+          </a>
+        </div>
+        <div class="nav-item level-1">
+          <a href="#" class="page-link">
+            <i class="bi bi-person-plus me-2"></i>
+            Character Generator
+          </a>
+        </div>
+        <div class="nav-item level-1">
+          <a href="#" class="page-link">
+            <i class="bi bi-grid-3x3 me-2"></i>
+            Virtual Tabletop
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Resources Section -->
+    <div class="nav-section d-md-none" *ngIf="!isLoading">
+      <div class="section-header" data-bs-toggle="collapse" data-bs-target="#mobileResources" aria-expanded="false">
+        <div class="section-content-wrapper">
+          <i class="bi bi-folder me-2"></i>
+          <strong>Resources</strong>
+        </div>
+        <i class="bi bi-chevron-right chevron-icon"></i>
+      </div>
+      <div class="collapse section-content" id="mobileResources">
+        <div class="nav-item level-1">
+          <a href="#" class="page-link">
+            <i class="bi bi-printer me-2"></i>
+            Printouts
+          </a>
+        </div>
+        <div class="nav-item level-1">
+          <a href="#" class="page-link">
+            <i class="bi bi-book me-2"></i>
+            Beastiary
+          </a>
+        </div>
+        <div class="nav-item level-1">
+          <a href="#" class="page-link">
+            <i class="bi bi-map me-2"></i>
+            Sample Adventures
+          </a>
+        </div>
+        <div class="nav-item level-1">
+          <a href="#" class="page-link">
+            <i class="bi bi-chat-dots me-2"></i>
+            Feedback
+          </a>
+        </div>
+        <div class="nav-item level-1">
+          <a href="#" class="page-link">
+            <i class="bi bi-code me-2"></i>
+            For Developers
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Account Section -->
+    <div class="nav-section d-md-none" *ngIf="!isLoading">
+      <div class="section-header" data-bs-toggle="collapse" data-bs-target="#mobileAccount" aria-expanded="false">
+        <div class="section-content-wrapper">
+          <i class="bi bi-person me-2"></i>
+          <strong>Account</strong>
+        </div>
+        <i class="bi bi-chevron-right chevron-icon"></i>
+      </div>
+      <div class="collapse section-content" id="mobileAccount">
+        <div class="nav-item level-1">
+          <a href="#" class="page-link">
+            <i class="bi bi-box-arrow-in-right me-2"></i>
+            Login
+          </a>
+        </div>
+        <div class="nav-item level-1">
+          <a href="#" class="page-link">
+            <i class="bi bi-person me-2"></i>
+            Profile
+          </a>
+        </div>
+        <div class="nav-item level-1">
+          <a href="#" class="page-link">
+            <i class="bi bi-gear me-2"></i>
+            Settings
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Collapsed state toggle - mobile only -->

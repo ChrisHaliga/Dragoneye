@@ -113,6 +113,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   height: calc(100vh - 64px); /* Just subtract navbar height */
+  padding-top: 1rem; /* Add consistent top padding for all viewport sizes */
 }
 
 /* Collapsed Navigation - Desktop Only */
@@ -249,6 +250,15 @@
   color: var(--gray-500);
   padding: 0.25rem;
   border-radius: var(--radius-sm);
+}
+
+/* Bootstrap collapse chevron rotation */
+[data-bs-toggle="collapse"] .chevron-icon {
+  transition: transform 0.3s ease;
+}
+
+[data-bs-toggle="collapse"][aria-expanded="true"] .chevron-icon {
+  transform: rotate(90deg);
 }
 
 .section-content {

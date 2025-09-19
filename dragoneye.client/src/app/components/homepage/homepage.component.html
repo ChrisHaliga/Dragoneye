@@ -1,14 +1,16 @@
 <!-- Hero Section -->
-<section class="hero">
-  <div class="hero">    
-    <div class="hero-content">
-      <h1>DRAGONEYE</h1>
-      <h2>A fresh take on the TTRPG experience</h2>
-      <p class="hero-tagline">Enter a world of tactical combat, rich storytelling, and endless possibilities. 
-        Forge your legend with innovative card-based mechanics that bring depth to every encounter.</p>
-      <div class="hero-buttons">
-        <button class="btn btn-primary">Play Now</button>
-        <button class="btn btn-secondary">Getting Started</button>
+<section class="hero py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10 col-xl-8 text-center">
+        <h1 class="display-3 display-md-2 display-lg-1 fw-bold mb-3">DRAGONEYE</h1>
+        <h2 class="h3 h2-lg mb-4 text-muted">A fresh take on the TTRPG experience</h2>
+        <p class="lead fs-5 mb-4 mx-auto" style="max-width: 600px;">Enter a world of tactical combat, rich storytelling, and endless possibilities. 
+          Forge your legend with innovative card-based mechanics that bring depth to every encounter.</p>
+        <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+          <button class="btn btn-primary btn-lg px-4">Play Now</button>
+          <button class="btn btn-secondary btn-lg px-4">Getting Started</button>
+        </div>
       </div>
     </div>
   </div>
@@ -17,9 +19,9 @@
 
 
 <!-- Quick Access Features -->
-<section id="features" class="features">
+<section id="features" class="features py-5">
   <div class="container">
-    <div class="section-header text-center">
+    <div class="section-header text-center mb-5">
       <h2 class="section-title">Everything You Need to Begin</h2>
       <p class="section-subtitle">
         Whether you're a veteran tabletop player or completely new to TTRPGs, 
@@ -27,88 +29,94 @@
       </p>
     </div>
     
-    <div class="features-grid">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       <!-- Character Creator -->
-      <div class="feature-card feature-card-primary" (click)="navigateToCharacterCreator()">
-        <div class="feature-icon">
-          <i class="bi bi-person-plus-fill"></i>
-        </div>
-        <div class="feature-content">
-          <h3>Create Your Character</h3>
-          <p>
-            Build your unique hero with our comprehensive character creation system. 
-            Choose from diverse domains, customize abilities, and craft your backstory.
-          </p>
-          <div class="feature-highlights">
-            <span class="highlight-tag">
-              <i class="bi bi-check-circle-fill"></i>
-              Guided Creation
-            </span>
-            <span class="highlight-tag">
-              <i class="bi bi-check-circle-fill"></i>
-              12+ Domains
-            </span>
+      <div class="col">
+        <div class="feature-card feature-card-primary h-100" (click)="navigateToCharacterCreator()">
+          <div class="feature-icon">
+            <i class="bi bi-person-plus-fill"></i>
           </div>
-        </div>
-        <div class="feature-action">
-          <span class="action-text">Create Character</span>
-          <i class="bi bi-arrow-right-circle-fill"></i>
+          <div class="feature-content">
+            <h3>Create Your Character</h3>
+            <p>
+              Build your unique hero with our comprehensive character creation system. 
+              Choose from diverse domains, customize abilities, and craft your backstory.
+            </p>
+            <div class="feature-highlights">
+              <span class="highlight-tag">
+                <i class="bi bi-check-circle-fill"></i>
+                Guided Creation
+              </span>
+              <span class="highlight-tag">
+                <i class="bi bi-check-circle-fill"></i>
+                12+ Domains
+              </span>
+            </div>
+          </div>
+          <div class="feature-action">
+            <span class="action-text">Create Character</span>
+            <i class="bi bi-arrow-right-circle-fill"></i>
+          </div>
         </div>
       </div>
 
       <!-- Quick Play -->
-      <div class="feature-card feature-card-success" (click)="navigateToQuickPlay()">
-        <div class="feature-icon">
-          <i class="bi bi-controller"></i>
-        </div>
-        <div class="feature-content">
-          <h3>Play Right Now</h3>
-          <p>
-            Jump into a quick adventure with pre-made characters and scenarios. 
-            Perfect for learning the rules or introducing new players.
-          </p>
-          <div class="feature-highlights">
-            <span class="highlight-tag">
-              <i class="bi bi-check-circle-fill"></i>
-              Ready to Play
-            </span>
-            <span class="highlight-tag">
-              <i class="bi bi-check-circle-fill"></i>
-              15 Min Setup
-            </span>
+      <div class="col">
+        <div class="feature-card feature-card-success h-100" (click)="navigateToQuickPlay()">
+          <div class="feature-icon">
+            <i class="bi bi-controller"></i>
           </div>
-        </div>
-        <div class="feature-action">
-          <span class="action-text">Quick Start</span>
-          <i class="bi bi-arrow-right-circle-fill"></i>
+          <div class="feature-content">
+            <h3>Play Right Now</h3>
+            <p>
+              Jump into a quick adventure with pre-made characters and scenarios. 
+              Perfect for learning the rules or introducing new players.
+            </p>
+            <div class="feature-highlights">
+              <span class="highlight-tag">
+                <i class="bi bi-check-circle-fill"></i>
+                Ready to Play
+              </span>
+              <span class="highlight-tag">
+                <i class="bi bi-check-circle-fill"></i>
+                15 Min Setup
+              </span>
+            </div>
+          </div>
+          <div class="feature-action">
+            <span class="action-text">Quick Start</span>
+            <i class="bi bi-arrow-right-circle-fill"></i>
+          </div>
         </div>
       </div>
 
       <!-- Lore & Wiki -->
-      <div class="feature-card feature-card-info" (click)="navigateToWiki()">
-        <div class="feature-icon">
-          <i class="bi bi-book-half"></i>
-        </div>
-        <div class="feature-content">
-          <h3>Explore the Lore</h3>
-          <p>
-            Dive deep into the rich world of Aethermoor. Discover ancient civilizations, 
-            magical mysteries, and the forces that shape the realm.
-          </p>
-          <div class="feature-highlights">
-            <span class="highlight-tag">
-              <i class="bi bi-check-circle-fill"></i>
-              Rich Worldbuilding
-            </span>
-            <span class="highlight-tag">
-              <i class="bi bi-check-circle-fill"></i>
-              Interactive Wiki
-            </span>
+      <div class="col">
+        <div class="feature-card feature-card-info h-100" (click)="navigateToWiki()">
+          <div class="feature-icon">
+            <i class="bi bi-book-half"></i>
           </div>
-        </div>
-        <div class="feature-action">
-          <span class="action-text">Explore World</span>
-          <i class="bi bi-arrow-right-circle-fill"></i>
+          <div class="feature-content">
+            <h3>Explore the Lore</h3>
+            <p>
+              Dive deep into the rich world of Aethermoor. Discover ancient civilizations, 
+              magical mysteries, and the forces that shape the realm.
+            </p>
+            <div class="feature-highlights">
+              <span class="highlight-tag">
+                <i class="bi bi-check-circle-fill"></i>
+                Rich Worldbuilding
+              </span>
+              <span class="highlight-tag">
+                <i class="bi bi-check-circle-fill"></i>
+                Interactive Wiki
+              </span>
+            </div>
+          </div>
+          <div class="feature-action">
+            <span class="action-text">Explore World</span>
+            <i class="bi bi-arrow-right-circle-fill"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -116,7 +124,7 @@
 </section>
 
 <!-- Game Highlights -->
-<section class="highlights">
+<section class="highlights py-5">
   <div class="container">
     <div class="row align-items-center">
       <div class="col-lg-6">
@@ -189,7 +197,7 @@
 </section>
 
 <!-- Call to Action -->
-<section class="cta">
+<section class="cta py-5">
   <div class="container">
     <div class="cta-content text-center">
       <h2>Ready to Begin Your Legend?</h2>
@@ -198,8 +206,8 @@
         Your adventure starts with a single step.
       </p>
       
-      <div class="cta-actions">
-        <button class="btn btn-primary btn-xl me-3" (click)="navigateToCharacterCreator()">
+      <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+        <button class="btn btn-primary btn-xl" (click)="navigateToCharacterCreator()">
           <i class="bi bi-person-plus-fill me-2"></i>
           Create Your Character
         </button>

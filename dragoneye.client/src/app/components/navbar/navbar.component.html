@@ -1,20 +1,18 @@
 <nav class="navbar navbar-expand-md navbar-light main-navbar">
   <div class="container-fluid">
-    <!-- Brand + optional mobile sidebar toggle -->
-    <a class="navbar-brand d-flex align-items-center" href="#" (click)="$event.preventDefault()">
-      <button class="mobile-close-btn d-md-none me-2" (click)="onMobileToggle()" title="Menu">
-        <i class="bi bi-list"></i>
-      </button>
+    <!-- Brand - absolutely positioned -->
+    <a class="navbar-brand d-flex align-items-center position-absolute" routerLink="/" (click)="onBrandClick()" style="left: 1rem; z-index: 10;">
       <img src="/logo.png" alt="Dragoneye Logo" class="navbar-logo d-none d-sm-inline">
       <span class="brand-text ms-2">Dragoneye Wiki</span>
     </a>
-
-    <!-- Navbar collapse toggler -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+    
+    <!-- Mobile menu toggle - right side -->
+    <button class="btn btn-link d-md-none p-1 ms-auto" (click)="onMobileToggle()" title="Menu">
+      <i class="bi bi-list fs-4"></i>
     </button>
 
-    <div class="collapse navbar-collapse" id="mainNavbar">
+    <!-- Hide navbar content on mobile, show on desktop -->
+    <div class="d-none d-md-flex flex-grow-1" id="mainNavbar" style="margin-left: 268px; border-left: 1px solid var(--gray-200);">
       <!-- Left: primary nav -->
       <ul class="navbar-nav me-3 mt-2 mt-md-0">
         <li class="nav-item dropdown">
@@ -61,26 +59,12 @@
         </li>
         <ng-container *ngIf="isAuthenticated$ | async">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Add New">Add</a>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="#" (click)="onNewPage()"><i class="bi bi-file-text me-2"></i>New Page</a></li>
-              <li><a class="dropdown-item" href="#" (click)="onAddCulture()"><i class="bi bi-people me-2"></i>Add Culture</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Settings">Settings</a>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Preferences</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-shield me-2"></i>Privacy</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="User Menu">
-              <i class="bi bi-person-circle me-1"></i>
-              <span class="user-name d-none d-md-inline">{{ (user$ | async)?.name || (user$ | async)?.email }}</span>
+              <i class="bi bi-gear"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+              <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Preferences</a></li>
               <li><a class="dropdown-item" href="#"><i class="bi bi-palette me-2"></i>Theme</a></li>
               <li><a class="dropdown-item" href="#"><i class="bi bi-bell me-2"></i>Notifications</a></li>
               <li><hr class="dropdown-divider"></li>
