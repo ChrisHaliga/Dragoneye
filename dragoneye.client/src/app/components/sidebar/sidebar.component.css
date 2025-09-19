@@ -113,7 +113,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   height: calc(100vh - 64px); /* Just subtract navbar height */
-  padding-top: 1rem; /* Add consistent top padding for all viewport sizes */
+  padding-top: 0.25rem; /* Minimal top padding - start close to navbar edge */
 }
 
 /* Collapsed Navigation - Desktop Only */
