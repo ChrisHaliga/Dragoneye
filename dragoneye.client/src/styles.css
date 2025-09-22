@@ -543,3 +543,10 @@ pre {
     display: none !important;
   }
 }
+
+/* Mobile bottom spacing */
+@media (max-width: 768px) {
+  .router-content {
+    margin-bottom: 100px !important;
+  }
+}
