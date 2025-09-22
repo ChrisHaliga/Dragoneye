@@ -133,7 +133,7 @@ import { FloatingCultureEditComponent } from './components/floating-culture-edit
         allowedList: [
           '/api/*',
           'https://localhost:62251/api/*',
-          'https://localhost:7147/*'
+          'https://localhost:7027/*'
         ]
       }
     })
