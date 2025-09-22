@@ -1,8 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { NavigationItem } from '../../models/page.model';
 import { CultureService } from '../../services/culture.service';
+import { AuthService } from '../../services/auth.service';
 import { CultureSummary } from '../../models/page.model';
 
 @Component({
@@ -111,14 +113,18 @@ export class SidebarComponent implements OnInit {
   searchTerm: string = '';
   isCollapsed: boolean = false;
   isLoading: boolean = false;
+  isAuthenticated$: Observable<boolean>;
   
   @Output() collapsedChange = new EventEmitter<boolean>();
 
-  constructor(private router: Router, private cultureService: CultureService) { 
+  constructor(private router: Router, private cultureService: CultureService, private authService: AuthService) { 
     // Start collapsed on mobile
     this.isCollapsed = window.innerWidth <= 768;
     // Emit initial state after component initialization
     setTimeout(() => this.collapsedChange.emit(this.isCollapsed), 0);
+    
+    // Initialize authentication observable
+    this.isAuthenticated$ = this.authService.isAuthenticated$;
   }
 
   ngOnInit(): void {
@@ -397,5 +403,15 @@ export class SidebarComponent implements OnInit {
 
   toggleMobileAccount(): void {
     this.mobileAccountExpanded = !this.mobileAccountExpanded;
+  }
+
+  onLogin(event: Event): void {
+    event.preventDefault();
+    this.authService.login();
+  }
+
+  onLogout(event: Event): void {
+    event.preventDefault();
+    this.authService.logout();
   }
 }

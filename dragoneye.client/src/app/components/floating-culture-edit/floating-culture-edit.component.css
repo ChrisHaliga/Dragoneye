@@ -50,7 +50,7 @@
 @media (max-width: 768px) {
   .floating-edit-container {
     right: 65px; /* Adjust for mobile */
-    bottom: 10px;
+    bottom: 95px; /* Move 75px higher on mobile (was 20px, now 95px) */
   }
   
   .floating-edit-btn {

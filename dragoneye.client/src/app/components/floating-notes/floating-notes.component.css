@@ -481,7 +481,7 @@
 @media (max-width: 768px) {
   .floating-notes-container {
     right: 10px;
-    bottom: 10px; /* Changed from top to bottom */
+    bottom: 95px; /* Move 75px higher on mobile (was 20px, now 95px) */
   }
   
   .floating-notes-btn {

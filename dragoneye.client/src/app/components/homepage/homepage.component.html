@@ -1,12 +1,130 @@
 <!-- Hero Section -->
-<section class="hero py-5">
+<style>
+.page-wrapper {
+  position: relative;
+  background: url('https://images5.alphacoders.com/865/thumb-1920-865662.png') center top / cover no-repeat fixed;
+  min-height: 100vh;
+}
+
+.hero-to-features-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(to bottom, rgba(25, 7, 49, 0) 0%, rgba(25, 7, 49, 0.95) 100%);
+}
+
+.main-content {
+  position: relative;
+  z-index: 3; /* above both overlays */
+}
+
+.hero {
+  background: transparent !important;
+  position: relative;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.25) 100%);
+}
+
+.features {
+  background: transparent !important;
+}
+
+.feature-card {
+  transition: none !important;
+  transform: none !important;
+  cursor: default !important;
+}
+.feature-card:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  transition: none !important;
+  cursor: default !important;
+}
+.feature-card button {
+  transition: background-color 0.15s ease-in-out !important;
+  transform: none !important;
+}
+.feature-card button:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+.feature-card .btn-outline-primary:hover {
+  background: rgba(96, 165, 250, 1) !important;
+}
+.feature-card .btn-outline-danger:hover {
+  background: rgba(248, 113, 113, 1) !important;
+}
+.feature-card .btn-outline-warning:hover {
+  background: rgba(253, 224, 71, 1) !important;
+  color: #000 !important;
+}
+.feature-card .btn-outline-secondary:hover {
+  background: rgba(156, 163, 175, 1) !important;
+}
+
+@media (max-width: 767px) {
+  .feature-card button {
+    font-size: 1.125rem !important;
+    padding: 9px 18px !important;
+  }
+  .feature-card .btn-outline-primary {
+    width: 142px !important;
+    min-width: 142px !important;
+  }
+  .feature-card .btn-outline-danger {
+    width: 127px !important;
+    min-width: 127px !important;
+  }
+  .feature-card .btn-outline-danger:last-child {
+    width: 165px !important;
+    min-width: 165px !important;
+  }
+  .feature-card .btn-outline-warning {
+    width: 112px !important;
+    min-width: 112px !important;
+    font-size: 1.05rem !important;
+    padding: 7px 12px !important;
+  }
+  .feature-card .btn-outline-warning:last-child {
+    width: 127px !important;
+    min-width: 127px !important;
+  }
+  .feature-card .btn-outline-secondary {
+    width: 127px !important;
+    min-width: 127px !important;
+  }
+  .feature-card .btn-outline-secondary:last-child {
+    width: 142px !important;
+    min-width: 142px !important;
+  }
+  .feature-card .feature-content > div:first-child {
+    margin-bottom: 24px !important;
+  }
+}
+</style>
+<div class="page-wrapper">
+  <div class="hero-to-features-gradient"></div>
+  <div class="main-content">
+<section class="hero pt-5 pb-1">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 col-lg-10 col-xl-8 text-center">
-        <h1 class="display-6 display-sm-4 display-md-3 display-lg-2 display-xl-1 fw-bold mb-3">DRAGONEYE</h1>
-        <h2 class="h4 h3-md h2-lg mb-4 text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">A fresh take on the TTRPG experience</h2>
-        <p class="lead fs-6 fs-md-5 mb-4 mx-auto px-3 text-white" style="max-width: 600px; text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">Enter a world of tactical combat, rich storytelling, and endless possibilities. 
-          Forge your legend with innovative card-based mechanics that bring depth to every encounter.</p>
+        <h1 class="display-6 display-sm-5 display-md-4 display-lg-3 display-xl-2 fw-bold mb-3">DRAGONEYE</h1>
+        <h2 class="h4 h3-md h2-lg mb-4 text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">Take control of your character's destiny</h2>
+        <p class="lead fs-6 fs-md-5 mb-4 mx-auto px-3 text-white" style="max-width: 600px; text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">Where heroes are made, not born. You forge their path through every decision, 
+          every battle, and every choice that shapes their legend. Become the character you create.</p>
         <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
           <button class="btn btn-primary btn-lg px-4 mb-2 mb-sm-0">Play Now</button>
           <button class="btn btn-secondary btn-lg px-4">Getting Started</button>
@@ -16,110 +134,74 @@
   </div>
 </section>
 
-
-
 <!-- Quick Access Features -->
 <section id="features" class="features py-5">
   <div class="container">
-    <div class="section-header text-center mb-5">
-      <h2 class="section-title h3 h2-md">Everything You Need to Begin</h2>
-      <p class="section-subtitle px-3 text-white" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">
-        Whether you're a veteran tabletop player or completely new to TTRPGs, 
-        Dragoneye has the tools to get you started immediately.
-      </p>
-    </div>
-    
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 g-md-4">
+    <div class="row row-cols-1 row-cols-lg-2 g-3 g-md-4">
       <!-- Character Creator -->
       <div class="col">
-        <div class="feature-card feature-card-primary h-100" (click)="navigateToCharacterCreator()">
-          <div class="feature-icon">
-            <i class="bi bi-person-plus-fill"></i>
-          </div>
-          <div class="feature-content">
-            <h3 class="h4 h3-md">Create Your Character</h3>
-            <p class="small">
-              Build your unique hero with our comprehensive character creation system. 
-              Choose from diverse domains, customize abilities, and craft your backstory.
-            </p>
-            <div class="feature-highlights">
-              <span class="highlight-tag">
-                <i class="bi bi-check-circle-fill"></i>
-                <span class="d-none d-sm-inline">Guided Creation</span>
-                <span class="d-sm-none">Guided</span>
-              </span>
-              <span class="highlight-tag">
-                <i class="bi bi-check-circle-fill"></i>
-                <span>12+ Domains</span>
-              </span>
+        <div class="feature-card feature-card-primary character-creator-card" (click)="navigateToCharacterCreator()" style="background-image: url('placeholder-images/rogue-elf.png'); background-size: cover; background-repeat: no-repeat; background-position: center; position: relative; overflow: hidden; aspect-ratio: 1; height: auto;">
+          <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(75,0,130,0.4) 100%);"></div>
+          <div class="feature-content d-flex flex-column justify-content-end h-100" style="padding: 0px !important; margin: 0px !important; position: relative; z-index: 1;">
+            <div class="text-start mb-2" style="padding: 0px !important; margin-left: 0px !important; margin-right: 0px !important; margin-bottom: 12px !important;" [style.margin-bottom.px]="'24'">
+              <div class="badge bg-primary mb-2 px-3 py-1" style="font-size: 0.75rem; margin-left: 0px !important;">Tools</div>
+              <h4 class="text-white mb-0" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8); margin: 0px !important; padding: 0px !important;">Build the character you've always imagined</h4>
             </div>
-          </div>
-          <div class="feature-action">
-            <span class="action-text">Create Character</span>
-            <i class="bi bi-arrow-right-circle-fill"></i>
+            <div class="d-flex gap-2" style="margin: 0px !important; padding: 0px !important;">
+              <button class="btn btn-outline-primary btn-sm" style="font-size: 0.75rem; padding: 6px 12px; width: 95px !important; min-width: 95px; color: white; border: 2px solid #60a5fa !important; background: rgba(96, 165, 250, 0.33); font-weight: bold; border-radius: 4px !important; font-family: inherit;" (click)="$event.stopPropagation(); navigateToCharacterCreator()">Create</button>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Quick Play -->
       <div class="col">
-        <div class="feature-card feature-card-success h-100" (click)="navigateToQuickPlay()">
-          <div class="feature-icon">
-            <i class="bi bi-controller"></i>
-          </div>
-          <div class="feature-content">
-            <h3 class="h4 h3-md">Play Right Now</h3>
-            <p class="small">
-              Jump into a quick adventure with pre-made characters and scenarios. 
-              Perfect for learning the rules or introducing new players.
-            </p>
-            <div class="feature-highlights">
-              <span class="highlight-tag">
-                <i class="bi bi-check-circle-fill"></i>
-                <span class="d-none d-sm-inline">Ready to Play</span>
-                <span class="d-sm-none">Ready</span>
-              </span>
-              <span class="highlight-tag">
-                <i class="bi bi-check-circle-fill"></i>
-                <span>15 Min Setup</span>
-              </span>
+        <div class="feature-card feature-card-success" (click)="navigateToQuickPlay()" style="background-image: url('placeholder-images/mage-fighter-battle.png'); background-size: cover; background-repeat: no-repeat; background-position: center; position: relative; overflow: hidden; aspect-ratio: 1; height: auto;">
+          <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(220,20,60,0.4) 100%);"></div>
+          <div class="feature-content d-flex flex-column justify-content-end h-100" style="padding: 0px !important; margin: 0px !important; position: relative; z-index: 1;">
+            <div class="text-start mb-2" style="padding: 0px !important; margin-left: 0px !important; margin-right: 0px !important; margin-bottom: 12px !important;" [style.margin-bottom.px]="'24'">
+              <div class="badge bg-danger mb-2 px-3 py-1" style="font-size: 0.75rem; margin-left: 0px !important;">Play</div>
+              <h4 class="text-white mb-0" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8); margin: 0px !important; padding: 0px !important;">Play online or order the starter set</h4>
             </div>
-          </div>
-          <div class="feature-action">
-            <span class="action-text">Quick Start</span>
-            <i class="bi bi-arrow-right-circle-fill"></i>
+            <div class="d-flex gap-2" style="margin: 0px !important; padding: 0px !important;">
+              <button class="btn btn-outline-danger btn-sm" style="font-size: 0.75rem; padding: 6px 12px; width: 85px !important; min-width: 85px; color: white; border: 2px solid #f87171 !important; background: rgba(248, 113, 113, 0.33); font-weight: bold; border-radius: 4px !important; font-family: inherit;" (click)="$event.stopPropagation(); navigateToQuickPlay()">Play</button>
+              <button class="btn btn-outline-danger btn-sm" style="font-size: 0.75rem; padding: 6px 12px; width: 110px !important; min-width: 110px; color: white; border: 2px solid #f87171 !important; background: rgba(248, 113, 113, 0.33); font-weight: bold; border-radius: 4px !important; font-family: inherit;" (click)="$event.stopPropagation(); navigateToOrder()">Order Now</button>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Lore & Wiki -->
       <div class="col">
-        <div class="feature-card feature-card-info h-100" (click)="navigateToWiki()">
-          <div class="feature-icon">
-            <i class="bi bi-book-half"></i>
-          </div>
-          <div class="feature-content">
-            <h3 class="h4 h3-md">Explore the Lore</h3>
-            <p class="small">
-              Dive deep into the rich world of Aethermoor. Discover ancient civilizations, 
-              magical mysteries, and the forces that shape the realm.
-            </p>
-            <div class="feature-highlights">
-              <span class="highlight-tag">
-                <i class="bi bi-check-circle-fill"></i>
-                <span class="d-none d-sm-inline">Rich Worldbuilding</span>
-                <span class="d-sm-none">Rich World</span>
-              </span>
-              <span class="highlight-tag">
-                <i class="bi bi-check-circle-fill"></i>
-                <span class="d-none d-sm-inline">Interactive Wiki</span>
-                <span class="d-sm-none">Wiki</span>
-              </span>
+        <div class="feature-card feature-card-info" (click)="navigateToWiki()" style="background-image: url('placeholder-images/old-wizard.png'); background-size: cover; background-repeat: no-repeat; background-position: center; position: relative; overflow: hidden; aspect-ratio: 1; height: auto;">
+          <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(255,215,0,0.4) 100%);"></div>
+          <div class="feature-content d-flex flex-column justify-content-end h-100" style="padding: 0px !important; margin: 0px !important; position: relative; z-index: 1;">
+            <div class="text-start mb-2" style="padding: 0px !important; margin-left: 0px !important; margin-right: 0px !important; margin-bottom: 12px !important;" [style.margin-bottom.px]="'24'">
+              <div class="badge bg-warning mb-2 px-3 py-1" style="font-size: 0.75rem; color: #000; margin-left: 0px !important;">Lore</div>
+              <h4 class="text-white mb-0" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8); margin: 0px !important; padding: 0px !important;">Discover rich cultures and forgotten worlds</h4>
+            </div>
+            <div class="d-flex gap-1" style="margin: 0px !important; padding: 0px !important;">
+              <button class="btn btn-outline-warning btn-sm" style="color: white; border: 2px solid #fde047 !important; background: rgba(253, 224, 71, 0.33); font-size: 0.7rem; padding: 5px 8px; width: 75px !important; min-width: 75px; font-weight: bold; border-radius: 4px !important; font-family: inherit;" (click)="$event.stopPropagation(); navigateToLore('chaos')">Chaos</button>
+              <button class="btn btn-outline-warning btn-sm" style="color: white; border: 2px solid #fde047 !important; background: rgba(253, 224, 71, 0.33); font-size: 0.7rem; padding: 5px 8px; width: 75px !important; min-width: 75px; font-weight: bold; border-radius: 4px !important; font-family: inherit;" (click)="$event.stopPropagation(); navigateToLore('order')">Order</button>
+              <button class="btn btn-outline-warning btn-sm" style="color: white; border: 2px solid #fde047 !important; background: rgba(253, 224, 71, 0.33); font-size: 0.7rem; padding: 5px 7px; width: 85px !important; min-width: 85px; font-weight: bold; border-radius: 4px !important; font-family: inherit;" (click)="$event.stopPropagation(); navigateToLore('ascension')">Ascension</button>
             </div>
           </div>
-          <div class="feature-action">
-            <span class="action-text">Explore World</span>
-            <i class="bi bi-arrow-right-circle-fill"></i>
+        </div>
+      </div>
+
+      <!-- Support & Contact -->
+      <div class="col">
+        <div class="feature-card feature-card-secondary" (click)="navigateToContact()" style="background-image: url('placeholder-images/beggar.png'); background-size: cover; background-repeat: no-repeat; background-position: center; position: relative; overflow: hidden; aspect-ratio: 1; height: auto;">
+          <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(139,69,19,0.4) 100%);"></div>
+          <div class="feature-content d-flex flex-column justify-content-end h-100" style="padding: 0px !important; margin: 0px !important; position: relative; z-index: 1;">
+            <div class="text-start mb-2" style="padding: 0px !important; margin-left: 0px !important; margin-right: 0px !important; margin-bottom: 12px !important;" [style.margin-bottom.px]="'24'">
+              <div class="badge bg-secondary mb-2 px-3 py-1" style="font-size: 0.75rem; margin-left: 0px !important;">Support</div>
+              <h4 class="text-white mb-0" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8); margin: 0px !important; padding: 0px !important;">Purge this realm of artificial forces</h4>
+            </div>
+            <div class="d-flex gap-2" style="margin: 0px !important; padding: 0px !important;">
+              <button class="btn btn-outline-secondary btn-sm" style="font-size: 0.75rem; padding: 6px 12px; width: 85px !important; min-width: 85px; color: white; border: 2px solid #9ca3af !important; background: rgba(156, 163, 175, 0.33); font-weight: bold; border-radius: 4px !important; font-family: inherit;" (click)="$event.stopPropagation(); navigateToDonate()">Donate</button>
+              <button class="btn btn-outline-secondary btn-sm" style="font-size: 0.75rem; padding: 6px 12px; width: 95px !important; min-width: 95px; color: white; border: 2px solid #9ca3af !important; background: rgba(156, 163, 175, 0.33); font-weight: bold; border-radius: 4px !important; font-family: inherit;" (click)="$event.stopPropagation(); navigateToContact()">Contact</button>
+            </div>
           </div>
         </div>
       </div>
@@ -127,107 +209,81 @@
   </div>
 </section>
 
-<!-- Game Highlights -->
-<section class="highlights py-5">
+    <!-- Footer -->
+    <footer class="footer bg-dark text-light py-5">
   <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-6 mb-4 mb-lg-0">
-        <div class="highlight-content px-3">
-          <div class="highlight-badge">
-            <i class="bi bi-star-fill"></i>
-            <span>Revolutionary Mechanics</span>
-          </div>
-          <h2 class="h3 h2-md">Strategic Card-Based Combat</h2>
-          <p class="lead fs-6 fs-md-5">
-            Every encounter is a tactical puzzle. Use your character's unique card deck 
-            to adapt to any situation, combine abilities for devastating effects, 
-            and outthink your opponents.
-          </p>
-          <ul class="highlight-features">
-            <li>
-              <i class="bi bi-check-lg text-success"></i>
-              <strong>Dynamic Card System:</strong> <span class="d-none d-sm-inline">No two fights are ever the same</span><span class="d-sm-none">Unique every time</span>
-            </li>
-            <li>
-              <i class="bi bi-check-lg text-success"></i>
-              <strong>Tactical Positioning:</strong> <span class="d-none d-sm-inline">Movement and placement matter</span><span class="d-sm-none">Position matters</span>
-            </li>
-            <li>
-              <i class="bi bi-check-lg text-success"></i>
-              <strong>Combo Potential:</strong> <span class="d-none d-sm-inline">Chain abilities for epic moments</span><span class="d-sm-none">Chain abilities</span>
-            </li>
-            <li>
-              <i class="bi bi-check-lg text-success"></i>
-              <strong>Resource Management:</strong> <span class="d-none d-sm-inline">Strategic decision-making</span><span class="d-sm-none">Strategic play</span>
-            </li>
-          </ul>
-          <button class="btn btn-outline-primary btn-lg w-100 w-sm-auto" (click)="navigateToGettingStarted()">
-            <i class="bi bi-gear-fill me-2"></i>
-            <span class="d-none d-sm-inline">Learn the Mechanics</span>
-            <span class="d-sm-none">Learn More</span>
-          </button>
+    <div class="row g-4">
+      <!-- Logo & Brand -->
+      <div class="col-lg-4 col-md-6 d-flex flex-column">
+        <div class="footer-brand mb-3 d-flex flex-column align-items-center align-items-md-start align-items-lg-center">
+          <img src="logo.png" alt="Dragoneye Logo" class="mb-2" style="height: 60px; width: auto;">
+          <h3 class="text-white fw-bold mb-0">DRAGONEYE</h3>
+        </div>
+        <div class="social-links mt-auto text-center text-md-start text-lg-center">
+          <a href="#" class="text-muted me-3" aria-label="X (Twitter)">
+            <i class="bi bi-twitter-x fs-5"></i>
+          </a>
+          <a href="#" class="text-muted me-3" aria-label="Instagram">
+            <i class="bi bi-instagram fs-5"></i>
+          </a>
+          <a href="#" class="text-muted me-3" aria-label="Discord">
+            <i class="bi bi-discord fs-5"></i>
+          </a>
+          <a href="#" class="text-muted" aria-label="Steam">
+            <i class="bi bi-steam fs-5"></i>
+          </a>
         </div>
       </div>
-      <div class="col-lg-6">
-        <div class="highlight-visual px-3">
-          <div class="game-preview">
-            <div class="preview-header">
-              <div class="preview-title">Combat Example</div>
-              <div class="preview-subtitle d-none d-sm-block">Tactical Card Play</div>
-            </div>
-            <div class="preview-content">
-              <div class="card-hand">
-                <div class="game-card card-attack">
-                  <div class="card-cost">2</div>
-                  <div class="card-name">Lightning Strike</div>
-                  <div class="card-type d-none d-sm-block">Instant</div>
-                </div>
-                <div class="game-card card-defense">
-                  <div class="card-cost">1</div>
-                  <div class="card-name">Shield Wall</div>
-                  <div class="card-type d-none d-sm-block">Reaction</div>
-                </div>
-                <div class="game-card card-utility">
-                  <div class="card-cost">3</div>
-                  <div class="card-name">Tactical Retreat</div>
-                  <div class="card-type d-none d-sm-block">Movement</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
+      <!-- Support -->
+      <div class="col-lg-4 col-md-6">
+        <h5 class="text-white mb-3 text-center text-md-start">Support</h5>
+        <ul class="list-unstyled text-center text-md-start">
+          <li class="mb-2">
+            <a href="#" class="text-muted text-decoration-none" (click)="navigateToContact()">Contact Us</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="text-muted text-decoration-none" (click)="navigateToDonate()">Support Development</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="text-muted text-decoration-none">FAQ</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="text-muted text-decoration-none">Community</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div class="col-lg-4 col-md-6">
+        <h5 class="text-white mb-3 text-center text-md-start">Legal</h5>
+        <ul class="list-unstyled text-center text-md-start">
+          <li class="mb-2">
+            <a href="#" class="text-muted text-decoration-none">Privacy Policy</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="text-muted text-decoration-none">Terms of Service</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="text-muted text-decoration-none">Cookies</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="text-muted text-decoration-none">Licenses</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <hr class="my-4 border-secondary">
+    <div class="row">
+      <div class="col-12 text-center">
+        <p class="text-muted mb-0">
+          &copy; 2024 Dragoneye. All rights reserved.
+        </p>
       </div>
     </div>
   </div>
-</section>
-
-<!-- Call to Action -->
-<section class="cta py-5">
-  <div class="container">
-    <div class="cta-content text-center">
-      <h2 class="text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">Ready to Begin Your Legend?</h2>
-      <p class="lead text-white" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">
-        Join thousands of players already exploring the world of Dragoneye. 
-        Your adventure starts with a single step.
-      </p>
-      
-      <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
-        <button class="btn btn-primary btn-xl" (click)="navigateToCharacterCreator()">
-          <i class="bi bi-person-plus-fill me-2"></i>
-          Create Your Character
-        </button>
-        <button class="btn btn-outline-primary btn-xl" (click)="navigateToGettingStarted()">
-          <i class="bi bi-book me-2"></i>
-          Read the Guide
-        </button>
-      </div>
-
-      <div class="cta-note">
-        <small class="text-muted">
-          <i class="bi bi-info-circle me-1"></i>
-          Free to play • No account required • Start immediately
-        </small>
-      </div>
-    </div>
+</footer>
   </div>
-</section>
+</div>

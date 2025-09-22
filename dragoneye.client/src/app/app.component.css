@@ -13,6 +13,12 @@ app-root {
   overflow: hidden;
 }
 
+/* Keep navbar above page backgrounds */
+app-navbar {
+  position: relative;
+  z-index: 10;
+}
+
 .app-container {
   height: 100vh;
   display: flex;
@@ -20,6 +26,8 @@ app-root {
   position: relative;
   overflow: hidden; /* Critical: prevent app container from scrolling */
 }
+
+
 
 .content-layout {
   display: flex;
@@ -32,7 +40,7 @@ app-root {
   overflow-y: auto; /* Only this element should scroll */
   overflow-x: hidden; /* Prevent horizontal scrolling */
   flex: 1;
-  background-color: #ffffff;
+  background: transparent; /* allow page-level backgrounds to show through */
 }
 
 /* Responsive adjustments */

@@ -430,6 +430,16 @@
   transform: translateX(5px);
 }
 
+/* Character Creator Card Specific Styles */
+.character-creator-card:hover .hover-overlay {
+  opacity: 1 !important;
+}
+
+.character-creator-card .feature-content {
+  z-index: 1;
+  position: relative;
+}
+
 /* Highlights Section */
 .highlights {
   padding: 8rem 0;
