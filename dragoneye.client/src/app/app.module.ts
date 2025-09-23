@@ -131,9 +131,21 @@ import { FloatingCultureEditComponent } from './components/floating-culture-edit
       },
       httpInterceptor: {
         allowedList: [
-          '/api/*',
-          'https://localhost:62251/api/*',
-          'https://localhost:7027/*'
+          // Only authenticated endpoints
+          {
+            uri: '/api/cultures',
+            httpMethod: 'POST'
+          },
+          {
+            uri: '/api/cultures/*',
+            httpMethod: 'PUT'
+          },
+          {
+            uri: '/api/cultures/*',
+            httpMethod: 'DELETE'
+          },
+          'https://localhost:62251/api/cultures',
+          'https://localhost:7027/api/cultures'
         ]
       }
     })

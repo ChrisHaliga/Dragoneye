@@ -2,8 +2,15 @@
 <style>
 .page-wrapper {
   position: relative;
-  background: url('https://images5.alphacoders.com/865/thumb-1920-865662.png') center top / cover no-repeat fixed;
+  background: url('https://images5.alphacoders.com/865/865662.png') center center / contain no-repeat;
+  background-color: #190731;
   min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  .page-wrapper {
+    background-attachment: fixed;
+  }
 }
 
 .hero-to-features-gradient {
@@ -76,41 +83,45 @@
 
 @media (max-width: 767px) {
   .feature-card button {
-    font-size: 1.125rem !important;
-    padding: 9px 18px !important;
+    font-size: 0.625rem !important;
+    padding: 4px 8px !important;
   }
   .feature-card .btn-outline-primary {
-    width: 142px !important;
-    min-width: 142px !important;
+    width: 70px !important;
+    min-width: 70px !important;
   }
   .feature-card .btn-outline-danger {
-    width: 127px !important;
-    min-width: 127px !important;
+    width: 60px !important;
+    min-width: 60px !important;
   }
   .feature-card .btn-outline-danger:last-child {
-    width: 165px !important;
-    min-width: 165px !important;
+    width: 80px !important;
+    min-width: 80px !important;
   }
   .feature-card .btn-outline-warning {
-    width: 112px !important;
-    min-width: 112px !important;
-    font-size: 1.05rem !important;
-    padding: 7px 12px !important;
+    width: 55px !important;
+    min-width: 55px !important;
+    font-size: 0.6rem !important;
+    padding: 3px 6px !important;
   }
   .feature-card .btn-outline-warning:last-child {
-    width: 127px !important;
-    min-width: 127px !important;
+    width: 65px !important;
+    min-width: 65px !important;
   }
   .feature-card .btn-outline-secondary {
-    width: 127px !important;
-    min-width: 127px !important;
+    width: 60px !important;
+    min-width: 60px !important;
   }
   .feature-card .btn-outline-secondary:last-child {
-    width: 142px !important;
-    min-width: 142px !important;
+    width: 70px !important;
+    min-width: 70px !important;
   }
   .feature-card .feature-content > div:first-child {
-    margin-bottom: 24px !important;
+    margin-bottom: 16px !important;
+  }
+  
+  .hero h1 {
+    font-size: 40px !important;
   }
 }
 </style>

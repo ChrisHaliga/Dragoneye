@@ -58,6 +58,8 @@ const routes: Routes = [
   
   // How to Play Section
   { path: 'wiki/how-to-play', component: HowToPlayComponent },
+  { path: 'wiki/how-to-play/player-guide', component: PlayerGuideComponent },
+  { path: 'wiki/how-to-play/gm-guide', component: GmGuideComponent },
   { path: 'wiki/how-to-play/getting-started', component: GettingStartedComponent },
   { path: 'wiki/how-to-play/getting-started/player-guide', component: PlayerGuideComponent },
   { path: 'wiki/how-to-play/getting-started/gm-guide', component: GmGuideComponent },

@@ -27,16 +27,8 @@ export class SidebarComponent implements OnInit {
       route: '/wiki/how-to-play',
       isExpanded: false,
       children: [
-        {
-          title: 'Getting Started',
-          icon: 'bi-play-circle',
-          route: '/wiki/how-to-play/getting-started',
-          isExpanded: false,
-          children: [
-            { title: 'Player Guide', route: '/wiki/how-to-play/getting-started/player-guide', icon: 'bi-person' },
-            { title: 'GM Guide', route: '/wiki/how-to-play/getting-started/gm-guide', icon: 'bi-person-gear' }
-          ]
-        },
+        { title: 'Player Guide', route: '/wiki/how-to-play/player-guide', icon: 'bi-person-check' },
+        { title: 'GM Guide', route: '/wiki/how-to-play/gm-guide', icon: 'bi-shield-check' },
         {
           title: 'Character Creation',
           icon: 'bi-person-plus',
