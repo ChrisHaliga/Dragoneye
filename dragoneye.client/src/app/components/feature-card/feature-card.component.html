@@ -1,0 +1,48 @@
+<div class="col">
+  <div 
+    class="feature-card" 
+    [class.clickable-card]="clickable"
+    (click)="onCardClick()"
+    [style.background-image]="'url(' + backgroundImage + ')'"
+    style="background-size: cover; background-repeat: no-repeat; background-position: center; position: relative; overflow: hidden; aspect-ratio: 1; height: auto;">
+    
+    <div 
+      class="position-absolute top-0 start-0 w-100 h-100" 
+      [style.background]="getGradientStyle()">
+    </div>
+    
+    <div class="feature-content d-flex flex-column justify-content-end h-100" 
+         style="padding: 0px !important; margin: 0px !important; position: relative; z-index: 1;">
+      
+      <div class="text-start mb-2" 
+           style="padding: 0px !important; margin-left: 0px !important; margin-right: 0px !important; margin-bottom: 12px !important;" 
+           [style.margin-bottom.px]="24">
+        
+        <div 
+          [class]="'badge mb-2 px-3 py-1 ' + getBadgeClass()" 
+          [style.color]="badgeStyle === 'warning' ? '#000' : 'inherit'"
+          style="font-size: 0.75rem; margin-left: 0px !important;">
+          {{ badgeText }}
+        </div>
+        
+        <h4 class="text-white mb-0" 
+            style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8); margin: 0px !important; padding: 0px !important;">
+          {{ title }}
+        </h4>
+      </div>
+      
+      <div class="d-flex gap-2" 
+           [class.gap-1]="badgeStyle === 'warning'"
+           style="margin: 0px !important; padding: 0px !important;">
+        
+        <button 
+          *ngFor="let button of buttons"
+          [class]="'btn btn-sm ' + getButtonClass(button.style)"
+          [ngStyle]="getButtonStyles(button)"
+          (click)="onButtonClick($event, button)">
+          {{ button.text }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

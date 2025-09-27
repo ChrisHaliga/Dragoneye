@@ -14,6 +14,7 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { FeatureCardComponent } from './components/feature-card/feature-card.component';
 import { HowToPlayComponent } from './pages/how-to-play/how-to-play.component';
 import { CharacterCreationComponent } from './pages/how-to-play/character-creation/character-creation.component';
 import { ConflictResolutionComponent } from './pages/how-to-play/conflict-resolution/conflict-resolution.component';
@@ -69,6 +70,7 @@ import { FloatingCultureEditComponent } from './components/floating-culture-edit
     PageHeaderComponent,
     HomepageComponent,
     NavbarComponent,
+    FeatureCardComponent,
     HowToPlayComponent,
     CharacterCreationComponent,
     ConflictResolutionComponent,

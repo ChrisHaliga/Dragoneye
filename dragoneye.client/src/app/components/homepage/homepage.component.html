@@ -1,14 +1,25 @@
 <!-- Hero Section -->
 <style>
-.page-wrapper {
-  position: relative;
-  background: url('https://images5.alphacoders.com/865/865662.png') center center / contain no-repeat;
-  background-color: #190731;
-  min-height: 100vh;
-}
+  .page-wrapper {
+    position: relative;
+    background-color: #190731;
+    min-height: 100vh;
+  }
+
+  .page-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/placeholder-images/background.png') center center / cover no-repeat;
+    filter: brightness(1) saturate(1.2) opacity(0.75) blur(5px) hue-rotate(90deg);
+    z-index: 0;
+  }
 
 @media (min-width: 768px) {
-  .page-wrapper {
+  .page-wrapper::before {
     background-attachment: fixed;
   }
 }
@@ -48,78 +59,7 @@
   background: transparent !important;
 }
 
-.feature-card {
-  transition: none !important;
-  transform: none !important;
-  cursor: default !important;
-}
-.feature-card:hover {
-  transform: none !important;
-  box-shadow: none !important;
-  transition: none !important;
-  cursor: default !important;
-}
-.feature-card button {
-  transition: background-color 0.15s ease-in-out !important;
-  transform: none !important;
-}
-.feature-card button:hover {
-  transform: none !important;
-  box-shadow: none !important;
-}
-.feature-card .btn-outline-primary:hover {
-  background: rgba(96, 165, 250, 1) !important;
-}
-.feature-card .btn-outline-danger:hover {
-  background: rgba(248, 113, 113, 1) !important;
-}
-.feature-card .btn-outline-warning:hover {
-  background: rgba(253, 224, 71, 1) !important;
-  color: #000 !important;
-}
-.feature-card .btn-outline-secondary:hover {
-  background: rgba(156, 163, 175, 1) !important;
-}
-
 @media (max-width: 767px) {
-  .feature-card button {
-    font-size: 0.625rem !important;
-    padding: 4px 8px !important;
-  }
-  .feature-card .btn-outline-primary {
-    width: 70px !important;
-    min-width: 70px !important;
-  }
-  .feature-card .btn-outline-danger {
-    width: 60px !important;
-    min-width: 60px !important;
-  }
-  .feature-card .btn-outline-danger:last-child {
-    width: 80px !important;
-    min-width: 80px !important;
-  }
-  .feature-card .btn-outline-warning {
-    width: 55px !important;
-    min-width: 55px !important;
-    font-size: 0.6rem !important;
-    padding: 3px 6px !important;
-  }
-  .feature-card .btn-outline-warning:last-child {
-    width: 65px !important;
-    min-width: 65px !important;
-  }
-  .feature-card .btn-outline-secondary {
-    width: 60px !important;
-    min-width: 60px !important;
-  }
-  .feature-card .btn-outline-secondary:last-child {
-    width: 70px !important;
-    min-width: 70px !important;
-  }
-  .feature-card .feature-content > div:first-child {
-    margin-bottom: 16px !important;
-  }
-  
   .hero h1 {
     font-size: 40px !important;
   }
@@ -133,7 +73,7 @@
     <div class="row justify-content-center">
       <div class="col-12 col-lg-10 col-xl-8 text-center">
         <h1 class="display-6 display-sm-5 display-md-4 display-lg-3 display-xl-2 fw-bold mb-3">DRAGONEYE</h1>
-        <h2 class="h4 h3-md h2-lg mb-4 text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">Take control of your character's destiny</h2>
+        <h2 class="h4 h3-md h2-lg mb-4 text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">Take control of your destiny</h2>
         <p class="lead fs-6 fs-md-5 mb-4 mx-auto px-3 text-white" style="max-width: 600px; text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">Where heroes are made, not born. You forge their path through every decision, 
           every battle, and every choice that shapes their legend. Become the character you create.</p>
         <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
@@ -149,73 +89,16 @@
 <section id="features" class="features py-5">
   <div class="container">
     <div class="row row-cols-1 row-cols-lg-2 g-3 g-md-4">
-      <!-- Character Creator -->
-      <div class="col">
-        <div class="feature-card feature-card-primary character-creator-card" (click)="navigateToCharacterCreator()" style="background-image: url('placeholder-images/rogue-elf.png'); background-size: cover; background-repeat: no-repeat; background-position: center; position: relative; overflow: hidden; aspect-ratio: 1; height: auto;">
-          <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(75,0,130,0.4) 100%);"></div>
-          <div class="feature-content d-flex flex-column justify-content-end h-100" style="padding: 0px !important; margin: 0px !important; position: relative; z-index: 1;">
-            <div class="text-start mb-2" style="padding: 0px !important; margin-left: 0px !important; margin-right: 0px !important; margin-bottom: 12px !important;" [style.margin-bottom.px]="'24'">
-              <div class="badge bg-primary mb-2 px-3 py-1" style="font-size: 0.75rem; margin-left: 0px !important;">Tools</div>
-              <h4 class="text-white mb-0" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8); margin: 0px !important; padding: 0px !important;">Build the character you've always imagined</h4>
-            </div>
-            <div class="d-flex gap-2" style="margin: 0px !important; padding: 0px !important;">
-              <button class="btn btn-outline-primary btn-sm" style="font-size: 0.75rem; padding: 6px 12px; width: 95px !important; min-width: 95px; color: white; border: 2px solid #60a5fa !important; background: rgba(96, 165, 250, 0.33); font-weight: bold; border-radius: 4px !important; font-family: inherit;" (click)="$event.stopPropagation(); navigateToCharacterCreator()">Create</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quick Play -->
-      <div class="col">
-        <div class="feature-card feature-card-success" (click)="navigateToQuickPlay()" style="background-image: url('placeholder-images/mage-fighter-battle.png'); background-size: cover; background-repeat: no-repeat; background-position: center; position: relative; overflow: hidden; aspect-ratio: 1; height: auto;">
-          <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(220,20,60,0.4) 100%);"></div>
-          <div class="feature-content d-flex flex-column justify-content-end h-100" style="padding: 0px !important; margin: 0px !important; position: relative; z-index: 1;">
-            <div class="text-start mb-2" style="padding: 0px !important; margin-left: 0px !important; margin-right: 0px !important; margin-bottom: 12px !important;" [style.margin-bottom.px]="'24'">
-              <div class="badge bg-danger mb-2 px-3 py-1" style="font-size: 0.75rem; margin-left: 0px !important;">Play</div>
-              <h4 class="text-white mb-0" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8); margin: 0px !important; padding: 0px !important;">Play online or order the starter set</h4>
-            </div>
-            <div class="d-flex gap-2" style="margin: 0px !important; padding: 0px !important;">
-              <button class="btn btn-outline-danger btn-sm" style="font-size: 0.75rem; padding: 6px 12px; width: 85px !important; min-width: 85px; color: white; border: 2px solid #f87171 !important; background: rgba(248, 113, 113, 0.33); font-weight: bold; border-radius: 4px !important; font-family: inherit;" (click)="$event.stopPropagation(); navigateToQuickPlay()">Play</button>
-              <button class="btn btn-outline-danger btn-sm" style="font-size: 0.75rem; padding: 6px 12px; width: 110px !important; min-width: 110px; color: white; border: 2px solid #f87171 !important; background: rgba(248, 113, 113, 0.33); font-weight: bold; border-radius: 4px !important; font-family: inherit;" (click)="$event.stopPropagation(); navigateToOrder()">Order Now</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Lore & Wiki -->
-      <div class="col">
-        <div class="feature-card feature-card-info" (click)="navigateToWiki()" style="background-image: url('placeholder-images/old-wizard.png'); background-size: cover; background-repeat: no-repeat; background-position: center; position: relative; overflow: hidden; aspect-ratio: 1; height: auto;">
-          <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(255,215,0,0.4) 100%);"></div>
-          <div class="feature-content d-flex flex-column justify-content-end h-100" style="padding: 0px !important; margin: 0px !important; position: relative; z-index: 1;">
-            <div class="text-start mb-2" style="padding: 0px !important; margin-left: 0px !important; margin-right: 0px !important; margin-bottom: 12px !important;" [style.margin-bottom.px]="'24'">
-              <div class="badge bg-warning mb-2 px-3 py-1" style="font-size: 0.75rem; color: #000; margin-left: 0px !important;">Lore</div>
-              <h4 class="text-white mb-0" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8); margin: 0px !important; padding: 0px !important;">Discover rich cultures and forgotten worlds</h4>
-            </div>
-            <div class="d-flex gap-1" style="margin: 0px !important; padding: 0px !important;">
-              <button class="btn btn-outline-warning btn-sm" style="color: white; border: 2px solid #fde047 !important; background: rgba(253, 224, 71, 0.33); font-size: 0.7rem; padding: 5px 8px; width: 75px !important; min-width: 75px; font-weight: bold; border-radius: 4px !important; font-family: inherit;" (click)="$event.stopPropagation(); navigateToLore('chaos')">Chaos</button>
-              <button class="btn btn-outline-warning btn-sm" style="color: white; border: 2px solid #fde047 !important; background: rgba(253, 224, 71, 0.33); font-size: 0.7rem; padding: 5px 8px; width: 75px !important; min-width: 75px; font-weight: bold; border-radius: 4px !important; font-family: inherit;" (click)="$event.stopPropagation(); navigateToLore('order')">Order</button>
-              <button class="btn btn-outline-warning btn-sm" style="color: white; border: 2px solid #fde047 !important; background: rgba(253, 224, 71, 0.33); font-size: 0.7rem; padding: 5px 7px; width: 85px !important; min-width: 85px; font-weight: bold; border-radius: 4px !important; font-family: inherit;" (click)="$event.stopPropagation(); navigateToLore('ascension')">Ascension</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Support & Contact -->
-      <div class="col">
-        <div class="feature-card feature-card-secondary" (click)="navigateToContact()" style="background-image: url('placeholder-images/beggar.png'); background-size: cover; background-repeat: no-repeat; background-position: center; position: relative; overflow: hidden; aspect-ratio: 1; height: auto;">
-          <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(139,69,19,0.4) 100%);"></div>
-          <div class="feature-content d-flex flex-column justify-content-end h-100" style="padding: 0px !important; margin: 0px !important; position: relative; z-index: 1;">
-            <div class="text-start mb-2" style="padding: 0px !important; margin-left: 0px !important; margin-right: 0px !important; margin-bottom: 12px !important;" [style.margin-bottom.px]="'24'">
-              <div class="badge bg-secondary mb-2 px-3 py-1" style="font-size: 0.75rem; margin-left: 0px !important;">Support</div>
-              <h4 class="text-white mb-0" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8); margin: 0px !important; padding: 0px !important;">Purge this realm of artificial forces</h4>
-            </div>
-            <div class="d-flex gap-2" style="margin: 0px !important; padding: 0px !important;">
-              <button class="btn btn-outline-secondary btn-sm" style="font-size: 0.75rem; padding: 6px 12px; width: 85px !important; min-width: 85px; color: white; border: 2px solid #9ca3af !important; background: rgba(156, 163, 175, 0.33); font-weight: bold; border-radius: 4px !important; font-family: inherit;" (click)="$event.stopPropagation(); navigateToDonate()">Donate</button>
-              <button class="btn btn-outline-secondary btn-sm" style="font-size: 0.75rem; padding: 6px 12px; width: 95px !important; min-width: 95px; color: white; border: 2px solid #9ca3af !important; background: rgba(156, 163, 175, 0.33); font-weight: bold; border-radius: 4px !important; font-family: inherit;" (click)="$event.stopPropagation(); navigateToContact()">Contact</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <app-feature-card
+        *ngFor="let card of getFeatureCards()"
+        [backgroundImage]="card.backgroundImage"
+        [gradientColor]="card.gradientColor"
+        [badgeText]="card.badgeText"
+        [badgeStyle]="card.badgeStyle"
+        [title]="card.title"
+        [buttons]="card.buttons"
+        [clickable]="false">
+      </app-feature-card>
     </div>
   </div>
 </section>
@@ -290,7 +173,7 @@
     <div class="row">
       <div class="col-12 text-center">
         <p class="text-muted mb-0">
-          &copy; 2024 Dragoneye. All rights reserved.
+          &copy; 2025 Dragoneye. All rights reserved.
         </p>
       </div>
     </div>
