@@ -1,1 +1,22 @@
-<p>stats works!</p>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-10">
+      <div class="text-center mb-4">
+        <h1 class="h2 mb-3">Character Stats</h1>
+        <p class="lead">Understanding the skill tree and stat system</p>
+      </div>
+      
+      <div class="d-flex justify-content-center">
+        <div *ngIf="isLoading" class="text-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        <div *ngIf="error" class="alert alert-danger" role="alert">
+          {{ error }}
+        </div>
+        <app-skilltree *ngIf="skillTreeData && !isLoading" [skillTreeData]="skillTreeData"></app-skilltree>
+      </div>
+    </div>
+  </div>
+</div>

@@ -57,6 +57,7 @@
 .navbar-nav .nav-link {
   padding: 0.5rem 0.75rem;
   /* Keep inputs/buttons looking nice with default Bootstrap */
+}
 
 .search-btn:hover {
   background: var(--gray-100);

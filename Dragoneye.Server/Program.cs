@@ -100,6 +100,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddSingleton<PageService>();
 builder.Services.AddTransient<NavigationService>();
 builder.Services.AddTransient<ICultureService, CultureService>();
+builder.Services.AddScoped<ISkillTreeService, SkillTreeService>();
 
 var app = builder.Build();
 

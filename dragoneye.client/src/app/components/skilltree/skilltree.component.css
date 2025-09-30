@@ -1,0 +1,49 @@
+.skill-tree-diagram {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  margin: 0;
+}
+
+/* Alternative: If you want to maintain aspect ratio and fill container */
+.skill-tree-diagram-fill {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* For containers that need specific aspect ratio */
+.skill-tree-container {
+  width: 100%;
+  aspect-ratio: 210 / 297; /* Maintains the original viewBox aspect ratio */
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+  .skill-tree-diagram {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  .skill-tree-diagram {
+    max-width: 1000px; /* Set a maximum size for large screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .skill-tree-diagram {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+:host {
+  display: block;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}

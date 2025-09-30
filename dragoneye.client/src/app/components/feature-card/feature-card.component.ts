@@ -1,99 +1,76 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-
-export interface FeatureCardButton {
-  text: string;
-  style: 'primary' | 'danger' | 'warning' | 'secondary';
-  action: () => void;
-  width?: string;
-}
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-feature-card',
   standalone: false,
-  templateUrl: './feature-card.component.html',
-  styleUrl: './feature-card.component.css'
+  template: `
+    <div class="feature-card" [style.background-image]="'url(' + backgroundImage + ')'" 
+         [style.background]="gradientOverlay">
+      <div class="card-content">
+        <div class="badge" [ngClass]="badgeStyle" *ngIf="badgeText">{{badgeText}}</div>
+        <h3 *ngIf="title">{{title}}</h3>
+        <div class="buttons" *ngIf="buttons && buttons.length > 0">
+          <button *ngFor="let button of buttons" 
+                  class="btn" 
+                  [ngClass]="button.class"
+                  (click)="button.action && button.action()">
+            {{button.text}}
+          </button>
+        </div>
+      </div>
+    </div>
+  `,
+  styles: [`
+    .feature-card {
+      background-size: cover;
+      background-position: center;
+      border-radius: 8px;
+      overflow: hidden;
+      min-height: 200px;
+      display: flex;
+      align-items: flex-end;
+      position: relative;
+    }
+    
+    .card-content {
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 1rem;
+      width: 100%;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .buttons {
+      margin-top: 1rem;
+    }
+    
+    .buttons .btn {
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+  `]
 })
 export class FeatureCardComponent {
-  @Input() backgroundImage!: string;
-  @Input() gradientColor!: string; // The color for the bottom of the gradient
-  @Input() badgeText!: string;
-  @Input() badgeStyle!: 'primary' | 'danger' | 'warning' | 'secondary';
-  @Input() title!: string;
-  @Input() buttons: FeatureCardButton[] = [];
+  @Input() backgroundImage: string = '';
+  @Input() gradientColor: string = '';
+  @Input() badgeText: string = '';
+  @Input() badgeStyle: string = '';
+  @Input() title: string = '';
+  @Input() buttons: Array<{text: string, class: string, action?: () => void}> = [];
   @Input() clickable: boolean = false;
-  @Output() cardClick = new EventEmitter<void>();
 
-  onCardClick(): void {
-    if (this.clickable) {
-      this.cardClick.emit();
+  get gradientOverlay(): string {
+    if (this.gradientColor) {
+      return `linear-gradient(rgba(0,0,0,0.3), ${this.gradientColor}), url(${this.backgroundImage})`;
     }
-  }
-
-  onButtonClick(event: Event, button: FeatureCardButton): void {
-    event.stopPropagation();
-    button.action();
-  }
-
-  getBadgeClass(): string {
-    return `bg-${this.badgeStyle}`;
-  }
-
-  getButtonClass(style: string): string {
-    return `btn-outline-${style}`;
-  }
-
-  getButtonStyles(button: FeatureCardButton): any {
-    const baseStyles = {
-      'font-size': '0.75rem',
-      'padding': '6px 12px',
-      'color': 'white',
-      'font-weight': 'bold',
-      'border-radius': '4px',
-      'font-family': 'inherit'
-    };
-
-    // Add style-specific properties
-    switch (button.style) {
-      case 'primary':
-        return {
-          ...baseStyles,
-          'border': '2px solid #60a5fa',
-          'background': 'rgba(96, 165, 250, 0.33)',
-          'width': button.width || '95px',
-          'min-width': button.width || '95px'
-        };
-      case 'danger':
-        return {
-          ...baseStyles,
-          'border': '2px solid #f87171',
-          'background': 'rgba(248, 113, 113, 0.33)',
-          'width': button.width || '85px',
-          'min-width': button.width || '85px'
-        };
-      case 'warning':
-        return {
-          ...baseStyles,
-          'border': '2px solid #fde047',
-          'background': 'rgba(253, 224, 71, 0.33)',
-          'font-size': '0.7rem',
-          'padding': '5px 8px',
-          'width': button.width || '75px',
-          'min-width': button.width || '75px'
-        };
-      case 'secondary':
-        return {
-          ...baseStyles,
-          'border': '2px solid #9ca3af',
-          'background': 'rgba(156, 163, 175, 0.33)',
-          'width': button.width || '85px',
-          'min-width': button.width || '85px'
-        };
-      default:
-        return baseStyles;
-    }
-  }
-
-  getGradientStyle(): string {
-    return `linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, ${this.gradientColor} 100%)`;
+    return '';
   }
 }

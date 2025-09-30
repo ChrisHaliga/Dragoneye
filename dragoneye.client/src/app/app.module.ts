@@ -14,7 +14,6 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { FeatureCardComponent } from './components/feature-card/feature-card.component';
 import { HowToPlayComponent } from './pages/how-to-play/how-to-play.component';
 import { CharacterCreationComponent } from './pages/how-to-play/character-creation/character-creation.component';
 import { ConflictResolutionComponent } from './pages/how-to-play/conflict-resolution/conflict-resolution.component';
@@ -60,6 +59,13 @@ import { CultureDetailComponent } from './pages/culture/pages/culture/culture-de
 import { FloatingNotesComponent } from './components/floating-notes/floating-notes.component';
 import { CultureEditorModalComponent } from './components/culture-editor-modal/culture-editor-modal.component';
 import { FloatingCultureEditComponent } from './components/floating-culture-edit/floating-culture-edit.component';
+import { SkilltreeComponent } from './components/skilltree/skilltree.component';
+import { SkillNodeComponent } from './components/skilltree/skill-node/skill-node.component';
+import { StatNodeComponent } from './components/skilltree/stat-node/stat-node.component';
+import { TextNodeComponent } from './components/skilltree/text-node/text-node.component';
+import { NodeComponent } from './components/skilltree/node/node.component';
+import { FeatureCardComponent } from './components/feature-card/feature-card.component';
+import { SpecializationNodeComponent } from './components/skilltree/specialization-node/specialization-node.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +76,6 @@ import { FloatingCultureEditComponent } from './components/floating-culture-edit
     PageHeaderComponent,
     HomepageComponent,
     NavbarComponent,
-    FeatureCardComponent,
     HowToPlayComponent,
     CharacterCreationComponent,
     ConflictResolutionComponent,
@@ -112,7 +117,14 @@ import { FloatingCultureEditComponent } from './components/floating-culture-edit
     CultureDetailComponent,
     FloatingNotesComponent,
     CultureEditorModalComponent,
-    FloatingCultureEditComponent
+    FloatingCultureEditComponent,
+    SkilltreeComponent,
+    SkillNodeComponent,
+    StatNodeComponent,
+    TextNodeComponent,
+    NodeComponent,
+    FeatureCardComponent,
+    SpecializationNodeComponent
   ],
   imports: [
     BrowserModule, 

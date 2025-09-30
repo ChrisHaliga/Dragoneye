@@ -1,0 +1,83 @@
+<svg viewBox="75 120 60 60" class="skill-tree-diagram">
+  <g transform="translate(73.17396,104.08122)">
+    <!-- Edges Layer 0: Core to Inner (clockwise from top) -->
+    <g stroke="#000000" stroke-width="0.529167" fill="none">
+      <path *ngIf="skillTreeData.edges.coreToInner[0]" d="m 31.749997,32.841408 3e-6,11.608591" />
+      <path *ngIf="skillTreeData.edges.coreToInner[1]" d="M 41.751244,38.645705 31.75,44.449999" />
+      <path *ngIf="skillTreeData.edges.coreToInner[2]" d="M 41.803071,50.254299 31.75,44.449999" />
+      <path *ngIf="skillTreeData.edges.coreToInner[3]" d="M 31.749997,56.058593 31.75,44.449999" />
+      <path *ngIf="skillTreeData.edges.coreToInner[4]" d="M 21.696926,50.254299 31.75,44.449999" />
+      <path *ngIf="skillTreeData.edges.coreToInner[5]" d="M 21.748748,38.645705 31.75,44.449999" />
+    </g>
+    
+    <!-- Edges Layer 1: Inner to Inner and Inner to Outer -->
+    <g stroke="#000000" stroke-width="0.529167" fill="none">
+      <!-- Inner to Inner connections (clockwise from top) -->
+      <path *ngIf="skillTreeData.edges.innerToInner[0]" d="m 31.749997,32.841408 10.001247,5.804297" />
+      <path *ngIf="skillTreeData.edges.innerToInner[1]" d="m 41.751244,38.645705 0.05183,11.608594" />
+      <path *ngIf="skillTreeData.edges.innerToInner[2]" d="M 41.803071,50.254299 31.749997,56.058593" />
+      <path *ngIf="skillTreeData.edges.innerToInner[3]" d="M 31.749997,56.058593 21.696926,50.254299" />
+      <path *ngIf="skillTreeData.edges.innerToInner[4]" d="m 21.696926,50.254299 0.05182,-11.608594" />
+      <path *ngIf="skillTreeData.edges.innerToInner[5]" d="M 21.748748,38.645705 31.749997,32.841408" />
+      
+      <!-- Inner to Outer connections (clockwise from top) -->
+      <path *ngIf="skillTreeData.edges.innerToOuter[0]" d="M 31.749997,21.232816 V 32.841408" />
+      <path *ngIf="skillTreeData.edges.innerToOuter[1]" d="M 51.752486,32.841403 41.751244,38.645705" />
+      <path *ngIf="skillTreeData.edges.innerToOuter[2]" d="M 51.856145,56.058593 41.803071,50.254299" />
+      <path *ngIf="skillTreeData.edges.innerToOuter[3]" d="M 31.749997,67.667181 V 56.058593" />
+      <path *ngIf="skillTreeData.edges.innerToOuter[4]" d="M 11.643854,56.05859 21.696926,50.254299" />
+      <path *ngIf="skillTreeData.edges.innerToOuter[5]" d="m 11.643328,32.841408 10.10542,5.804297" />
+    </g>
+    
+    <!-- Edges Layer 2: Outer to Outer (clockwise from top) -->
+    <g stroke="#000000" stroke-width="0.529167" fill="none">
+      <path *ngIf="skillTreeData.edges.outerToOuter[0]" d="M 31.749997,21.232816 51.752486,32.841403" />
+      <path *ngIf="skillTreeData.edges.outerToOuter[1]" d="m 51.752486,32.841403 0.103659,23.21719" />
+      <path *ngIf="skillTreeData.edges.outerToOuter[2]" d="M 51.856145,56.058593 31.749997,67.667181" />
+      <path *ngIf="skillTreeData.edges.outerToOuter[3]" d="M 31.749997,67.667181 11.643854,56.05859" />
+      <path *ngIf="skillTreeData.edges.outerToOuter[4]" d="M 11.643854,56.05859 11.643325,32.841408" />
+      <path *ngIf="skillTreeData.edges.outerToOuter[5]" d="M 11.643328,32.841408 31.749997,21.232816" />
+    </g>
+    
+    <!-- Dynamic Nodes -->
+    <g *ngFor="let config of nodeConfigs">
+      <ng-container [ngSwitch]="config.type">
+        <!-- Text Node -->
+        <g *ngSwitchCase="'text'">
+          <!-- Double outline for central node -->
+          <circle *ngIf="config.isCentral" [attr.cx]="config.x" [attr.cy]="config.y" r="5.2" fill="none" stroke="#000000" stroke-width="0.436563" />
+          <circle [attr.cx]="config.x" [attr.cy]="config.y" r="4.3994603" fill="#ffffff" stroke="#000000" stroke-width="0.396875" />
+          <g font-family="MedievalSharp, serif" [attr.font-size]="getTextLayout(config.title || '').fontSize" text-anchor="middle" fill="#000000">
+            <text [attr.x]="config.x" [attr.y]="config.y + 1.7" font-weight="bold" *ngIf="getTextLayout(config.title || '').line2">{{getTextLayout(config.title || '').line2}}</text>
+            <text [attr.x]="config.x" [attr.y]="getTextLayout(config.title || '').line2 ? config.y + 0.3 : config.y + 1.0" font-weight="bold">{{getTextLayout(config.title || '').line1}}</text>
+            <text [attr.x]="config.x" [attr.y]="config.y - 1.4" font-size="0.9">{{config.nodeType || 'Type'}}</text>
+          </g>
+        </g>
+        <!-- Stat Node -->
+        <g *ngSwitchCase="'stat'">
+          <rect [attr.x]="config.x - 2.014" [attr.y]="config.y - 2.014" width="4.0284848" height="4.0284848" fill="#ffffff" stroke="#000000" stroke-width="0.436563" />
+        </g>
+        <!-- Specialization Node -->
+        <g *ngSwitchCase="'specialization'">
+          <rect [attr.x]="config.x - 2.4" [attr.y]="config.y - 2.4" width="4.8096151" height="4.8096151" fill="#535353" stroke="#000000" stroke-width="0.264583" [attr.transform]="'rotate(45,' + config.x + ',' + config.y + ')'" />
+          <g [attr.transform]="'translate(' + config.x + ',' + (config.y + 2.3) + ')'">
+            <rect x="-0.72958" y="-1.17296" width="1.4591722" height="0.30823681" fill="#ffffff" />
+            <rect x="-0.72958" y="-1.61939" width="1.4591722" height="0.30823681" fill="#ffffff" />
+            <path d="m 0,-4.65153 -0.711369,0.71204 -0.71204,0.711368 h 0.71204 v 1.371685 h 1.361609 v -1.371685 h 0.773168 l -0.71204,-0.711368 z" fill="#ffffff" />
+          </g>
+        </g>
+        <!-- Multiclass Node -->
+        <g *ngSwitchCase="'multiclass'">
+          <rect [attr.x]="config.x - 2.4" [attr.y]="config.y - 2.4" width="4.8096151" height="4.8096151" fill="#535353" stroke="#000000" stroke-width="0.264583" [attr.transform]="'rotate(45,' + config.x + ',' + config.y + ')'" />
+          <g [attr.transform]="'translate(' + config.x + ',' + config.y + ')'">
+            <path d="m -0.35,-1.35 v 1 h -1 v 0.7 h 1 v 1 h 0.7 v -1 h 1 v -0.7 h -1 v -1 z" fill="#ffffff" />
+          </g>
+        </g>
+      </ng-container>
+    </g>
+    
+
+    
+
+  </g>
+</svg>
